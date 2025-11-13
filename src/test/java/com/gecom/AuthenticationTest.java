@@ -8,16 +8,13 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import static com.gecom.utils.Const.*;
-import static com.gecom.utils.RemoveAllureResult.deleteFolder;
 
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "Authentication")
