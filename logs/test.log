@@ -1,6 +1,6 @@
-[2025-11-13 06:04:17] INFO  com.gecom.utils.Logger - START: com.gecom.SystemTest.testHealthCheck
-[2025-11-13 06:04:19] INFO  com.gecom.utils.Logger - PASS: com.gecom.SystemTest.testHealthCheck
-[2025-11-13 06:04:19] INFO  com.gecom.utils.Logger - START: com.gecom.SystemTest.testSystemHealthSummary
-[2025-11-13 06:04:19] INFO  com.gecom.utils.Logger - PASS: com.gecom.SystemTest.testSystemHealthSummary
-[2025-11-13 06:04:19] INFO  com.gecom.utils.Logger - START: com.gecom.SystemTest.testApiDocs
-[2025-11-13 06:04:19] INFO  com.gecom.utils.Logger - PASS: com.gecom.SystemTest.testApiDocs
+[2025-11-13 06:10:46] INFO  com.gecom.utils.Logger - START: com.gecom.SystemTest.testHealthCheck
+[2025-11-13 06:10:48] INFO  com.gecom.utils.Logger - PASS: com.gecom.SystemTest.testHealthCheck
+[2025-11-13 06:10:49] INFO  com.gecom.utils.Logger - START: com.gecom.SystemTest.testSystemHealthSummary
+[2025-11-13 06:10:49] INFO  com.gecom.utils.Logger - PASS: com.gecom.SystemTest.testSystemHealthSummary
+[2025-11-13 06:10:49] INFO  com.gecom.utils.Logger - START: com.gecom.SystemTest.testApiDocs
+[2025-11-13 06:10:49] INFO  com.gecom.utils.Logger - PASS: com.gecom.SystemTest.testApiDocs
