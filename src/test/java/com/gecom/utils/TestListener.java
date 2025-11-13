@@ -68,7 +68,7 @@ public class TestListener implements ITestListener, IExecutionListener {
 
     // java
     private static void GenerateAllureReport() {
-        String resultsDir = "target/allure-results";
+        String resultsDir = Const.ALLURE_RESULTS_DIR;
         String cleanFlag = "--clean";
         boolean isWindows = System.getProperty("os.name").toLowerCase().contains("win");
 

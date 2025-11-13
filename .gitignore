@@ -5,6 +5,7 @@ target/
 target
 .allure/allure-2.13.9
 .idea
+allure-results
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

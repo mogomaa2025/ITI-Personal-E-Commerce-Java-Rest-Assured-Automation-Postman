@@ -39,7 +39,7 @@ public class Const {
     public static String adminPass = "admin123";
 
     // Allure Results Directory not the the report directory
-    public static final String ALLURE_RESULTS_DIR = "target/allure-results";
+    public static final String ALLURE_RESULTS_DIR = "allure-results";
 
 
 
