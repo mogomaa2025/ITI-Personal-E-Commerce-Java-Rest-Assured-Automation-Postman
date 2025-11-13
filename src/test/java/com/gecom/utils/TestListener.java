@@ -7,10 +7,7 @@ import org.testng.ITestResult;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Comparator;
+
 
 /**
  * - Logs test start/success/failure/skip to stdout
@@ -22,15 +19,17 @@ public class TestListener implements ITestListener, IExecutionListener {
     @Override
     public void onExecutionStart() {
         // Clean previous allure-results before starting tests
-        String folderName = Const.ALLURE_RESULTS_DIR;
+        String allureFolderName = Const.ALLURE_RESULTS_DIR;
+        String logsFolderName = "logs";
 
-            System.out.println("Cleaning previous Allure results: " + folderName);
+        System.out.println("Cleaning previous Allure & Logs results: ");
             try {
                 // delete recursively
-                FileUtils.deleteDirectory(new File(folderName));
-                System.out.println("✅ Cleaned previous Allure results");
+                FileUtils.deleteDirectory(new File(allureFolderName));
+                FileUtils.deleteDirectory(new File(logsFolderName));
+                System.out.println("✅ Cleaned previous Allure & Logs results");
             } catch (IOException e) {
-                System.err.println("Failed to clean previous Allure results: " + e.getMessage());
+                System.err.println("Failed to clean previous Allure or Logs results: " + e.getMessage());
             }
         }
 

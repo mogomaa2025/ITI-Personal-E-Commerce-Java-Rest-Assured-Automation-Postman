@@ -1,4 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","66","testApiDocs","ITI End To End API Test Suite","2025-11-13","passed","2025-11-13","com.gecom.SystemTest","SystemTest Regression Tests","com.gecom.SystemTest","testApiDocs"
-"","2743","testHealthCheck","ITI End To End API Test Suite","2025-11-13","passed","2025-11-13","com.gecom.SystemTest","SystemTest Regression Tests","com.gecom.SystemTest","testHealthCheck"
-"","96","testSystemHealthSummary","ITI End To End API Test Suite","2025-11-13","passed","2025-11-13","com.gecom.SystemTest","SystemTest Regression Tests","com.gecom.SystemTest","testSystemHealthSummary"
