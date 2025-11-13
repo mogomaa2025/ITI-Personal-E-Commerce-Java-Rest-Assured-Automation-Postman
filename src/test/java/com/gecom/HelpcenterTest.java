@@ -15,10 +15,11 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "HelpcenterTest")
 public class HelpcenterTest {
 
-    @Test(groups = "HelpcenterTest")
+    @Test
     public void testCreateHelpArticle() throws Exception {
         Allure.step("Starting testCreateHelpArticle...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -40,7 +41,7 @@ public class HelpcenterTest {
         Allure.step("testCreateHelpArticle finished successfully.");
     }
 
-    @Test(groups = "HelpcenterTest",  dependsOnMethods = "testCreateHelpArticle")
+    @Test(dependsOnMethods = "testCreateHelpArticle")
     public void testGetHelpCategories() {
         Allure.step("Starting testGetHelpCategories...");
 
@@ -61,7 +62,7 @@ public class HelpcenterTest {
         Allure.step("testGetHelpCategories finished successfully.");
     }
 
-    @Test(groups = "HelpcenterTest",  dependsOnMethods = "testGetHelpCategories")
+    @Test(dependsOnMethods = "testGetHelpCategories")
     public void testListHelpArticles() throws Exception {
         Allure.step("Starting testListHelpArticles...");
 
@@ -84,7 +85,7 @@ public class HelpcenterTest {
         Allure.step("testListHelpArticles finished successfully.");
     }
 
-    @Test(groups = "HelpcenterTest",  dependsOnMethods = "testListHelpArticles")
+    @Test(dependsOnMethods = "testListHelpArticles")
     public void testGetHelpArticle() throws Exception {
         Allure.step("Starting testGetHelpArticle...");
         String helpId = JsonUtility.getToken("helpArticleId", IDS_FILE_PATH);
@@ -104,7 +105,7 @@ public class HelpcenterTest {
     }
 
 
-    @Test(groups = "HelpcenterTest",  dependsOnMethods = "testGetHelpArticle")
+    @Test(dependsOnMethods = "testGetHelpArticle")
     public void testMarkHelpArticleHelpful() throws Exception {
     // Log the start of the test case in Allure report
         Allure.step("Starting testMarkHelpArticleHelpful...");
@@ -124,7 +125,7 @@ public class HelpcenterTest {
         Allure.step("testMarkHelpArticleHelpful finished successfully.");
     }
 
-    @Test(groups = "HelpcenterTest",  dependsOnMethods = "testMarkHelpArticleHelpful")
+    @Test(dependsOnMethods = "testMarkHelpArticleHelpful")
     public void testUpdateHelpArticle() throws Exception {
         Allure.step("Starting testUpdateHelpArticle...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);

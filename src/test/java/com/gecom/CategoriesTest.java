@@ -2,6 +2,8 @@ package com.gecom;
 
 import com.gecom.utils.ApiUtils;
 import com.gecom.utils.JsonUtility;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.restassured.response.Response;
 import io.qameta.allure.Allure;
 import io.qameta.allure.testng.AllureTestNg;
@@ -17,11 +19,13 @@ import java.util.Map;
 import static org.hamcrest.Matchers.*;
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "CategoriesTest")
+@Severity(SeverityLevel.CRITICAL)
 public class CategoriesTest {
 
 
-    @Test(groups = "CategoriesTest")
+    @Test
     public void testCreateCategory() throws Exception {
         Allure.step("Starting testCreateCategory...");
         String adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -43,7 +47,7 @@ public class CategoriesTest {
         Allure.step("testCreateCategory finished successfully.");
     }
 
-    @Test(groups = "CategoriesTest",  dependsOnMethods = "testCreateCategory")
+    @Test(dependsOnMethods = "testCreateCategory")
     public void testGetCategories() {
         Allure.step("Starting testGetCategories...");
         Response response = ApiUtils.getRequest(BASE_URL + "/categories");
@@ -74,7 +78,7 @@ public class CategoriesTest {
         Allure.step("testGetCategories finished successfully.");
     }
 
-    @Test(groups = "CategoriesTest",  dependsOnMethods = "testGetCategories")
+    @Test(dependsOnMethods = "testGetCategories")
     public void testDeleteCategory() throws Exception {
         Allure.step("Starting testDeleteCategory...");
 

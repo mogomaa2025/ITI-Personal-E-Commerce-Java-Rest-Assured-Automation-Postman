@@ -17,10 +17,11 @@ import static com.gecom.utils.Const.IDS_FILE_PATH;
 import static com.gecom.utils.Const.TOKEN_FILE_PATH;
 import static com.gecom.utils.Const.wishlistItemId;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "WishlistTest")
 public class WishlistTest {
 
-    @Test(groups = "WishlistTest")
+    @Test
     public void testAddToWishlist() throws Exception {
         Allure.step("Starting testAddToWishlist...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -47,7 +48,7 @@ public class WishlistTest {
     }
 
 
-    @Test(groups = "WishlistTest",  dependsOnMethods = "testAddToWishlist")
+    @Test(dependsOnMethods = "testAddToWishlist")
     public void testGetWishlist() throws Exception {
         Allure.step("Starting testGetWishlist...");
 
@@ -68,7 +69,7 @@ public class WishlistTest {
         Allure.step("testGetWishlist finished successfully.");
     }
 
-    @Test(groups = "WishlistTest",  dependsOnMethods = "testGetWishlist")
+    @Test(dependsOnMethods = "testGetWishlist")
     public void testRemoveWishlistItem() throws Exception {
         Allure.step("Starting testRemoveWishlistItem...");
         String adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);

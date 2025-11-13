@@ -15,10 +15,11 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "StatsAnalyticsTest")
 public class StatsAnalyticsTest {
 
-    @Test(groups = "StatsAnalyticsTest")
+    @Test
     public void testGetAdminStats() throws Exception {
         Allure.step("Starting testGetAdminStats...");
         String adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -41,7 +42,7 @@ public class StatsAnalyticsTest {
         Allure.step("testGetAdminStats finished successfully.");
     }
 
-    @Test(groups = "StatsAnalyticsTest",  dependsOnMethods = "testGetAdminStats")
+    @Test(dependsOnMethods = "testGetAdminStats")
     public void testGetDashboardAnalytics() throws Exception {
         Allure.step("Starting testGetDashboardAnalytics...");
         String adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -61,7 +62,7 @@ public class StatsAnalyticsTest {
         Allure.step("testGetDashboardAnalytics finished successfully.");
     }
 
-    @Test(groups = "StatsAnalyticsTest",  dependsOnMethods = "testGetDashboardAnalytics")
+    @Test(dependsOnMethods = "testGetDashboardAnalytics")
     public void testGetSalesReport() throws Exception {
         Allure.step("Starting testGetSalesReport...");
         String adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);

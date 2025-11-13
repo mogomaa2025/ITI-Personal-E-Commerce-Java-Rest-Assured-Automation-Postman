@@ -6,22 +6,23 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.gecom.utils.Const.*;
+import static com.gecom.utils.RemoveAllureResult.deleteFolder;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "CartTest")
 public class CartTest {
 
-
-
-
-    @Test(groups = "CartTest")
+    @Test()
     public void testClearCart() throws Exception {
         Allure.step("Starting testClearCart...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -37,7 +38,7 @@ public class CartTest {
         Allure.step("testClearCart finished successfully.");
     }
 
-    @Test(groups = "CartTest" ,  dependsOnMethods = "testClearCart")
+    @Test(dependsOnMethods = "testClearCart")
     public void testAddToCart() throws Exception {
         Allure.step("Starting testAddToCart...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -57,7 +58,7 @@ public class CartTest {
         Allure.step("testAddToCart finished successfully.");
     }
 
-    @Test(groups = "CartTest",  dependsOnMethods = "testAddToCart")
+    @Test(dependsOnMethods = "testAddToCart")
     public void testGetCart() throws Exception {
         Allure.step("Starting testGetCart...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -78,7 +79,7 @@ public class CartTest {
         Allure.step("testGetCart finished successfully.");
     }
 
-    @Test(groups = "CartTest" ,  dependsOnMethods = "testGetCart")
+    @Test(dependsOnMethods = "testGetCart")
     public void testUpdateCartItem() throws Exception {
         Allure.step("Starting testUpdateCartItem...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -99,7 +100,7 @@ public class CartTest {
         Allure.step("testUpdateCartItem finished successfully.");
     }
 
-    @Test(groups = "CartTest" ,  dependsOnMethods = "testUpdateCartItem")
+    @Test(dependsOnMethods = "testUpdateCartItem")
     public void testRemoveCartItem() throws Exception {
         Allure.step("Starting testRemoveCartItem...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);

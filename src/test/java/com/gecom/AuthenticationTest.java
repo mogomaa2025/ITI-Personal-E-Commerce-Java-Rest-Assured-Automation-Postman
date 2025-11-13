@@ -2,28 +2,33 @@ package com.gecom;
 
 import com.gecom.utils.ApiUtils;
 import com.gecom.utils.JsonUtility;
-import com.gecom.utils.RemoveAllureResult;
 import com.github.javafaker.Faker;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import static com.gecom.utils.Const.*;
 import static com.gecom.utils.RemoveAllureResult.deleteFolder;
 
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "Authentication")
+@Severity(SeverityLevel.CRITICAL)
 public class AuthenticationTest {
 
 
 
 
-
     Faker faker = new Faker();
-
-    @Test(groups = "Authentication" )
+    @Test()
     public void testRegisterRandomUser() {
         userEmail = faker.internet().emailAddress();
         userPassword = faker.internet().password(8, 16, true, true, true);
@@ -34,12 +39,13 @@ public class AuthenticationTest {
         body.put("password", userPassword);
         body.put("username", username);
 
+        //post request without auth token to register
         Response response = ApiUtils.postRequest(BASE_URL + "/register", body);
         Assert.assertEquals(response.getStatusCode(), 201, "Registration should succeed");
         Assert.assertTrue(response.asString().contains("success"));
     }
 
-    @Test(groups = "Authentication",  dependsOnMethods = "testRegisterRandomUser" )
+    @Test(dependsOnMethods = "testRegisterRandomUser")
     public void testLoginUser() throws Exception {
         Map<String, String> body = new HashMap<>();
         body.put("email", userEmail);
@@ -54,11 +60,11 @@ public class AuthenticationTest {
         JsonUtility.saveToken("user", userToken, TOKEN_FILE_PATH);
     }
 
-    @Test(groups = "Authentication",  dependsOnMethods = "testLoginUser" )
+    @Test(dependsOnMethods = "testLoginUser")
     public void testLoginAdmin() throws Exception {
         Map<String, String> body = new HashMap<>();
-        body.put("email", ""+adminEmail+"");
-        body.put("password", ""+adminPass+"");
+        body.put("email", adminEmail);
+        body.put("password", adminPass);
 
         Response response = ApiUtils.postRequest(BASE_URL + "/login", body);
         Assert.assertEquals(response.getStatusCode(), 200, "Admin login should succeed");
@@ -69,4 +75,6 @@ public class AuthenticationTest {
         // Save token to token.json via JsonUtility
         JsonUtility.saveToken("admin", adminToken, TOKEN_FILE_PATH);
     }
+
+
 }

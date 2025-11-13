@@ -15,11 +15,12 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "ReviewsTest")
 public class ReviewsTest {
 
 
-    @Test(groups = "ReviewsTest")
+    @Test
     public void testCreateProductDuplicate() throws Exception {
         Allure.step("Starting testCreateProductDuplicate...");
         String adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -46,7 +47,7 @@ public class ReviewsTest {
         Allure.step("testCreateProductDuplicate finished successfully.");
     }
 
-    @Test(groups = "ReviewsTest",  dependsOnMethods = "testCreateProductDuplicate")
+    @Test(dependsOnMethods = "testCreateProductDuplicate")
     public void testCreateReview() throws Exception {
         Allure.step("Starting testCreateReview...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -68,7 +69,7 @@ public class ReviewsTest {
         Allure.step("testCreateReview finished successfully.");
     }
 
-    @Test(groups = "ReviewsTest",  dependsOnMethods = "testCreateReview")
+    @Test(dependsOnMethods = "testCreateReview")
     public void testGetProductReviews() throws Exception {
         Allure.step("Starting testGetProductReviews...");
         String productId = JsonUtility.getToken("product_id", IDS_FILE_PATH);

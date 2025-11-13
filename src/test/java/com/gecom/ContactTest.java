@@ -16,10 +16,11 @@ import static com.gecom.utils.Const.BASE_URL;
 import static com.gecom.utils.Const.IDS_FILE_PATH;
 import static com.gecom.utils.Const.TOKEN_FILE_PATH;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "testSubmitContactMessage")
 public class ContactTest {
 
-    @Test(groups = "testSubmitContactMessage")
+    @Test()
     public void testSubmitContactMessage() throws Exception {
         Allure.step("Starting testSubmitContactMessage...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -41,7 +42,7 @@ public class ContactTest {
         Allure.step("testSubmitContactMessage finished successfully.");
     }
 
-    @Test(groups = "testSubmitContactMessage",  dependsOnMethods = "testSubmitContactMessage")
+    @Test(dependsOnMethods = "testSubmitContactMessage")
     public void testListContactMessages() throws Exception {
         Allure.step("Starting testListContactMessages...");
 
@@ -58,7 +59,7 @@ public class ContactTest {
         Allure.step("testListContactMessages finished successfully.");
     }
 
-    @Test(groups = "testSubmitContactMessage",  dependsOnMethods = "testListContactMessages")
+    @Test(dependsOnMethods = "testListContactMessages")
     public void testRespondToContactMessage() throws Exception {
         Allure.step("Starting testRespondToContactMessage...");
         String adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);

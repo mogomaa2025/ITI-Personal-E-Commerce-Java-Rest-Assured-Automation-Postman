@@ -12,13 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "UsersTest")
 public class UsersTest {
 
 
 
 
-    @Test(groups = "UsersTest")
+    @Test
     public void testListUsersAdmin() throws Exception {
         Allure.step("Starting testListUsersAdmin...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -36,7 +37,7 @@ public class UsersTest {
         Allure.step("testListUsersAdmin finished successfully.");
     }
 
-    @Test(groups = "UsersTest",  dependsOnMethods = "testListUsersAdmin")
+    @Test(dependsOnMethods = "testListUsersAdmin")
     public void testGetUserAdmin() throws Exception {
         Allure.step("Starting testGetUserAdmin...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -55,7 +56,7 @@ public class UsersTest {
         Allure.step("testGetUserAdmin finished successfully.");
     }
 
-    @Test(groups = "UsersTest",  dependsOnMethods = "testGetUserAdmin")
+    @Test(dependsOnMethods = "testGetUserAdmin")
     public void testPutUpdateUserAdmin() throws Exception {
         Allure.step("Starting testPutUpdateUserAdmin...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -80,7 +81,7 @@ public class UsersTest {
         Allure.step("testPutUpdateUserAdmin finished successfully.");
     }
 
-    @Test(groups = "UsersTest",  dependsOnMethods = "testPutUpdateUserAdmin")
+    @Test(dependsOnMethods = "testPutUpdateUserAdmin")
     public void testDeleteUserAdmin() throws Exception {
         Allure.step("Starting testDeleteUserAdmin...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -96,7 +97,7 @@ public class UsersTest {
         Allure.step("testDeleteUserAdmin finished successfully.");
     }
 
-    @Test(groups = "UsersTest",  dependsOnMethods = "testDeleteUserAdmin")
+    @Test(dependsOnMethods = "testDeleteUserAdmin")
     public void testGetUserActivityAdmin() throws Exception {
         Allure.step("Starting testGetUserActivityAdmin...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);

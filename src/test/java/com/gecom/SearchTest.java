@@ -11,7 +11,8 @@ import org.testng.annotations.Test;
 
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "SearchTest")
 public class SearchTest {
 
     @Test(groups = "testAdvancedSearch")
@@ -32,7 +33,7 @@ public class SearchTest {
         Allure.step("testAdvancedSearch finished successfully.");
     }
 
-    @Test(groups = "testAdvancedSearch",  dependsOnMethods = "testAdvancedSearch")
+    @Test(dependsOnMethods = "testAdvancedSearch")
     public void testProductRecommendations() {
         Allure.step("Starting testProductRecommendations...");
 
@@ -45,7 +46,7 @@ public class SearchTest {
         Allure.step("testProductRecommendations finished successfully.");
     }
 
-    @Test(groups = "testAdvancedSearch",  dependsOnMethods = "testProductRecommendations")
+    @Test(dependsOnMethods = "testProductRecommendations")
     public void testUserRecommendations() throws Exception {
         Allure.step("Starting testUserRecommendations...");
         String userId = JsonUtility.getToken("user_id", IDS_FILE_PATH);

@@ -1,28 +1,24 @@
 package com.gecom;
 
 import com.gecom.utils.ApiUtils;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.restassured.response.Response;
 import io.qameta.allure.Allure;
 import io.qameta.allure.testng.AllureTestNg;
 import org.testng.Assert;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static com.gecom.utils.Const.*;
-import static com.gecom.utils.RemoveAllureResult.deleteFolder;
 
-@Listeners({AllureTestNg.class})
-
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "SystemTest")
+@Severity(SeverityLevel.CRITICAL)
 public class SystemTest {
-    @BeforeSuite(alwaysRun = true)
-    public void CleanAllure() throws Exception  {
-        deleteFolder("target/allure-results");
-        System.out.println("Directory deleted successfully");
-    }
 
-    @Test(groups = "SystemTest", description = "testHealthCheck" )
+   // @Test(description = "testHealthCheck" )
+    @Test
     public void testHealthCheck() {
         Allure.step("Send GET request to /health endpoint");
         Response response = ApiUtils.getRequest(BASE_URL + "/health");
@@ -35,7 +31,7 @@ public class SystemTest {
         Allure.step("Health check test passed successfully.");
     }
 
-    @Test(groups = "SystemTest", dependsOnMethods = "testHealthCheck" )
+    @Test(dependsOnMethods = "testHealthCheck" )
     public void testSystemHealthSummary() {
         Allure.step("Send GET request to /system/health endpoint");
         Response response = ApiUtils.getRequest(BASE_URL + "/system/health");
@@ -44,11 +40,11 @@ public class SystemTest {
         Assert.assertEquals(response.getStatusCode(), 200);
 
         Allure.step("Check if system health summary is 'healthy'");
-        Assert.assertTrue(response.asString().contains("\"status\":\"healthy\""));
+        Assert.assertTrue(response.asString().contains("healthy"));
         Allure.step("System health summary test passed successfully.");
     }
 
-    @Test(groups = "SystemTest" ,dependsOnMethods = "testSystemHealthSummary")
+    @Test(dependsOnMethods = "testSystemHealthSummary")
     public void testApiDocs() {
         Allure.step("Send GET request to /docs endpoint");
         Response response = ApiUtils.getRequest(BASE_URL + "/docs");

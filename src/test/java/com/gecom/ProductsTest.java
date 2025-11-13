@@ -16,12 +16,13 @@ import java.util.Map;
 import static com.gecom.utils.Const.*;
 
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "ProductsTest")
 public class ProductsTest {
 
 
 
-    @Test(groups = "ProductsTest")
+    @Test
     public void testListProducts() throws Exception {
         Allure.step("Starting testListProducts...");
 
@@ -45,7 +46,7 @@ public class ProductsTest {
         Allure.step("testListProducts finished successfully.");
     }
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testListProducts")
+    @Test(dependsOnMethods = "testListProducts")
     public void testCreateProductWithAdminToken() throws Exception {
         Allure.step("Starting testCreateProductWithAdminToken...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -77,7 +78,7 @@ public class ProductsTest {
         Allure.step("testCreateProductWithAdminToken finished successfully.");
     }
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testCreateProductWithAdminToken")
+    @Test(dependsOnMethods = "testCreateProductWithAdminToken")
     public void testUpdateProduct() throws Exception {
         Allure.step("Starting testUpdateProduct...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -104,7 +105,7 @@ public class ProductsTest {
         Allure.step("testUpdateProduct finished successfully.");
     }
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testUpdateProduct")
+    @Test(dependsOnMethods = "testUpdateProduct")
     public void testGetProductById() throws Exception {
         Allure.step("Starting testGetProductById...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -127,7 +128,7 @@ public class ProductsTest {
         Allure.step("testUpdateProduct finished successfully.");
     }
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testGetProductById")
+    @Test(dependsOnMethods = "testGetProductById")
     public void testDeleteProduct() throws Exception {
         Allure.step("Starting testDeleteProduct...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -144,7 +145,7 @@ public class ProductsTest {
         Allure.step("testDeleteProduct finished successfully.");
     }
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testDeleteProduct")
+    @Test(dependsOnMethods = "testDeleteProduct")
     public void testSearchProducts() throws Exception {
         Allure.step("Starting testSearchProducts...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -167,7 +168,7 @@ public class ProductsTest {
         Allure.step("testSearchProducts finished successfully.");
     }
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testSearchProducts")
+    @Test(dependsOnMethods = "testSearchProducts")
     public void testGetProductsByCategory() throws Exception {
         Allure.step("Starting testGetProductsByCategory...");
 
@@ -187,7 +188,7 @@ public class ProductsTest {
         Allure.step("testGetProductsByCategory finished successfully.");
     }
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testGetProductsByCategory")
+    @Test(dependsOnMethods = "testGetProductsByCategory")
     public void testGetLowStockProducts() throws Exception {
         Allure.step("Starting testGetLowStockProducts...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH); // Retrieve admin token
@@ -212,7 +213,7 @@ public class ProductsTest {
     }
 
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testGetLowStockProducts")
+    @Test(dependsOnMethods = "testGetLowStockProducts")
     public void testUpdateStockSingleProduct() throws Exception {
         Allure.step("Starting testUpdateStockSingleProduct...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -237,7 +238,7 @@ public class ProductsTest {
     }
 
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testUpdateStockSingleProduct")
+    @Test(dependsOnMethods = "testUpdateStockSingleProduct")
     public void testBulkUpdateStock() throws Exception {
         Allure.step("Starting testBulkUpdateStock...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -262,7 +263,7 @@ public class ProductsTest {
         Allure.step("testBulkUpdateStock finished successfully.");
     }
 
-    @Test(groups = "ProductsTest",  dependsOnMethods = "testBulkUpdateStock")
+    @Test(dependsOnMethods = "testBulkUpdateStock")
     public void testExportProducts() throws Exception {
         Allure.step("Starting testExportProducts...");
 

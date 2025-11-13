@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="ITI End To End API Test Suite">
+    <!-- Register TestNG listener to log and attach artifacts to Allure -->
+    <listeners>
+        <listener class-name="com.gecom.utils.TestListener"/>
+    </listeners>
+
+    <test name="SystemTest Regression Tests">
+        <groups>
+            <run>
+                <include name="SystemTest"/>
+
+
+
+            </run>
+        </groups>
+        <classes>
+            <class name="com.gecom.SystemTest"/>
+
+
+        </classes>
+    </test>
+</suite>

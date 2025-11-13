@@ -6,19 +6,17 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "BlogTest")
 public class BlogTest {
 
-    @Test(groups = "BlogTest")
+
+    @Test
     public void testListBlogPosts() throws Exception {
         Allure.step("Starting testListBlogPosts...");
 
@@ -36,7 +34,7 @@ public class BlogTest {
         Allure.step("testListBlogPosts finished successfully.");
     }
 
-    @Test(groups = "BlogTest",  dependsOnMethods = "testListBlogPosts")
+    @Test(dependsOnMethods = "testListBlogPosts")
     public void testGetBlogPost() throws Exception {
         Allure.step("Starting testGetBlogPost...");
         String blogPostId = JsonUtility.getToken("blog_post_id", IDS_FILE_PATH);
@@ -54,22 +52,5 @@ public class BlogTest {
 
 
 
-    @AfterSuite(alwaysRun = true)
-    public static  void runAllureReport() throws IOException, InterruptedException {
 
-            ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "generateReport.bat");
-            pb.inheritIO(); // Print output directly to console
-
-            Process process = pb.start();
-            process.waitFor();
-
-            System.out.println("Batch file completed!");
-
-    }
-
-
-
-    }
-
-
-
+}

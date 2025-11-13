@@ -13,10 +13,11 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "NotificationsTest")
 public class NotificationsTest {
 
-    @Test(groups = "NotificationsTest")
+    @Test
     public void testListNotifications() throws Exception {
         Allure.step("Starting testListNotifications...");
 
@@ -33,7 +34,7 @@ public class NotificationsTest {
         Allure.step("testListNotifications finished successfully.");
     }
 
-    @Test(groups = "NotificationsTest",  dependsOnMethods = "testListNotifications")
+    @Test(dependsOnMethods = "testListNotifications")
     public void testMarkNotificationRead() throws Exception {
         Allure.step("Starting testMarkNotificationRead...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -51,7 +52,7 @@ public class NotificationsTest {
         Allure.step("testMarkNotificationRead finished successfully.");
     }
 
-    @Test(groups = "NotificationsTest",  dependsOnMethods = "testMarkNotificationRead")
+    @Test(dependsOnMethods = "testMarkNotificationRead")
     public void testMarkAllNotificationsRead() throws Exception {
         Allure.step("Starting testMarkAllNotificationsRead...");
         String userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);

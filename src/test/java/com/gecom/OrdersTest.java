@@ -16,13 +16,14 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "OrdersTest")
 public class OrdersTest {
 
 
 
 
-    @Test(groups = "OrdersTest")
+    @Test
     public void testAddToCartDuplicate() throws Exception {
         Allure.step("Starting testAddToCartDuplicate...");
         userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -42,7 +43,7 @@ public class OrdersTest {
         Allure.step("testAddToCartDuplicate finished successfully.");
     }
 
-    @Test(groups = "OrdersTest",  dependsOnMethods = "testAddToCartDuplicate")
+    @Test(dependsOnMethods = "testAddToCartDuplicate")
     public void testCreateOrder() throws Exception {
         Allure.step("Starting testCreateOrder...");
         userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -74,7 +75,7 @@ public class OrdersTest {
         Allure.step("testCreateOrder finished successfully.");
     }
 
-    @Test(groups = "OrdersTest",  dependsOnMethods = "testCreateOrder")
+    @Test(dependsOnMethods = "testCreateOrder")
     public void testListOrders() throws Exception {
         Allure.step("Starting testListOrders...");
         userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -108,7 +109,7 @@ public class OrdersTest {
         Allure.step("testListOrders finished successfully.");
     }
 
-    @Test(groups = "OrdersTest",  dependsOnMethods = "testListOrders")
+    @Test(dependsOnMethods = "testListOrders")
     public void testGetOrderById() throws Exception {
         Allure.step("Starting testGetOrderById...");
         userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -127,7 +128,7 @@ public class OrdersTest {
         Allure.step("testGetOrderById finished successfully.");
     }
 
-    @Test(groups = "OrdersTest",  dependsOnMethods = "testGetOrderById")
+    @Test(dependsOnMethods = "testGetOrderById")
     public void testCancelOrder() throws Exception {
         Allure.step("Starting testCancelOrder...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -147,7 +148,7 @@ public class OrdersTest {
         Allure.step("testCancelOrder finished successfully.");
     }
 
-    @Test(groups = "OrdersTest",  dependsOnMethods = "testCancelOrder")
+    @Test(dependsOnMethods = "testCancelOrder")
     public void testUpdateOrderStatus() throws Exception {
         Allure.step("Starting testUpdateOrderStatus...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -170,7 +171,7 @@ public class OrdersTest {
         Allure.step("testUpdateOrderStatus finished successfully.");
     }
 
-    @Test(groups = "OrdersTest",  dependsOnMethods = "testUpdateOrderStatus")
+    @Test(dependsOnMethods = "testUpdateOrderStatus")
     public void testOrdersByStatusPending() throws Exception {
         Allure.step("Starting testOrdersByStatusPending...");
         userToken = JsonUtility.getToken("user", TOKEN_FILE_PATH);
@@ -198,7 +199,7 @@ public class OrdersTest {
         Allure.step("testOrdersByStatusPending finished successfully.");
     }
 
-    @Test(groups = "OrdersTest",  dependsOnMethods = "testUpdateOrderStatus")
+    @Test(dependsOnMethods = "testUpdateOrderStatus")
     public void testExportOrders() throws Exception {
         Allure.step("Starting testExportOrders...");
         adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);

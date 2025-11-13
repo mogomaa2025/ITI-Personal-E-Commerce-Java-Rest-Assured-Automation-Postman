@@ -4,6 +4,8 @@ import com.gecom.utils.ApiUtils;
 import com.gecom.utils.JsonUtility;
 import com.github.javafaker.Faker;
 import io.qameta.allure.Allure;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -15,12 +17,14 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
-@Listeners({AllureTestNg.class})
+@Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
+@Test(groups = "testCreateCoupon")
+@Severity(SeverityLevel.CRITICAL)
 public class CouponsTest {
 
     private final Faker faker = new Faker();
 
-    @Test(groups = "CouponsTest")
+    @Test()
     public void testCreateCoupon() throws Exception {
         Allure.step("Starting testCreateCoupon...");
         String adminToken = JsonUtility.getToken("admin", TOKEN_FILE_PATH);
@@ -39,6 +43,7 @@ public class CouponsTest {
         body.put("max_discount", 30);
         body.put("usage_limit", 100);
 
+
         Response response = ApiUtils.postRequestWithAuth(BASE_URL + "/coupons", adminToken, body);
         Allure.step("Create coupon status code: " + response.getStatusCode());
 
@@ -53,7 +58,7 @@ public class CouponsTest {
         Allure.step("testCreateCoupon finished successfully.");
     }
 
-    @Test(groups = "CouponsTest",  dependsOnMethods = "testCreateCoupon")
+    @Test(dependsOnMethods = "testCreateCoupon")
     public void testValidateCoupon() throws Exception {
         Allure.step("Starting testValidateCoupon...");
         CouponCode = JsonUtility.getToken("CouponCode", IDS_FILE_PATH);
@@ -73,7 +78,7 @@ public class CouponsTest {
         Allure.step("testValidateCoupon finished successfully.");
     }
 
-    @Test(groups = "CouponsTest",  dependsOnMethods = "testValidateCoupon")
+    @Test(dependsOnMethods = "testValidateCoupon")
     public void testListCoupons() throws Exception {
         Allure.step("Starting testListCoupons...");
         CouponCode = JsonUtility.getToken("CouponCode", IDS_FILE_PATH);
