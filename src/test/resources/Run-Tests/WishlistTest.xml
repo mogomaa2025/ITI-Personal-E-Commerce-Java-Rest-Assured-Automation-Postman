@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="ITI E-Commerce WishlistTest Suite">
+    <!-- Listeners -->
+    <listeners>
+        <listener class-name="com.gecom.utils.TestListener"/>
+    </listeners>
+
+    <test name="WishlistTest Function Tests">
+        <groups>
+            <run>
+                <include name="AuthenticationTest"/>
+                <include name="WishlistTest"/>
+
+            </run>
+        </groups>
+        <classes>
+            <!-- Include only specific test method from AuthenticationTest to get token -->
+            <class name="com.gecom.AuthenticationTest">
+                <methods><include name="testRegisterUserValidRequest"/></methods>
+            </class>
+            <class name="com.gecom.AuthenticationTest">
+                <methods><include name="testLoginUserValidCredentials"/></methods>
+            </class>
+            <class name="com.gecom.AuthenticationTest">
+                <methods><include name="testAdminLoginValidCredentials"/></methods>
+            </class>
+
+            <class name="com.gecom.WishlistTest"/>
+
+
+        </classes>
+    </test>
+</suite>

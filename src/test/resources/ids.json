@@ -1,24 +1,27 @@
 {
-    "contact_message_id": "16",
+    "review_id": 137,
+    "like_id": 22,
+    "contact_message_id": 25,
     "orderID": "77",
-    "blog_post_id": "2",
-    "helpArticleId": "28",
+    "blog_post_id": 2,
+    "search_result_product_id": 2,
+    "helpArticleId": 47,
+    "notification_id": 68,
+    "cart_item_id": 1991,
     "category_names": [
         "Electronics",
         "Clothing",
         "Books",
         "Home & Garden",
         "Accessories",
-        "Accessories",
-        "Accessories",
-        "Accessories"
+        "TestCategory"
     ],
-    "notification_id": "2",
-    "cart_item_id": "1984",
-    "CouponCode": "c13q0iaj10",
-    "category_id": "8",
-    "user_id": "51",
-    "product_id": "102",
-    "wishlist_item_id": "5",
-    "order_id": "77"
+    "recommendation_product_id": 12,
+    "CouponCode": "a554793210",
+    "category_id": 13,
+    "user_id": 153,
+    "product_id": 103,
+    "wishlist_item_id": 9,
+    "order_id": 120,
+    "review_product_id": 1
 }

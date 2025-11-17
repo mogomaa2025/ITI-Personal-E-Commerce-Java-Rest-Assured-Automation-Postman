@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="ITI E-Commerce AuthenticationTest Suite">
+    <!-- Listeners -->
+    <listeners>
+        <listener class-name="com.gecom.utils.TestListener"/>
+    </listeners>
+
+    <test name="AuthenticationTest Function Tests">
+        <groups>
+            <run>
+                <include name="AuthenticationTest"/>
+
+            </run>
+        </groups>
+        <classes>
+            <class name="com.gecom.AuthenticationTest"/>
+
+
+        </classes>
+
+    </test>
+</suite>
