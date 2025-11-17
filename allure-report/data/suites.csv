@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","3878","TC-SYS-001: Verify API health check returns success","ITI E-Commerce SystemTest Suite","2025-11-17","passed","2025-11-17","com.gecom.SystemTest","SystemTest Function Tests","com.gecom.SystemTest","testHealthCheckSuccessfulRetrieval"
+"","227","TC-SYS-002: Verify system health returns all data files status","ITI E-Commerce SystemTest Suite","2025-11-17","passed","2025-11-17","com.gecom.SystemTest","SystemTest Function Tests","com.gecom.SystemTest","testSystemHealthSummarySuccessfulRetrieval"
+"","223","TC-SYS-003: Verify API documentation returns all endpoints","ITI E-Commerce SystemTest Suite","2025-11-17","passed","2025-11-17","com.gecom.SystemTest","SystemTest Function Tests","com.gecom.SystemTest","testApiDocumentationSuccessfulRetrieval"
