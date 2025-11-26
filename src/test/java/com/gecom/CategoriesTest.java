@@ -17,11 +17,20 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for category management functionalities,
+ * including creating, viewing, and deleting categories.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "CategoriesTest")
 @Severity(SeverityLevel.CRITICAL)
 public class CategoriesTest {
 
+    /**
+     * Test case for verifying that an admin can create a new category.
+     *
+     * @throws Exception if an error occurs while reading the admin token or saving the category ID.
+     */
     @Test(description = "TC-CAT-001: Verify admin can create CATEGORY")
     public void testAdminCanCreateCategory() throws Exception {
         Allure.step("Login as admin");
@@ -65,6 +74,11 @@ public class CategoriesTest {
         JsonUtility.saveValue("category_id", categoryId, IDS_FILE_PATH);
     }
 
+    /**
+     * Test case for verifying that creating a category fails for a non-admin user.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CAT-002: Verify create CATEGORY fails without admin", dependsOnMethods = "testAdminCanCreateCategory")
     public void testCreateCategoryFailsWithoutAdmin() throws Exception {
         Allure.step("Login as regular user");
@@ -92,6 +106,11 @@ public class CategoriesTest {
         Assert.assertTrue(error != null && error.contains("Admin privileges required"), "error indicates admin required");
     }
 
+    /**
+     * Test case for verifying that a user can view all categories.
+     *
+     * @throws Exception if an error occurs while saving the category ID or names.
+     */
     @Test(description = "TC-CAT-003: Verify user can view all categories", dependsOnMethods = "testCreateCategoryFailsWithoutAdmin")
     public void testUserCanViewAllCategories() throws Exception {
         Allure.step("Send GET to categories");
@@ -136,6 +155,11 @@ public class CategoriesTest {
         JsonUtility.saveValue("category_names", uniqueCategoryNames, IDS_FILE_PATH);
     }
 
+    /**
+     * Test case for verifying that an admin can delete a category.
+     *
+     * @throws Exception if an error occurs while reading the admin token or category ID.
+     */
     @Test(description = "TC-CAT-004: Verify admin can delete CATEGORY", dependsOnMethods = "testUserCanViewAllCategories")
     public void testAdminCanDeleteCategory() throws Exception {
         Allure.step("Login as admin");
@@ -168,6 +192,11 @@ public class CategoriesTest {
         Assert.assertTrue(response.jsonPath().get("data.name") instanceof String, "data has name");
     }
 
+    /**
+     * Test case for verifying that deleting a non-existent category fails.
+     *
+     * @throws Exception if an error occurs while reading the admin token or category ID.
+     */
     @Test(description = "TC-CAT-005: Verify delete CATEGORY fails for non-existent CATEGORY", dependsOnMethods = "testAdminCanDeleteCategory")
     public void testDeleteCategoryFailsForNonExistent() throws Exception {
         Allure.step("Login as admin");
@@ -192,6 +221,11 @@ public class CategoriesTest {
         Assert.assertTrue(error != null && error.contains("not found"), "error is 'Category not found'");
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot delete a category.
+     *
+     * @throws Exception if an error occurs while reading the user token or category ID.
+     */
     @Test(description = "TC-CAT-006: Verify user cannot delete CATEGORY", dependsOnMethods = "testDeleteCategoryFailsForNonExistent")
     public void testUserCannotDeleteCategory() throws Exception {
         Allure.step("Login as regular user");

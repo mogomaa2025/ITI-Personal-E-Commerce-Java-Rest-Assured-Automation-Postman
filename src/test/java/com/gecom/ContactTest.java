@@ -31,11 +31,20 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 
+/**
+ * This class contains test cases for the contact functionalities,
+ * including submitting contact messages and admin actions for viewing and responding to them.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "ContactTest")
 @Severity(SeverityLevel.CRITICAL)
 public class ContactTest {
 
+    /**
+     * Test case for verifying that a user can submit a contact message.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CONT-001: Verify user can submit contact message")
     public void testUserCanSubmitContactMessage() throws Exception {
         Allure.step("Login as user");
@@ -64,6 +73,9 @@ public class ContactTest {
         Assert.assertEquals(response.jsonPath().getString("message"), "Your message has been submitted successfully. We will get back to you soon!", "message is 'Your message has been submitted successfully. We will get back to you soon!'");
     }
 
+    /**
+     * Test case for verifying that submitting a contact message fails with missing required fields.
+     */
     @Test(description = "TC-CONT-002: Verify submit contact fails with missing required fields", dependsOnMethods = "testUserCanSubmitContactMessage")
     public void testSubmitContactFailsWithMissingFields() {
         Allure.step("Send POST with incomplete data");
@@ -86,6 +98,11 @@ public class ContactTest {
         Assert.assertTrue(error != null && error.contains("Name, email, and message are required"), "error indicates missing fields");
     }
 
+    /**
+     * Test case for verifying that an admin can view all contact messages.
+     *
+     * @throws Exception if an error occurs while reading the admin token or saving the message ID.
+     */
     @Test(description = "TC-CONT-003: Verify admin can view all contact messages", dependsOnMethods = "testSubmitContactFailsWithMissingFields")
     public void testAdminCanViewAllContactMessages() throws Exception {
         Allure.step("Login as admin");
@@ -131,6 +148,11 @@ public class ContactTest {
         }
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot view contact messages.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CONT-004: Verify non-admin cannot view contact messages", dependsOnMethods = "testAdminCanViewAllContactMessages")
     public void testNonAdminCannotViewContactMessages() throws Exception {
         Allure.step("Login as user");
@@ -154,6 +176,11 @@ public class ContactTest {
         Assert.assertTrue(error != null && error.contains("Admin privileges required"), "error indicates admin auth needed");
     }
 
+    /**
+     * Test case for verifying that an admin can respond to a contact message.
+     *
+     * @throws Exception if an error occurs while reading the admin token or message ID.
+     */
     @Test(description = "TC-CONT-005: Verify admin can respond to contact message", dependsOnMethods = "testNonAdminCannotViewContactMessages")
     public void testAdminCanRespondToContactMessage() throws Exception {
         Allure.step("Login as admin");
@@ -183,6 +210,11 @@ public class ContactTest {
         Assert.assertEquals(response.jsonPath().getString("message"), "Response sent successfully", "message is 'Response sent successfully'");
     }
 
+    /**
+     * Test case for verifying that responding to a non-existent message fails.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-CONT-006: Verify respond fails for non-existent message", dependsOnMethods = "testAdminCanRespondToContactMessage")
     public void testRespondFailsForNonExistentMessage() throws Exception {
         Allure.step("Login as admin");
@@ -209,6 +241,11 @@ public class ContactTest {
         Assert.assertTrue(error != null && error.contains("Message not found"), "error is 'Message not found'");
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot respond to messages.
+     *
+     * @throws Exception if an error occurs while reading the user token or message ID.
+     */
     @Test(description = "TC-CONT-007: Verify non-admin cannot respond to messages", dependsOnMethods = "testRespondFailsForNonExistentMessage")
     public void testNonAdminCannotRespondToMessages() throws Exception {
         Allure.step("Login as user");

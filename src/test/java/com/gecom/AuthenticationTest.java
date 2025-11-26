@@ -16,6 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for user authentication functionalities,
+ * including registration, login, and token management.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "AuthenticationTest")
 @Severity(SeverityLevel.CRITICAL)
@@ -24,6 +28,10 @@ public class AuthenticationTest {
     Faker faker = new Faker();
 
 
+    /**
+     * Test case for verifying user registration with valid data.
+     * It checks if a new user can be registered successfully.
+     */
     @Test(description = "TC-AUTH-001: Verify user registration with valid data")
     public void testRegisterUserValidRequest() {
         Allure.step("Generate random email");
@@ -76,6 +84,9 @@ public class AuthenticationTest {
         Assert.assertNull(response.jsonPath().get("data.password"), "No password in response");
     }
 
+    /**
+     * Test case for verifying that user registration fails with a duplicate email.
+     */
     @Test(description = "TC-AUTH-002: Verify registration fails with duplicate email", dependsOnMethods = "testRegisterUserValidRequest") // we use dependence because we test last email used
     public void testRegisterUserDuplicateEmail() {
         Allure.step("Use existing email");
@@ -102,6 +113,9 @@ public class AuthenticationTest {
         Assert.assertTrue(errory != null && (errory.contains("already") || errory.contains("exists") || errory.contains("duplicate")), "error indicates duplicate email");
     }
 
+    /**
+     * Test case for verifying that user registration fails when required fields are missing.
+     */
     @Test(description = "TC-AUTH-003: Verify registration fails with missing required fields")
     public void testRegisterUserMissingRequiredFields() {
         Allure.step("Send POST with incomplete data");
@@ -125,6 +139,11 @@ public class AuthenticationTest {
 
     }
 
+    /**
+     * Test case for verifying user login with valid credentials.
+     *
+     * @throws Exception if an error occurs while saving the token.
+     */
     @Test(description = "TC-AUTH-004: Verify user login with valid credentials", dependsOnMethods = "testRegisterUserValidRequest") // use TC1 random register data
     public void testLoginUserValidCredentials() throws Exception {
 
@@ -165,6 +184,9 @@ public class AuthenticationTest {
         JsonUtility.saveValue("user", userToken, TOKEN_FILE_PATH);
     }
 
+    /**
+     * Test case for verifying that user login fails with an invalid password.
+     */
     @Test(description = "TC-AUTH-005: Verify login fails with invalid password")
     public void testLoginUserInvalidPassword() {
         Allure.step("Send POST with wrong password");
@@ -191,6 +213,9 @@ public class AuthenticationTest {
         Assert.assertNull(response.jsonPath().get("token"), "No token returned");
     }
 
+    /**
+     * Test case for verifying that user login fails for a non-existent user.
+     */
     @Test(description = "TC-AUTH-006: Verify login fails with non-existent user")
     public void testLoginUserNonExistent() {
         Allure.step("Send POST with non-existent email");
@@ -217,6 +242,11 @@ public class AuthenticationTest {
         Assert.assertNull(response.jsonPath().get("token"), "No token returned");
     }
 
+    /**
+     * Test case for verifying admin login with valid credentials.
+     *
+     * @throws Exception if an error occurs while saving the token.
+     */
     @Test(description = "TC-AUTH-007: Verify admin login with valid credentials")
     public void testAdminLoginValidCredentials() throws Exception {
         Allure.step("Send POST with admin credentials");
@@ -252,6 +282,11 @@ public class AuthenticationTest {
         JsonUtility.saveValue("refreshToken", refreshToken, REFRESH_TOKEN_FILE_PATH);
     }
 
+    /**
+     * Test case for verifying token refresh with a valid refresh token.
+     *
+     * @throws Exception if an error occurs while reading the token from the file.
+     */
     @Test(description = "TC-AUTH-008: Verify token refresh with valid refresh token",dependsOnMethods = "testAdminLoginValidCredentials")
     public void testRefreshTokenValid() throws Exception {
         refreshToken = JsonUtility.getJSONString("refreshToken", REFRESH_TOKEN_FILE_PATH);
@@ -281,6 +316,9 @@ public class AuthenticationTest {
         Assert.assertTrue(newToken != null && !newToken.isEmpty(), "New token is valid JWT");
     }
 
+    /**
+     * Test case for verifying that token refresh fails with an invalid token.
+     */
     @Test(description = "TC-AUTH-009: Verify refresh fails with invalid token")
     public void testRefreshTokenInvalid() {
         Allure.step("Send POST with invalid token");
@@ -303,6 +341,9 @@ public class AuthenticationTest {
         Assert.assertTrue(error != null && (error.toLowerCase().contains("invalid") || error.toLowerCase().contains("expired") || error.toLowerCase().contains("token")), "error indicates invalid token");
     }
 
+    /**
+     * Test case for verifying that token refresh fails when the refresh token is missing.
+     */
     @Test(description = "TC-AUTH-010: Verify refresh fails without refresh token")
     public void testRefreshTokenMissing() {
         Allure.step("Send POST without refresh token");

@@ -17,11 +17,20 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for the shopping cart functionalities,
+ * including adding, updating, viewing, and removing items from the cart.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "CartTest")
 @Severity(SeverityLevel.CRITICAL)
 public class CartTest {
 
+    /**
+     * Test case for verifying that a user can add an item to the cart.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-001: Verify user can add item to cart")
     public void testUserCanAddItemToCart() throws Exception {
         Allure.step("Login as user");
@@ -58,6 +67,11 @@ public class CartTest {
         Assert.assertEquals(firstItem.get("quantity"), CART_QUANTITY, "Quantity is " + CART_QUANTITY);
     }
 
+    /**
+     * Test case for verifying that adding an item to the cart fails for an invalid product.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-002: Verify add to cart fails for invalid product", dependsOnMethods = "testUserCanAddItemToCart")
     public void testAddToCartFailsForInvalidProduct() throws Exception {
         Allure.step("Login as user");
@@ -85,6 +99,11 @@ public class CartTest {
         Assert.assertTrue(error != null && error.contains("Product not found"), "error is 'Product not found'");
     }
 
+    /**
+     * Test case for verifying that adding an item to the cart fails with an invalid quantity.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-003: Verify add to cart fails with invalid quantity", dependsOnMethods = "testAddToCartFailsForInvalidProduct")
     public void testAddToCartFailsWithInvalidQuantity() throws Exception {
         Allure.step("Login as user");
@@ -112,6 +131,11 @@ public class CartTest {
         Assert.assertTrue(error != null && error.contains("Invalid quantity"), "error indicates invalid quantity");
     }
 
+    /**
+     * Test case for verifying that a user can view the contents of their cart.
+     *
+     * @throws Exception if an error occurs while reading the user token or saving the cart item ID.
+     */
     @Test(description = "TC-CART-004: Verify user can view cart contents", dependsOnMethods = "testAddToCartFailsWithInvalidQuantity") //
     public void testUserCanViewCartContents() throws Exception {
         Allure.step("Login as user");
@@ -170,6 +194,11 @@ public class CartTest {
         }
     }
 
+    /**
+     * Test case for verifying that a user can update the quantity of an item in the cart.
+     *
+     * @throws Exception if an error occurs while reading the user token or cart item ID.
+     */
     @Test(description = "TC-CART-005: Verify user can update cart item quantity", dependsOnMethods = "testUserCanViewCartContents")
     public void testUserCanUpdateCartItemQuantity() throws Exception {
         Allure.step("Login as user");
@@ -204,6 +233,11 @@ public class CartTest {
         Assert.assertNotNull(response.jsonPath().get("data.updated_at"), "updated_at is recent");
     }
 
+    /**
+     * Test case for verifying that updating a non-existent item in the cart fails.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-006: Verify update cart item fails for non-existent item", dependsOnMethods = "testUserCanUpdateCartItemQuantity")
     public void testUpdateCartItemFailsForNonExistentItem() throws Exception {
         Allure.step("Login as user");
@@ -230,6 +264,11 @@ public class CartTest {
         Assert.assertTrue(error != null && error.contains("Cart item not found"), "error is 'Cart item not found'");
     }
 
+    /**
+     * Test case for verifying that a user can clear their entire cart.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-007: Verify user can clear entire cart", dependsOnMethods = "testUpdateCartItemFailsForNonExistentItem")
     public void testUserCanClearEntireCart() throws Exception {
         Allure.step("Login as user");
@@ -268,6 +307,11 @@ public class CartTest {
         Assert.assertTrue(cartItems.isEmpty(), "Cart is empty");
     }
 
+    /**
+     * Test case for verifying that clearing an already empty cart is handled gracefully.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-008: Verify clear cart on already empty cart", dependsOnMethods = "testUserCanClearEntireCart")
     public void testClearCartOnAlreadyEmptyCart() throws Exception {
         Allure.step("Login as user");
@@ -290,6 +334,11 @@ public class CartTest {
         Assert.assertTrue(response.jsonPath().getBoolean("success"), "success is true");
     }
 
+    /**
+     * Test case for verifying that an empty cart returns an empty array.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-009: Verify empty cart returns empty array", dependsOnMethods = "testClearCartOnAlreadyEmptyCart")
     public void testEmptyCartReturnsEmptyArray() throws Exception {
         Allure.step("Login as user");
@@ -322,6 +371,11 @@ public class CartTest {
         Assert.assertEquals(response.jsonPath().getDouble("total"), 0.0, 0.01, "total is 0");
     }
 
+    /**
+     * Test case for verifying that a user can remove an item from the cart.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-010: Verify user can remove item from cart", dependsOnMethods = "testEmptyCartReturnsEmptyArray")
     public void testUserCanRemoveItemFromCart() throws Exception {
         Allure.step("Login as user");
@@ -371,6 +425,11 @@ public class CartTest {
         Assert.assertFalse(itemFound, "Item removed from cart");
     }
 
+    /**
+     * Test case for verifying that removing a non-existent item from the cart fails.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-011: Verify remove cart item fails for non-existent item", dependsOnMethods = "testUserCanRemoveItemFromCart")
     public void testRemoveCartItemFailsForNonExistentItem() throws Exception {
         Allure.step("Login as user");
@@ -394,6 +453,11 @@ public class CartTest {
         Assert.assertTrue(error != null && error.contains("Cart item not found"), "error is 'Cart item not found'");
     }
 
+    /**
+     * Test case for verifying that a user cannot access another user's cart.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-CART-012: Verify user cannot access another user's cart", dependsOnMethods = "testRemoveCartItemFailsForNonExistentItem")
     public void testUserCannotAccessAnotherUsersCart() throws Exception {
         Allure.step("User1 adds items to cart");

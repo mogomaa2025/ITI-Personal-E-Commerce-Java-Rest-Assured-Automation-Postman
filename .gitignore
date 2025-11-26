@@ -6,6 +6,7 @@ target
 .allure/allure-2.13.9
 .idea
 allure-results
+logs/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

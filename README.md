@@ -52,6 +52,26 @@ To get started with this project, follow these steps:
    mvn allure:serve
    ```
 
+## Project Structure
+
+The project is organized into the following directories:
+
+- **src/main/java**: Contains the main application code (currently a placeholder).
+- **src/test/java**: Contains the test classes and utility classes for the automation framework.
+- **src/test/resources**: Contains configuration files and test data.
+- **allure-report**: The directory where Allure reports are generated.
+- **logs**: Contains log files generated during test execution.
+
+### Utility Classes
+
+The `src/test/java/com/gecom/utils` directory contains several utility classes to support the test framework:
+
+- **ApiUtils.java**: A helper class for making REST Assured API requests. It provides methods for GET, POST, PUT, and DELETE requests, with and without authentication.
+- **Const.java**: A centralized place to store all constants used in the project, such as base URLs, file paths, and test data.
+- **JsonUtility.java**: A utility class for handling JSON data, including reading from and writing to JSON files.
+- **Logger.java**: A simple logger class that uses Log4j2 for logging test execution details.
+- **TestListener.java**: A TestNG listener that logs test start, success, failure, and skip events. It also generates the Allure report at the end of the test execution.
+
 ## Snapshots and Design Patterns
 
 ### Design Patterns

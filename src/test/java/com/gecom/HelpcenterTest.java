@@ -20,11 +20,20 @@ import io.restassured.response.Response;
 import static com.gecom.utils.Const.*;
 import static com.gecom.utils.Const.ProductIDWithoutReview;
 
+/**
+ * This class contains test cases for the Help Center functionalities,
+ * including creating, updating, and viewing help articles, as well as marking them as helpful.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "HelpcenterTest")
 @Severity(SeverityLevel.CRITICAL)
 public class HelpcenterTest {
 
+    /**
+     * Test case for verifying that an admin can create a help article.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-HELP-001: Verify admin can create help article")
     public void testAdminCanCreateHelpArticle() throws Exception {
         Allure.step("Login as admin");
@@ -53,6 +62,11 @@ public class HelpcenterTest {
 
     }
 
+    /**
+     * Test case for verifying that creating a help article fails for a non-admin user.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-HELP-002: Verify create help article fails without admin", dependsOnMethods = "testAdminCanCreateHelpArticle")
     public void testCreateHelpArticleFailsWithoutAdmin() throws Exception {
         Allure.step("Login as user");
@@ -81,6 +95,11 @@ public class HelpcenterTest {
         Assert.assertTrue(error != null && error.contains("Admin privileges required"), "error indicates admin auth needed");
     }
 
+    /**
+     * Test case for verifying that an admin can update a help article.
+     *
+     * @throws Exception if an error occurs while reading the admin token or saving the article ID.
+     */
     @Test(description = "TC-HELP-003: Verify admin can update help article", dependsOnMethods = "testCreateHelpArticleFailsWithoutAdmin")
     public void testAdminCanUpdateHelpArticle() throws Exception {
         Allure.step("Login as admin");
@@ -124,6 +143,11 @@ public class HelpcenterTest {
         Assert.assertEquals(response.jsonPath().getString("message"), "Article updated successfully", "message is 'Article updated successfully'");
     }
 
+    /**
+     * Test case for verifying that updating a non-existent help article fails.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-HELP-004: Verify update help article fails for non-existent article", dependsOnMethods = "testAdminCanUpdateHelpArticle")
     public void testUpdateHelpArticleFailsForNonExistent() throws Exception {
         Allure.step("Login as admin");
@@ -152,6 +176,9 @@ public class HelpcenterTest {
         Assert.assertTrue(error != null && error.contains("Article not found"), "error indicates non existing article");
     }
 
+    /**
+     * Test case for verifying that all help articles can be retrieved.
+     */
     @Test(description = "TC-HELP-005: Verify get all help articles", dependsOnMethods = "testUpdateHelpArticleFailsForNonExistent")
     public void testGetAllHelpArticles() {
         Allure.step("Send GET to help endpoint");
@@ -185,6 +212,9 @@ public class HelpcenterTest {
         }
     }
 
+    /**
+     * Test case for verifying that all help categories can be retrieved.
+     */
     @Test(description = "TC-HELP-006: Verify get help categories", dependsOnMethods = "testGetAllHelpArticles")
     public void testGetHelpCategories() {
         Allure.step("Send GET to help categories");
@@ -204,6 +234,11 @@ public class HelpcenterTest {
         Assert.assertNotNull(categories, "data is array of categories");
     }
 
+    /**
+     * Test case for verifying that a specific help article can be retrieved.
+     *
+     * @throws Exception if an error occurs while reading the article ID.
+     */
     @Test(description = "TC-HELP-007: Verify get specific help article from previous tests", dependsOnMethods = "testGetHelpCategories")
     public void testGetSpecificHelpArticle() throws Exception {
         Allure.step("Get help article ID");
@@ -233,6 +268,9 @@ public class HelpcenterTest {
         Assert.assertTrue(response.jsonPath().get("data.helpful_count") instanceof Integer, "data has helpful_count");
     }
 
+    /**
+     * Test case for verifying that retrieving a non-existent help article fails.
+     */
     @Test(description = "TC-HELP-008: Verify get help article fails for non-existent ID", dependsOnMethods = "testGetSpecificHelpArticle")
     public void testGetHelpArticleFailsForNonExistentId() {
         Allure.step("Send GET with invalid article ID");
@@ -252,6 +290,11 @@ public class HelpcenterTest {
         Assert.assertTrue(error != null && error.contains("Article not found"), "error is 'Article not found'");
     }
 
+    /**
+     * Test case for verifying that a user can mark an article as helpful.
+     *
+     * @throws Exception if an error occurs while reading the user token or article ID.
+     */
     @Test(description = "TC-HELP-009: Verify user can mark article as helpful", dependsOnMethods = "testGetHelpArticleFailsForNonExistentId")
     public void testUserCanMarkArticleHelpful() throws Exception {
         Allure.step("Login as user");
@@ -279,6 +322,11 @@ public class HelpcenterTest {
         Assert.assertEquals(response.jsonPath().getString("message"), "Thank you for your feedback!", "message is 'Thank you for your feedback!'");
     }
 
+    /**
+     * Test case for verifying that a user cannot mark an article as helpful twice.
+     *
+     * @throws Exception if an error occurs while reading the user token or article ID.
+     */
     @Test(description = "TC-HELP-010: Verify user can mark article as helpful twice", dependsOnMethods = "testUserCanMarkArticleHelpful")
     public void testUserCanMarkArticleHelpfulTwice() throws Exception {
         Allure.step("Login as user");
@@ -310,6 +358,11 @@ public class HelpcenterTest {
         Assert.assertTrue(response.jsonPath().getBoolean("already_helpful"), "already_helpful is true");
     }
 
+    /**
+     * Test case for verifying that marking a non-existent article as helpful fails.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-HELP-011: Verify mark helpful fails for non-existent article", dependsOnMethods = "testUserCanMarkArticleHelpfulTwice")
     public void testMarkHelpfulFailsForNonExistentArticle() throws Exception {
         Allure.step("Login as user");

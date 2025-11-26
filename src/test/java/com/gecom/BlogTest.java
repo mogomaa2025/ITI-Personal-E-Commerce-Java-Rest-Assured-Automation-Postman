@@ -19,11 +19,20 @@ import io.restassured.response.Response;
 
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for the blog functionalities,
+ * including retrieving all posts, handling empty results, and fetching specific posts.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "BlogTest")
 @Severity(SeverityLevel.CRITICAL)
 public class BlogTest {
 
+    /**
+     * Test case for verifying that all blog posts can be retrieved successfully.
+     *
+     * @throws Exception if an error occurs while saving the blog post ID.
+     */
     @Test(description = "TC-BLOG-001: Verify get all blog posts")
     public void testGetAllBlogPosts() throws Exception {
         Allure.step("Send GET to blog posts");
@@ -64,6 +73,11 @@ public class BlogTest {
         }
     }
 
+    /**
+     * Test case for verifying that an empty array is returned when no blog posts are found.
+     *
+     * @throws Exception if an error occurs.
+     */
     @Test(description = "TC-BLOG-002: Verify empty blog returns empty array", dependsOnMethods = "testGetAllBlogPosts")
     public void testEmptyBlogReturnsEmptyArray() throws Exception {
         Allure.step("Send GET to non-existent blog endpoint");
@@ -90,6 +104,11 @@ public class BlogTest {
         Assert.assertEquals(count, 0, "count is 0");
     }
 
+    /**
+     * Test case for verifying that a specific blog post can be retrieved successfully.
+     *
+     * @throws Exception if an error occurs while reading the blog post ID.
+     */
     @Test(description = "TC-BLOG-003: Verify get specific blog post", dependsOnMethods = "testEmptyBlogReturnsEmptyArray")
     public void testGetSpecificBlogPost() throws Exception {
         Allure.step("Get blog post ID from previous test");
@@ -118,6 +137,11 @@ public class BlogTest {
         Assert.assertTrue(post.get("created_at") instanceof String, "Post has created_at");
     }
 
+    /**
+     * Test case for verifying that retrieving a blog post with a non-existent ID fails.
+     *
+     * @throws Exception if an error occurs.
+     */
     @Test(description = "TC-BLOG-004: Verify get blog post fails for non-existent ID", dependsOnMethods = "testGetSpecificBlogPost")
     public void testGetBlogPostFailsForNonExistentID() throws Exception {
         Allure.step("Send GET with invalid post ID");

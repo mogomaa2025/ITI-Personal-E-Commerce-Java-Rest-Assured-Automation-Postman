@@ -26,11 +26,20 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 
+/**
+ * This class contains test cases for the wishlist functionalities,
+ * including adding, viewing, and removing products from the wishlist.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "WishlistTest")
 @Severity(SeverityLevel.CRITICAL)
 public class WishlistTest {
 
+    /**
+     * Test case for verifying that a user can add a product to their wishlist.
+     *
+     * @throws Exception if an error occurs while reading user or product data.
+     */
     @Test(description = "TC-WISH-001: Verify user can add product to wishlist")
     public void testUserCanAddProductToWishlist() throws Exception {
         Allure.step("Login as user");
@@ -63,6 +72,11 @@ public class WishlistTest {
         Assert.assertEquals(response.jsonPath().getString("message"), "Product added to wishlist successfully", "message is 'Product added to wishlist successfully'");
     }
 
+    /**
+     * Test case for verifying that adding a non-existent product to the wishlist fails.
+     *
+     * @throws Exception if an error occurs while reading user data.
+     */
     @Test(description = "TC-WISH-002: Verify add to wishlist fails for non-existent product", dependsOnMethods = "testUserCanAddProductToWishlist")
     public void testAddToWishlistFailsForNonExistentProduct() throws Exception {
         Allure.step("Login as user");
@@ -93,6 +107,11 @@ public class WishlistTest {
         Assert.assertEquals(response.jsonPath().getString("error"), "Product not found", "error is 'Product not found'");
     }
 
+    /**
+     * Test case for verifying that a user cannot add the same product to their wishlist twice.
+     *
+     * @throws Exception if an error occurs while reading user or product data.
+     */
     @Test(description = "TC-WISH-003: Verify user cannot add same product to wishlist twice", dependsOnMethods = "testAddToWishlistFailsForNonExistentProduct")
     public void testUserCannotAddSameProductToWishlistTwice() throws Exception {
         Allure.step("Login as user");
@@ -125,6 +144,11 @@ public class WishlistTest {
         Assert.assertEquals(response.jsonPath().getString("error"), "Product already in wishlist", "error is 'Product already in wishlist'");
     }
 
+    /**
+     * Test case for verifying that a user can view their wishlist.
+     *
+     * @throws Exception if an error occurs while reading user data or saving the wishlist item ID.
+     */
     @Test(description = "TC-WISH-004: Verify user can view their wishlist", dependsOnMethods = "testUserCannotAddSameProductToWishlistTwice")
     public void testUserCanViewTheirWishlist() throws Exception {
         Allure.step("Login as user");
@@ -171,6 +195,11 @@ public class WishlistTest {
         }
     }
 
+    /**
+     * Test case for verifying that an empty wishlist returns an empty array.
+     *
+     * @throws Exception if an error occurs while reading user data.
+     */
     @Test(description = "TC-WISH-005: Verify empty wishlist returns empty array", dependsOnMethods = "testUserCanViewTheirWishlist")
     public void testEmptyWishlistReturnsEmptyArray() throws Exception {
         Allure.step("Login as new user");
@@ -219,6 +248,11 @@ public class WishlistTest {
         Assert.assertEquals(count, 0, "count is 0");
     }
 
+    /**
+     * Test case for verifying that a user can remove a product from their wishlist.
+     *
+     * @throws Exception if an error occurs while reading user or product data.
+     */
     @Test(description = "TC-WISH-006: Verify user can remove product from wishlist", dependsOnMethods = "testEmptyWishlistReturnsEmptyArray")
     public void testUserCanRemoveProductFromWishlist() throws Exception {
         Allure.step("Login as user");
@@ -278,6 +312,11 @@ public class WishlistTest {
 
     }
 
+    /**
+     * Test case for verifying that removing a non-existent item from the wishlist fails.
+     *
+     * @throws Exception if an error occurs while reading user data.
+     */
     @Test(description = "TC-WISH-007: Verify remove from wishlist fails for non-existent item", dependsOnMethods = "testUserCanRemoveProductFromWishlist")
     public void testRemoveFromWishlistFailsForNonExistentItem() throws Exception {
         Allure.step("Login as user");

@@ -13,11 +13,18 @@ import org.testng.annotations.Test;
 
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for system-level functionalities,
+ * such as health checks and API documentation retrieval.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "SystemTest")
 @Severity(SeverityLevel.CRITICAL)
 public class SystemTest {
 
+    /**
+     * Test case for verifying that the API health check returns a success response.
+     */
     @Test(description = "TC-SYS-001: Verify API health check returns success")
     public void testHealthCheckSuccessfulRetrieval() {
         Allure.step("Send GET request to /health");
@@ -45,6 +52,9 @@ public class SystemTest {
         Allure.step("Data retrieved successfully with valid structure");
     }
 
+    /**
+     * Test case for verifying that the system health endpoint returns the status of all data files.
+     */
     @Test(description = "TC-SYS-002: Verify system health returns all data files status", dependsOnMethods = "testHealthCheckSuccessfulRetrieval")
     public void testSystemHealthSummarySuccessfulRetrieval() {
         Allure.step("Send GET request to /system/health");
@@ -87,6 +97,9 @@ public class SystemTest {
         Allure.step("Data retrieved successfully with valid structure");
     }
 
+    /**
+     * Test case for verifying that the API documentation endpoint returns a list of all available endpoints.
+     */
     @Test(description = "TC-SYS-003: Verify API documentation returns all endpoints", dependsOnMethods = "testSystemHealthSummarySuccessfulRetrieval")
     public void testApiDocumentationSuccessfulRetrieval() {
         Allure.step("Send GET request to /docs");

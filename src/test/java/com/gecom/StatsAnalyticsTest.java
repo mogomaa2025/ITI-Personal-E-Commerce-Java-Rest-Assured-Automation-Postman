@@ -17,11 +17,20 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for the statistics and analytics functionalities,
+ * including dashboard stats, analytics, and sales reports.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "StatsAnalyticsTest")
 @Severity(SeverityLevel.CRITICAL)
 public class StatsAnalyticsTest {
 
+    /**
+     * Test case for verifying that an admin can retrieve dashboard statistics.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-STATS-001: Verify admin can get dashboard statistics")
     public void testAdminCanGetDashboardStatistics() throws Exception {
         Allure.step("Login as admin");
@@ -50,6 +59,11 @@ public class StatsAnalyticsTest {
         Assert.assertTrue(response.jsonPath().get("data.low_stock_products") instanceof Integer, "data has low_stock_products");
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot retrieve dashboard statistics.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-STATS-002: Verify get stats fails for non-admin user", dependsOnMethods = "testAdminCanGetDashboardStatistics")
     public void testGetStatsFailsForNonAdminUser() throws Exception {
         Allure.step("Login as user");
@@ -73,6 +87,11 @@ public class StatsAnalyticsTest {
         Assert.assertTrue(error != null && error.contains("Admin privileges required"), "error is 'Admin privileges required'");
     }
 
+    /**
+     * Test case for verifying that an admin can retrieve dashboard analytics.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-STATS-003: Verify admin can get dashboard analytics", dependsOnMethods = "testGetStatsFailsForNonAdminUser")
     public void testAdminCanGetDashboardAnalytics() throws Exception {
         Allure.step("Login as admin");
@@ -105,6 +124,11 @@ public class StatsAnalyticsTest {
         Assert.assertTrue(response.jsonPath().get("data.user_registrations") instanceof List, "data has user_registrations array");
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot retrieve dashboard analytics.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-STATS-004: Verify get dashboard analytics fails for non-admin user", dependsOnMethods = "testAdminCanGetDashboardAnalytics")
     public void testGetDashboardAnalyticsFailsForNonAdminUser() throws Exception {
         Allure.step("Login as user");
@@ -128,6 +152,11 @@ public class StatsAnalyticsTest {
         Assert.assertTrue(error != null && error.contains("Admin privileges required"), "error is 'Admin privileges required'");
     }
 
+    /**
+     * Test case for verifying that an admin can retrieve a sales report.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-STATS-005: Verify admin can get sales report", dependsOnMethods = "testGetDashboardAnalyticsFailsForNonAdminUser")
     public void testAdminCanGetSalesReport() throws Exception {
         Allure.step("Login as admin");
@@ -171,6 +200,11 @@ public class StatsAnalyticsTest {
         Assert.assertEquals(orders.size(), totalOrders, "count of orders matches total_orders");
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot retrieve a sales report.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-STATS-006: Verify get sales report fails for non-admin user", dependsOnMethods = "testAdminCanGetSalesReport")
     public void testGetSalesReportFailsForNonAdminUser() throws Exception {
         Allure.step("Login as user");

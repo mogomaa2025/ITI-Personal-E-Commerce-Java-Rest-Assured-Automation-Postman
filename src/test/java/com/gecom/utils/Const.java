@@ -1,5 +1,9 @@
 package com.gecom.utils;
 
+/**
+ * A utility class that stores constants for the API automation framework.
+ * This class includes configuration details, test data, and dynamic variables used across different tests.
+ */
 public class Const {
 
 

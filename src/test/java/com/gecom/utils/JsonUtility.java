@@ -14,11 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A utility class for handling JSON data.
+ * This class provides methods for saving, retrieving, and manipulating data in JSON files.
+ */
 public class JsonUtility {
 
 
 
-    // Save or update any value (String, int, List, Map, JSONObject...) in a JSON file
+    /**
+     * Saves or updates a value in a JSON file.
+     *
+     * @param key      The key to save or update.
+     * @param value    The value to be saved, which can be a String, int, List, Map, or JSONObject.
+     * @param filePath The path to the JSON file.
+     * @throws Exception If an error occurs while writing to the file.
+     */
     public static void saveValue(String key, Object value, String filePath) throws Exception {
 
         JSONObject json = new JSONObject();
@@ -46,7 +57,14 @@ public class JsonUtility {
         );
     }
 
-    // Get any value (String, int, boolean, JSONObject, JSONArray...) from JSON file
+    /**
+     * Retrieves a value from a JSON file.
+     *
+     * @param key      The key of the value to retrieve.
+     * @param filePath The path to the JSON file.
+     * @return The retrieved value, which can be a String, int, boolean, JSONObject, or JSONArray.
+     * @throws Exception If an error occurs while reading the file.
+     */
     public static Object getValue(String key, String filePath) throws Exception {
         File file = new File(filePath);
         if (!file.exists()) {
@@ -71,25 +89,53 @@ public class JsonUtility {
 
     // Getter <<< Wrappers >>> for specific types //
 
-    // wrapper method to get String value from JSON file
+    /**
+     * A wrapper method to get a String value from a JSON file.
+     *
+     * @param key      The key of the value to retrieve.
+     * @param filePath The path to the JSON file.
+     * @return The retrieved String value, or null if not found.
+     * @throws Exception If an error occurs while reading the file.
+     */
     public static String getJSONString(String key, String filePath) throws Exception {
         Object value = getValue(key, filePath);
         return value != null ? value.toString() : null;
     }
 
-    // wrapper method to get Integer value from JSON file
+    /**
+     * A wrapper method to get an Integer value from a JSON file.
+     *
+     * @param key      The key of the value to retrieve.
+     * @param filePath The path to the JSON file.
+     * @return The retrieved Integer value, or null if not found.
+     * @throws Exception If an error occurs while reading the file.
+     */
     public static Integer getJSONInt(String key, String filePath) throws Exception {
         Object value = getValue(key, filePath);
         return value instanceof Number ? ((Number) value).intValue() : null;
     }
 
-    // wrapper method to get Boolean value from JSON file
+    /**
+     * A wrapper method to get a Boolean value from a JSON file.
+     *
+     * @param key      The key of the value to retrieve.
+     * @param filePath The path to the JSON file.
+     * @return The retrieved Boolean value, or null if not found.
+     * @throws Exception If an error occurs while reading the file.
+     */
     public static Boolean getJSONBoolean(String key, String filePath) throws Exception {
         Object value = getValue(key, filePath);
         return value instanceof Boolean ? (Boolean) value : null;
     }
 
-    // wrapper method to get JSONObject value from JSON file
+    /**
+     * A wrapper method to get a JSONObject from a JSON file.
+     *
+     * @param key      The key of the value to retrieve.
+     * @param filePath The path to the JSON file.
+     * @return The retrieved JSONObject, or null if not found.
+     * @throws Exception If an error occurs while reading the file.
+     */
     public static JSONObject getJSONObject(String key, String filePath) throws Exception {
         Object value = getValue(key, filePath);
         return value instanceof JSONObject ? (JSONObject) value : null;
