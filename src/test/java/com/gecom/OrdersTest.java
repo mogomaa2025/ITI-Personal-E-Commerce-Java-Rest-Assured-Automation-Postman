@@ -17,11 +17,20 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for the order management functionalities,
+ * including creating, viewing, updating, and canceling orders.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "OrdersTest")
 @Severity(SeverityLevel.CRITICAL)
 public class OrdersTest {
 
+    /**
+     * Test case for verifying that a user can create an order with items in the cart.
+     *
+     * @throws Exception if an error occurs while reading the user token or saving the order ID.
+     */
     @Test(description = "TC-ORDER-001: Verify user can create order with items in cart")
     public void testUserCanCreateOrder() throws Exception {
         Allure.step("Login as user");
@@ -68,6 +77,11 @@ public class OrdersTest {
         JsonUtility.saveValue("order_id", orderID, IDS_FILE_PATH);
     }
 
+    /**
+     * Test case for verifying that creating an order fails when the cart is empty.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-002: Verify create order fails with empty cart", dependsOnMethods = "testUserCanCreateOrder")
     public void testCreateOrderFailsWithEmptyCart() throws Exception {
         Allure.step("Login as user");
@@ -96,6 +110,11 @@ public class OrdersTest {
         Assert.assertTrue(error != null && error.contains("Cart is empty"), "error is 'Cart is empty'");
     }
 
+    /**
+     * Test case for verifying that creating an order fails with an empty shipping address.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-003: Verify create order fails with empty shipping address", dependsOnMethods = "testCreateOrderFailsWithEmptyCart")
     public void testCreateOrderFailsWithEmptyShippingAddress() throws Exception {
         Allure.step("Login as user");
@@ -126,6 +145,11 @@ public class OrdersTest {
         Assert.assertTrue(error != null && error.contains("Shipping address"), "error indicates shipping address required");
     }
 
+    /**
+     * Test case for verifying that a user can retrieve all their orders.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-004: Verify user can get all orders", dependsOnMethods = "testCreateOrderFailsWithEmptyShippingAddress")
     public void testUserCanGetAllOrders() throws Exception {
         Allure.step("Login as user");
@@ -163,6 +187,11 @@ public class OrdersTest {
         }
     }
 
+    /**
+     * Test case for verifying that a user can retrieve a specific order by its ID.
+     *
+     * @throws Exception if an error occurs while reading the user token or order ID.
+     */
     @Test(description = "TC-ORDER-005: Verify user can get order by ID", dependsOnMethods = "testUserCanGetAllOrders")
     public void testUserCanGetOrderById() throws Exception {
         Allure.step("Login as user");
@@ -193,6 +222,11 @@ public class OrdersTest {
         Assert.assertTrue(response.jsonPath().get("data.shipping_address") instanceof String, "data has shipping_address");
     }
 
+    /**
+     * Test case for verifying that retrieving a non-existent order by ID fails.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-006: Verify get order by ID fails for non-existent order", dependsOnMethods = "testUserCanGetOrderById")
     public void testGetOrderByIdFailsForNonExistentOrder() throws Exception {
         Allure.step("Login as user");
@@ -216,6 +250,11 @@ public class OrdersTest {
         Assert.assertTrue(error != null && error.contains("Order not found"), "error is 'Order not found'");
     }
 
+    /**
+     * Test case for verifying that a user can update the shipping address of an order.
+     *
+     * @throws Exception if an error occurs while reading the user token or order ID.
+     */
     @Test(description = "TC-ORDER-007: Verify user can update order shipping address", dependsOnMethods = "testGetOrderByIdFailsForNonExistentOrder")
     public void testUserCanUpdateOrderShippingAddress() throws Exception {
         Allure.step("Login as user");
@@ -245,6 +284,11 @@ public class OrdersTest {
         Assert.assertEquals(response.jsonPath().getString("data.shipping_address"), ORDER_UPDATED_SHIPPING_ADDRESS, "data.shipping_address is updated");
     }
 
+    /**
+     * Test case for verifying that updating a non-existent order fails.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-008: Verify update order fails for non-existent order", dependsOnMethods = "testUserCanUpdateOrderShippingAddress")
     public void testUpdateOrderFailsForNonExistentOrder() throws Exception {
         Allure.step("Login as user");
@@ -270,6 +314,11 @@ public class OrdersTest {
         Assert.assertTrue(error != null && error.contains("Order not found"), "error is 'Order not found'");
     }
 
+    /**
+     * Test case for verifying that an admin can update the status of an order.
+     *
+     * @throws Exception if an error occurs while reading the admin token or order ID.
+     */
     @Test(description = "TC-ORDER-009: Verify admin can update order status", dependsOnMethods = "testUpdateOrderFailsForNonExistentOrder")
     public void testAdminCanUpdateOrderStatus() throws Exception {
         Allure.step("Login as admin");
@@ -300,6 +349,11 @@ public class OrdersTest {
         Assert.assertEquals(response.jsonPath().getString("data.status"), ORDER_STATUS_PROCESSING, "data.status is " + ORDER_STATUS_PROCESSING);
     }
 
+    /**
+     * Test case for verifying that updating an order status with an invalid status fails.
+     *
+     * @throws Exception if an error occurs while reading the admin token or order ID.
+     */
     @Test(description = "TC-ORDER-010: Verify update order status fails with invalid status", dependsOnMethods = "testAdminCanUpdateOrderStatus")
     public void testUpdateOrderStatusFailsWithInvalidStatus() throws Exception {
         Allure.step("Login as admin");
@@ -327,6 +381,11 @@ public class OrdersTest {
         Assert.assertTrue(error != null && error.contains("Invalid status"), "error is 'Invalid status'");
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot update an order status.
+     *
+     * @throws Exception if an error occurs while reading the user token or order ID.
+     */
     @Test(description = "TC-ORDER-011: Verify update order status fails for non-admin user", dependsOnMethods = "testUpdateOrderStatusFailsWithInvalidStatus")
     public void testUpdateOrderStatusFailsForNonAdminUser() throws Exception {
         Allure.step("Login as user");
@@ -354,6 +413,11 @@ public class OrdersTest {
         Assert.assertTrue(error != null && error.contains("Admin privileges required"), "error is 'Admin privileges required'");
     }
 
+    /**
+     * Test case for verifying that an admin can cancel an order.
+     *
+     * @throws Exception if an error occurs while reading the user token or admin token.
+     */
     @Test(description = "TC-ORDER-012: Verify admin can cancel order", dependsOnMethods = "testUpdateOrderStatusFailsForNonAdminUser")
     public void testAdminCanCancelOrder() throws Exception {
         Allure.step("Create new order for cancellation");
@@ -395,6 +459,11 @@ public class OrdersTest {
         Assert.assertEquals(response.jsonPath().getString("data.status"), ORDER_STATUS_CANCELLED, "data.status is cancelled");
     }
 
+    /**
+     * Test case for verifying that a user can cancel a pending order.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-013: Verify user can cancel pending order", dependsOnMethods = "testAdminCanCancelOrder")
     public void testUserCanCancelPendingOrder() throws Exception {
         Allure.step("Login as user");
@@ -429,6 +498,11 @@ public class OrdersTest {
         Assert.assertEquals(response.jsonPath().getString("data.status"), ORDER_STATUS_CANCELLED, "data.status is cancelled");
     }
 
+    /**
+     * Test case for verifying that canceling a non-pending order fails.
+     *
+     * @throws Exception if an error occurs while reading the user or admin token.
+     */
     @Test(description = "TC-ORDER-014: Verify cancel order fails for non-pending order", dependsOnMethods = "testUserCanCancelPendingOrder")
     public void testCancelOrderFailsForNonPendingOrder() throws Exception {
         Allure.step("Create order and update status to processing");
@@ -469,6 +543,11 @@ public class OrdersTest {
         Assert.assertTrue(error != null && error.contains("Cannot cancel"), "error indicates cannot cancel");
     }
 
+    /**
+     * Test case for verifying that canceling a non-existent order fails.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-ORDER-015: Verify cancel order fails for non-existent order", dependsOnMethods = "testCancelOrderFailsForNonPendingOrder")
     public void testCancelOrderFailsForNonExistentOrder() throws Exception {
         Allure.step("Login as admin");
@@ -492,6 +571,11 @@ public class OrdersTest {
         Assert.assertTrue(error != null && error.contains("Order not found"), "error is 'Order not found'");
     }
 
+    /**
+     * Test case for verifying that a user can retrieve their orders by "pending" status.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-016: Verify user can get orders by status pending", dependsOnMethods = "testCancelOrderFailsForNonExistentOrder")
     public void testUserCanGetOrdersByStatusPending() throws Exception {
         Allure.step("Login as user");
@@ -524,6 +608,11 @@ public class OrdersTest {
         }
     }
 
+    /**
+     * Test case for verifying that a user can retrieve their orders by "cancelled" status.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-017: Verify user can get orders by status cancelled", dependsOnMethods = "testUserCanGetOrdersByStatusPending")
     public void testUserCanGetOrdersByStatusCancelled() throws Exception {
         Allure.step("Login as user");
@@ -552,6 +641,11 @@ public class OrdersTest {
         }
     }
 
+    /**
+     * Test case for verifying that a user can retrieve their orders by "processing" status.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-018: Verify user can get orders by status processing", dependsOnMethods = "testUserCanGetOrdersByStatusCancelled")
     public void testUserCanGetOrdersByStatusProcessing() throws Exception {
         Allure.step("Login as user");
@@ -580,6 +674,11 @@ public class OrdersTest {
         }
     }
 
+    /**
+     * Test case for verifying that an admin can export orders.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-ORDER-019: Verify admin can export orders", dependsOnMethods = "testUserCanGetOrdersByStatusProcessing")
     public void testAdminCanExportOrders() throws Exception {
         Allure.step("Login as admin");
@@ -618,6 +717,11 @@ public class OrdersTest {
         }
     }
 
+    /**
+     * Test case for verifying that exporting orders fails for a non-admin user.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-020: Verify export orders fails for non-admin user", dependsOnMethods = "testAdminCanExportOrders")
     public void testExportOrdersFailsForNonAdminUser() throws Exception {
         Allure.step("Login as user");
@@ -644,6 +748,11 @@ public class OrdersTest {
         Assert.assertTrue(error != null && error.contains("Admin privileges required"), "error is 'Admin privileges required'");
     }
 
+    /**
+     * Test case for verifying that a user cannot access another user's order.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-ORDER-021: Verify user cannot access another user's order", dependsOnMethods = "testExportOrdersFailsForNonAdminUser")
     public void testUserCannotAccessAnotherUsersOrder() throws Exception {
         Allure.step("Note: This test assumes order isolation");
@@ -670,6 +779,11 @@ public class OrdersTest {
         }
     }
 
+    /**
+     * Test case for verifying that the structure of order items is correct.
+     *
+     * @throws Exception if an error occurs while reading the user token or order ID.
+     */
     @Test(description = "TC-ORDER-022: Verify order items structure is correct", dependsOnMethods = "testUserCannotAccessAnotherUsersOrder")
     public void testOrderItemsStructureIsCorrect() throws Exception {
         Allure.step("Login as user");
@@ -699,6 +813,11 @@ public class OrdersTest {
         }
     }
 
+    /**
+     * Test case for verifying that the total amount of an order is calculated correctly.
+     *
+     * @throws Exception if an error occurs while reading the user token or order ID.
+     */
     @Test(description = "TC-ORDER-023: Verify order total amount calculation", dependsOnMethods = "testOrderItemsStructureIsCorrect")
     public void testOrderTotalAmountCalculation() throws Exception {
         Allure.step("Login as user");

@@ -33,6 +33,10 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 
+/**
+ * This class contains test cases for coupon management functionalities,
+ * including creating, viewing, and validating coupons.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "CouponsTest")
 @Severity(SeverityLevel.CRITICAL)
@@ -40,6 +44,11 @@ public class CouponsTest {
 
     private final Faker faker = new Faker();
 
+    /**
+     * Test case for verifying that an admin can retrieve all available coupons.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-COUP-001: Verify get available coupons")
     public void testGetAvailableCoupons() throws Exception {
         Allure.step("Login as admin");
@@ -73,6 +82,11 @@ public class CouponsTest {
         }
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot retrieve available coupons.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-COUP-002: Verify non-admin can't get available coupons", dependsOnMethods = "testGetAvailableCoupons")
     public void testNonAdminCantGetAvailableCoupons() throws Exception {
         Allure.step("Login as user");
@@ -96,6 +110,11 @@ public class CouponsTest {
         Assert.assertTrue(error != null && error.contains("Admin privileges required"), "admin privilege error message appears");
     }
 
+    /**
+     * Test case for verifying that an admin can create a new coupon.
+     *
+     * @throws Exception if an error occurs while reading the admin token or saving the coupon code.
+     */
     @Test(description = "TC-COUP-003: Verify admin can create coupon", dependsOnMethods = "testNonAdminCantGetAvailableCoupons")
     public void testAdminCanCreateCoupon() throws Exception {
         Allure.step("Login as admin");
@@ -144,6 +163,11 @@ public class CouponsTest {
         JsonUtility.saveValue("CouponCode", CouponCode, IDS_FILE_PATH);
     }
 
+    /**
+     * Test case for verifying that creating a coupon fails for a non-admin user.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-COUP-004: Verify create coupon fails without admin", dependsOnMethods = "testAdminCanCreateCoupon")
     public void testCreateCouponFailsWithoutAdmin() throws Exception {
         Allure.step("Login as user");
@@ -175,6 +199,11 @@ public class CouponsTest {
         Assert.assertFalse(response.jsonPath().getBoolean("success"), "success is false");
     }
 
+    /**
+     * Test case for verifying that creating a coupon fails with missing data.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-COUP-005: Verify create coupon fails with missing coupon data", dependsOnMethods = "testCreateCouponFailsWithoutAdmin")
     public void testCreateCouponFailsWithMissingData() throws Exception {
         Allure.step("Login as admin");
@@ -207,6 +236,11 @@ public class CouponsTest {
         Assert.assertTrue(error != null && error.contains("Missing required fields"), "error indicates missing fields");
     }
 
+    /**
+     * Test case for verifying that creating a coupon fails with a duplicate code.
+     *
+     * @throws Exception if an error occurs while reading the admin token or coupon code.
+     */
     @Test(description = "TC-COUP-006: Verify create coupon fails with duplicate code", dependsOnMethods = "testCreateCouponFailsWithMissingData")
     public void testCreateCouponFailsWithDuplicateCode() throws Exception {
         Allure.step("Login as admin");
@@ -245,6 +279,11 @@ public class CouponsTest {
         Assert.assertTrue(error != null && error.contains("Coupon code already exists"), "error indicates duplicate code");
     }
 
+    /**
+     * Test case for verifying that a valid coupon code can be validated.
+     *
+     * @throws Exception if an error occurs while reading the user token or coupon code.
+     */
     @Test(description = "TC-COUP-007: Verify validate valid coupon code", dependsOnMethods = "testCreateCouponFailsWithDuplicateCode")
     public void testValidateValidCouponCode() throws Exception {
         Allure.step("Login as user");
@@ -278,6 +317,11 @@ public class CouponsTest {
         Assert.assertTrue(response.jsonPath().get("data.final_amount") instanceof Number, "data has final_amount");
     }
 
+    /**
+     * Test case for verifying that an invalid coupon code cannot be validated.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-COUP-008: Verify validate invalid coupon code", dependsOnMethods = "testValidateValidCouponCode")
     public void testValidateInvalidCouponCode() throws Exception {
         Allure.step("Login as user");
@@ -305,6 +349,11 @@ public class CouponsTest {
         Assert.assertTrue(error != null && (error.contains("Invalid coupon code") || error.contains("Coupon not found")), "error is 'Invalid coupon code'");
     }
 
+    /**
+     * Test case for verifying that an expired coupon code cannot be validated.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-COUP-009: Verify validate expired coupon", dependsOnMethods = "testValidateInvalidCouponCode")
     public void testValidateExpiredCoupon() throws Exception {
         Allure.step("Login as user");

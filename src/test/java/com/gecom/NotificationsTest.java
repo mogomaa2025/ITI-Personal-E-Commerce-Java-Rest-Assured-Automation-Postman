@@ -24,11 +24,20 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 
+/**
+ * This class contains test cases for the notifications functionalities,
+ * including creating, viewing, and managing notifications.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "NotificationsTest")
 @Severity(SeverityLevel.CRITICAL)
 public class NotificationsTest {
 
+    /**
+     * Test case for verifying that a tester can create test notifications.
+     *
+     * @throws Exception if an error occurs while reading the user token or saving the notification ID.
+     */
     @Test(description = "TC-NOTIF-001: Verify as tester can create test notifications")
     public void testCreateTestNotifications() throws Exception {
         Allure.step("Login as user or admin");
@@ -66,6 +75,11 @@ public class NotificationsTest {
         }
     }
 
+    /**
+     * Test case for verifying that a user can retrieve their notifications.
+     *
+     * @throws Exception if an error occurs while reading the user token or saving the notification ID.
+     */
     @Test(description = "TC-NOTIF-002: Verify user can get their notifications", dependsOnMethods = "testCreateTestNotifications")
     public void testUserCanGetNotifications() throws Exception {
         Allure.step("Login as user");
@@ -113,6 +127,11 @@ public class NotificationsTest {
         }
     }
 
+    /**
+     * Test case for verifying that an empty array is returned for a user with no notifications.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-NOTIF-003: Verify empty notifications returns empty array", dependsOnMethods = "testUserCanGetNotifications")
     public void testEmptyNotificationsReturnsEmptyArray() throws Exception {
         Allure.step("Login as new user without notifications");
@@ -144,6 +163,11 @@ public class NotificationsTest {
         }
     }
 
+    /**
+     * Test case for verifying that a user can mark a single notification as read.
+     *
+     * @throws Exception if an error occurs while reading the user token or notification ID.
+     */
     @Test(description = "TC-NOTIF-004: Verify user can mark notification as read", dependsOnMethods = "testEmptyNotificationsReturnsEmptyArray")
     public void testUserCanMarkNotificationAsRead() throws Exception {
         Allure.step("Login as user");
@@ -176,6 +200,11 @@ public class NotificationsTest {
         }
     }
 
+    /**
+     * Test case for verifying that marking a non-existent notification as read fails.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-NOTIF-005: Verify mark notification as read fails for non-existent notification", dependsOnMethods = "testUserCanMarkNotificationAsRead")
     public void testMarkNotificationAsReadFailsForNonExistent() throws Exception {
         Allure.step("Login as user");
@@ -199,6 +228,11 @@ public class NotificationsTest {
         Assert.assertTrue(error != null && error.contains("Notification not found"), "error is 'Notification not found'");
     }
 
+    /**
+     * Test case for verifying that a user can mark all their notifications as read.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-NOTIF-006: Verify user can mark all notifications as read", dependsOnMethods = "testMarkNotificationAsReadFailsForNonExistent")
     public void testUserCanMarkAllNotificationsAsRead() throws Exception {
         Allure.step("Login as user");
@@ -227,6 +261,11 @@ public class NotificationsTest {
         }
     }
 
+    /**
+     * Test case for verifying that marking all notifications as read is handled gracefully when all are already read.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-NOTIF-007: Verify mark all notifications on already read notifications", dependsOnMethods = "testUserCanMarkAllNotificationsAsRead")
     public void testMarkAllNotificationsOnAlreadyReadNotifications() throws Exception {
         Allure.step("Login as user");
@@ -252,6 +291,11 @@ public class NotificationsTest {
         }
     }
 
+    /**
+     * Test case for verifying that a user cannot access another user's notifications.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-NOTIF-008: Verify user cannot access another user's notifications", dependsOnMethods = "testMarkAllNotificationsOnAlreadyReadNotifications")
     public void testUserCannotAccessAnotherUsersNotifications() throws Exception {
         Allure.step("Login as user1");

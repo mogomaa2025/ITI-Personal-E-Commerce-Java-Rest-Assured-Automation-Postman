@@ -20,12 +20,21 @@ import java.util.List;
 import java.util.Map;
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for user management functionalities,
+ * including listing, viewing, updating, and deleting users, as well as viewing user activity.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "UsersTest")
 @Severity(SeverityLevel.CRITICAL)
 public class UsersTest {
 
 
+    /**
+     * Test case for verifying that an admin can list all users.
+     *
+     * @throws Exception if an error occurs while reading the admin token or saving the user ID.
+     */
     @Test(description = "TC-USER-001: Verify admin can list all users")
     public void testAdminCanListAllUsers() throws Exception {
         Allure.step("Login as admin");
@@ -78,6 +87,11 @@ public class UsersTest {
         JsonUtility.saveValue("user_id", userId, IDS_FILE_PATH);
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot list users.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-USER-002: Verify non-admin cannot list users", dependsOnMethods = "testAdminCanListAllUsers")
     public void testNonAdminCannotListUsers() throws Exception {
         Allure.step("Login as regular user");
@@ -100,6 +114,9 @@ public class UsersTest {
         Assert.assertTrue(error != null && error.toLowerCase().contains("admin"), "error indicates admin required");
     }
 
+    /**
+     * Test case for verifying that listing users fails without authentication.
+     */
     @Test(description = "TC-USER-003: Verify list users fails without authentication", dependsOnMethods = "testNonAdminCannotListUsers")
     public void testListUsersFailsWithoutAuth() {
         Allure.step("Send GET without token");
@@ -119,6 +136,11 @@ public class UsersTest {
         Assert.assertTrue(error != null && (error.toLowerCase().contains("missing")), "error indicates authentication required");
     }
 
+    /**
+     * Test case for verifying that an admin can retrieve a user by their ID.
+     *
+     * @throws Exception if an error occurs while reading the admin token or user ID.
+     */
     @Test(description = "TC-USER-004: Verify admin can get user by ID", dependsOnMethods = "testListUsersFailsWithoutAuth") // depend to get user_id
     public void testAdminCanGetUserById() throws Exception {
         Allure.step("Login as admin");
@@ -159,6 +181,11 @@ public class UsersTest {
         Assert.assertEquals(response.jsonPath().getInt("data.id"), userId, "Returned user ID matches requested");
     }
 
+    /**
+     * Test case for verifying that retrieving a non-existent user by ID fails.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-USER-005: Verify get user by ID fails for non-existent user", dependsOnMethods = "testAdminCanGetUserById")
     public void testGetUserByIdFailsForNonExistent() throws Exception {
         Allure.step("Login as admin");
@@ -181,6 +208,11 @@ public class UsersTest {
         Assert.assertTrue(error != null && error.contains("not found"), "error is 'User not found'");
     }
 
+    /**
+     * Test case for verifying that an admin can update user information.
+     *
+     * @throws Exception if an error occurs while reading the admin token or user ID.
+     */
     @Test(description = "TC-USER-006: Verify admin can update user information", dependsOnMethods = "testGetUserByIdFailsForNonExistent") // dependent to use id from previous test response
     public void testAdminCanUpdateUser() throws Exception {
         Allure.step("Login as admin");
@@ -216,6 +248,11 @@ public class UsersTest {
 
     }
 
+    /**
+     * Test case for verifying that updating a non-existent user fails.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-USER-007: Verify update user fails for non-existent user", dependsOnMethods = "testAdminCanUpdateUser")
     public void testUpdateUserFailsForNonExistent() throws Exception {
         Allure.step("Login as admin");
@@ -241,6 +278,11 @@ public class UsersTest {
         Assert.assertTrue(error != null && error.contains("not found"), "error is 'User not found'");
     }
 
+    /**
+     * Test case for verifying that an admin can delete a user.
+     *
+     * @throws Exception if an error occurs while reading the admin token or user ID.
+     */
     @Test(description = "TC-USER-008: Verify admin can delete user", dependsOnMethods = "testUpdateUserFailsForNonExistent") // dependent to use id from previous test response
     public void testAdminCanDeleteUser() throws Exception {
         Allure.step("Login as admin");
@@ -272,6 +314,11 @@ public class UsersTest {
         Assert.assertEquals(getResponse.getStatusCode(), 404, "Subsequent GET returns 404");
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot delete another user.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-USER-009: Verify user cannot delete user", dependsOnMethods = "testAdminCanDeleteUser")
     public void testUserCannotDeleteUser() throws Exception {
         Allure.step("Login as regular user");
@@ -288,6 +335,9 @@ public class UsersTest {
         Assert.assertTrue(error != null && error.equals("Admin privileges required"), "error indicates admin required");
     }
 
+    /**
+     * Test case for verifying that deleting a user fails without authentication.
+     */
     @Test(description = "TC-USER-010: Verify delete users fails without authentication", dependsOnMethods = "testUserCannotDeleteUser")
     public void testDeleteUserFailsWithoutAuth() {
         Allure.step("Send DELETE without token");
@@ -307,6 +357,11 @@ public class UsersTest {
         Assert.assertTrue(error != null && (error.equals("Token is missing")), "error indicates authentication required");
     }
 
+    /**
+     * Test case for verifying that deleting a non-existent user fails.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-USER-011: Verify delete user fails for non-existent user", dependsOnMethods = "testDeleteUserFailsWithoutAuth")
     public void testDeleteUserFailsForNonExistent() throws Exception {
         Allure.step("Login as admin");
@@ -329,6 +384,11 @@ public class UsersTest {
         Assert.assertTrue(error != null && error.equals("User not found"), "error is 'User not found'"); // using true here due to using null
     }
 
+    /**
+     * Test case for verifying that an admin can view user activity.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-USER-012: Verify admin can view user activity", dependsOnMethods = "testDeleteUserFailsForNonExistent")
     public void testAdminCanViewUserActivity() throws Exception {
         Allure.step("Login as admin");
@@ -359,6 +419,11 @@ public class UsersTest {
 
     }
 
+    /**
+     * Test case for verifying that a non-admin user cannot view user activity.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-USER-013: Verify user cannot view user activity", dependsOnMethods = "testAdminCanViewUserActivity")
     public void testUserCannotViewUserActivity() throws Exception {
         Allure.step("Login as regular user");
@@ -375,6 +440,9 @@ public class UsersTest {
         Assert.assertEquals(error, "Admin privileges required", "error indicates admin required");
     }
 
+    /**
+     * Test case for verifying that viewing user activity fails without authentication.
+     */
     @Test(description = "TC-USER-014: Verify view user activity fails without authentication", dependsOnMethods = "testUserCannotViewUserActivity")
     public void testViewUserActivityFailsWithoutAuth() {
         Allure.step("Send GET without token");

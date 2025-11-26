@@ -15,10 +15,19 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for the search functionalities,
+ * including advanced search with filters and product recommendations.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "SearchTest")
 public class SearchTest {
 
+    /**
+     * Test case for verifying advanced product search with various filters.
+     *
+     * @throws Exception if an error occurs while saving the product ID.
+     */
     @Test(description = "TC-SEARCH-001: Verify advanced product search with filters")
     public void testAdvancedSearchWithFilters() throws Exception {
         Allure.step("Prepare advanced search filters for TC-SEARCH-001");
@@ -68,6 +77,11 @@ public class SearchTest {
         }
     }
 
+    /**
+     * Test case for verifying advanced product search with a combination of all available filters.
+     *
+     * @throws Exception if an error occurs.
+     */
     @Test(description = "TC-SEARCH-002: Verify advanced search with all filter combinations", dependsOnMethods = "testAdvancedSearchWithFilters")
     public void testAdvancedSearchWithAllFilterCombinations() throws Exception {
         Allure.step("Prepare full filter combination for TC-SEARCH-002");
@@ -111,6 +125,11 @@ public class SearchTest {
         }
     }
 
+    /**
+     * Test case for verifying that product recommendations can be retrieved for a given product.
+     *
+     * @throws Exception if an error occurs while saving the recommended product ID.
+     */
     @Test(description = "TC-SEARCH-003: Verify get product recommendations", dependsOnMethods = "testAdvancedSearchWithAllFilterCombinations")
     public void testGetProductRecommendations() throws Exception {
 
@@ -142,6 +161,9 @@ public class SearchTest {
         }
     }
 
+    /**
+     * Test case for verifying that retrieving recommendations for a non-existent product fails.
+     */
     @Test(description = "TC-SEARCH-004: Verify recommendations for non-existent product", dependsOnMethods = "testGetProductRecommendations")
     public void testRecommendationsForNonExistentProduct() {
         Allure.step("Send GET /recommendations/{invalid_id}");

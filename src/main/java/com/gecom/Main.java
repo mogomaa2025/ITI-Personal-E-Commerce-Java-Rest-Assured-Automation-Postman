@@ -1,8 +1,15 @@
 package com.gecom;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+/**
+ * The main class for the application.
+ * This class serves as the entry point for the program, though it is currently a placeholder.
+ */
 public class Main {
+    /**
+     * The main method, which is the entry point for the application.
+     *
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.

@@ -8,10 +8,20 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
+/**
+ * Utility class for simplifying REST Assured API requests.
+ * This class provides methods for making GET, POST, PUT, and DELETE requests with and without authentication.
+ */
 public class ApiUtils {
 
     private static final AllureRestAssured ALLURE_FILTER = new AllureRestAssured();
 
+    /**
+     * Sends a GET request to the specified endpoint.
+     *
+     * @param endpoint The API endpoint to send the GET request to.
+     * @return The response from the API.
+     */
     public static Response getRequest(String endpoint) {
         Response response = given()
                 .filter(ALLURE_FILTER)
@@ -34,8 +44,13 @@ public class ApiUtils {
     }
 
 
-    
-
+    /**
+     * Sends a GET request to the specified endpoint with an authentication token.
+     *
+     * @param endpoint The API endpoint to send the GET request to.
+     * @param token    The authentication token.
+     * @return The response from the API.
+     */
     public static Response getRequestWithAuth(String endpoint, String token) {
         Response response = given()
                 .filter(ALLURE_FILTER)
@@ -61,6 +76,13 @@ public class ApiUtils {
 
 
 
+    /**
+     * Sends a GET request to the specified endpoint with query parameters.
+     *
+     * @param endpoint The API endpoint to send the GET request to.
+     * @param query    A map of query parameters to include in the request.
+     * @return The response from the API.
+     */
     public static Response getRequestWithQuery(String endpoint, Map<String, String> query) {
         Response response = given()
                 .filter(ALLURE_FILTER)
@@ -85,6 +107,14 @@ public class ApiUtils {
 
 
 
+    /**
+     * Sends a GET request to the specified endpoint with query parameters and an authentication token.
+     *
+     * @param endpoint The API endpoint to send the GET request to.
+     * @param query    A map of query parameters to include in the request.
+     * @param token    The authentication token.
+     * @return The response from the API.
+     */
     public static Response getRequestWithAuthQuery(String endpoint, Map<String, String> query, String token) {
         Response response = given()
                 .filter(ALLURE_FILTER)
@@ -110,6 +140,13 @@ public class ApiUtils {
 
 
 
+    /**
+     * Sends a POST request to the specified endpoint with a payload.
+     *
+     * @param endpoint The API endpoint to send the POST request to.
+     * @param payload  The payload to include in the request body.
+     * @return The response from the API.
+     */
     public static Response postRequest(String endpoint, Object payload) {
         Response response = given()
                 .filter(ALLURE_FILTER)
@@ -133,6 +170,14 @@ public class ApiUtils {
         return response;
     }
 
+    /**
+     * Sends a POST request to the specified endpoint with a payload and an authentication token.
+     *
+     * @param endpoint The API endpoint to send the POST request to.
+     * @param token    The authentication token.
+     * @param payload  The payload to include in the request body.
+     * @return The response from the API.
+     */
     public static Response postRequestWithAuth(String endpoint, String token, Object payload) {
         Response response = given()
                 .filter(ALLURE_FILTER)
@@ -158,6 +203,14 @@ public class ApiUtils {
         return response;
     }
 
+    /**
+     * Sends a PUT request to the specified endpoint with a payload and an authentication token.
+     *
+     * @param endpoint The API endpoint to send the PUT request to.
+     * @param token    The authentication token.
+     * @param payload  The payload to include in the request body.
+     * @return The response from the API.
+     */
     public static Response putRequestWithAuth(String endpoint, String token, Object payload) {
         Response response = given()
                 .filter(ALLURE_FILTER)
@@ -181,6 +234,13 @@ public class ApiUtils {
         return response;
     }
 
+    /**
+     * Sends a DELETE request to the specified endpoint with an authentication token.
+     *
+     * @param endpoint The API endpoint to send the DELETE request to.
+     * @param token    The authentication token.
+     * @return The response from the API.
+     */
     public static Response deleteRequestWithAuth(String endpoint, String token) {
         Response response = given()
                 .filter(ALLURE_FILTER)
@@ -203,6 +263,12 @@ public class ApiUtils {
         return response;
     }
 
+    /**
+     * Sends a DELETE request to the specified endpoint.
+     *
+     * @param endpoint The API endpoint to send the DELETE request to.
+     * @return The response from the API.
+     */
     public static Response deleteRequest(String endpoint) {
         Response response = given()
                 .filter(ALLURE_FILTER)

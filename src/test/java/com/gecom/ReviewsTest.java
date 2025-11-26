@@ -17,11 +17,20 @@ import java.util.Map;
 
 import static com.gecom.utils.Const.*;
 
+/**
+ * This class contains test cases for the product review functionalities,
+ * including creating and retrieving reviews.
+ */
 @Listeners({com.gecom.utils.TestListener.class, AllureTestNg.class})
 @Test(groups = "ReviewsTest")
 @Severity(SeverityLevel.CRITICAL)
 public class ReviewsTest {
 
+    /**
+     * Test case for verifying that a user can create a product review.
+     *
+     * @throws Exception if an error occurs while reading the user token or saving review data.
+     */
     @Test(description = "TC-REV-001: Verify user can create product review")
     public void testUserCanCreateProductReview() throws Exception {
         Allure.step("Login as user");
@@ -68,6 +77,11 @@ public class ReviewsTest {
         JsonUtility.saveValue("review_product_id", reviewProductId, IDS_FILE_PATH);
     }
 
+    /**
+     * Test case for verifying that creating a review for a non-existent product fails.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-REV-002: Verify create review fails for non-existent product", dependsOnMethods = "testUserCanCreateProductReview")
     public void testCreateReviewFailsForNonExistentProduct() throws Exception {
         Allure.step("Login as user");
@@ -95,6 +109,11 @@ public class ReviewsTest {
         Assert.assertTrue(error != null && error.contains("Product not found"), "error is 'Product not found'");
     }
 
+    /**
+     * Test case for verifying that a user cannot review the same product twice.
+     *
+     * @throws Exception if an error occurs while reading the user token or product ID.
+     */
     @Test(description = "TC-REV-003: Verify user cannot review same product twice", dependsOnMethods = "testCreateReviewFailsForNonExistentProduct")
     public void testUserCannotReviewSameProductTwice() throws Exception {
         Allure.step("Login as user");
@@ -124,6 +143,11 @@ public class ReviewsTest {
         Assert.assertTrue(error != null && error.contains("You have already reviewed this product"), "error is 'You have already reviewed this product'");
     }
 
+    /**
+     * Test case for verifying that creating a review with an invalid rating fails.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-REV-004: Verify create review fails with invalid rating", dependsOnMethods = "testUserCannotReviewSameProductTwice")
     public void testCreateReviewFailsWithInvalidRating() throws Exception {
         Allure.step("Login as user");
@@ -151,6 +175,11 @@ public class ReviewsTest {
         Assert.assertTrue(error != null && error.contains("Rating must be between 1 and 5"), "error indicates invalid rating");
     }
 
+    /**
+     * Test case for verifying that product reviews can be retrieved along with the average rating.
+     *
+     * @throws Exception if an error occurs while reading the product ID.
+     */
     @Test(description = "TC-REV-005: Verify get product reviews with average rating", dependsOnMethods = "testCreateReviewFailsWithInvalidRating")
     public void testGetProductReviewsWithAverageRating() throws Exception {
         Allure.step("Get product ID");
@@ -193,6 +222,11 @@ public class ReviewsTest {
         }
     }
 
+    /**
+     * Test case for verifying that an empty array is returned for a product with no reviews.
+     *
+     * @throws Exception if an error occurs while reading the admin token.
+     */
     @Test(description = "TC-REV-006: Verify get reviews returns empty for product without reviews", dependsOnMethods = "testGetProductReviewsWithAverageRating")
     public void testGetReviewsReturnsEmptyForProductWithoutReviews() throws Exception {
         Allure.step("Get a product without reviews (use a different product ID)");
@@ -238,6 +272,11 @@ public class ReviewsTest {
         Assert.assertTrue(averageRating == null || (averageRating instanceof Number && ((Number) averageRating).doubleValue() == 0.0), "average_rating is 0 or null");
     }
 
+    /**
+     * Test case for verifying that a user can check their review status for a product.
+     *
+     * @throws Exception if an error occurs while reading the user token or product ID.
+     */
     @Test(description = "TC-REV-007: Verify user can check review status for product", dependsOnMethods = "testGetReviewsReturnsEmptyForProductWithoutReviews")
     public void testUserCanCheckReviewStatusForProduct() throws Exception {
         Allure.step("Login as user");
@@ -270,6 +309,11 @@ public class ReviewsTest {
         }
     }
 
+    /**
+     * Test case for verifying the review status of a product before and after the user submits a review.
+     *
+     * @throws Exception if an error occurs while reading the user token.
+     */
     @Test(description = "TC-REV-008: Verify check review status before and after reviewing", dependsOnMethods = "testUserCanCheckReviewStatusForProduct")
     public void testCheckReviewStatusBeforeAndAfterReviewing() throws Exception {
         Allure.step("Login as user");
