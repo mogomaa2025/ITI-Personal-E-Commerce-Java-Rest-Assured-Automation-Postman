@@ -35,6 +35,8 @@ public class AuthenticationTest {
         Map<String, Object> body = new HashMap<>();
         body.put("email", userEmail);
         body.put("password", userPassword);
+        body.put("phone", "+010"+faker.number().digits(8)); // new validation
+        body.put("address", faker.address().fullAddress()); // new validation
         body.put("name", username);
         body.put("is_admin", false);
 
@@ -83,6 +85,8 @@ public class AuthenticationTest {
         body.put("email", userEmail);
         body.put("password", "Test@123");
         body.put("name", "Test");
+        body.put("phone", "+010"+faker.number().digits(8)); // new validation
+        body.put("address", faker.address().fullAddress()); // new validation
         body.put("is_admin", false);
 
         Allure.step("Send POST request");
