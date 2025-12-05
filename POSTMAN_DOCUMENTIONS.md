@@ -188,7 +188,6 @@ Content-Type: application/json
 - 400: Missing refresh token
 - 401: Invalid or expired refresh token
 - 401: Wrong token type (used access token instead of refresh)
-- 404: User not found
 
 **When to use:**
 - Access token expires after 24 hours
@@ -474,6 +473,20 @@ Content-Type: application/json
 ```
 
 
+**Response (403): forbidden no admin token** new ..bug..
+```json
+{
+    "error": "Admin privileges required",
+    "success": false
+}
+```
+**Response (401): UNAUTHORIZED no token** new
+```json
+{
+    "error": "Token is missing",
+    "success": false
+}
+```
 ---
 
 ### Update User Profile
@@ -519,7 +532,16 @@ Content-Type: application/json
     "success": false
 }
 ```
+**Response (401): UNAUTHORIZED no token** 
+```json
+{
+    "error": "Token is missing",
+    "success": false
+}
+```
 
+## ..bug.. : 403 when admin_token instead user_token not handled
+## ..bug.. no body not handled
 
 ---
 
@@ -528,9 +550,9 @@ Content-Type: application/json
 **Endpoint:** `DELETE /api/users/{{user_id}}`
 
 **Headers:**
-```
+```json
 Authorization: Bearer {{admin_token}}
-Content-Type: application/json
+Content-Type: application/
 ```
 
 **Response (200):**
@@ -544,7 +566,7 @@ Content-Type: application/json
     "success": true
 }
 ```
-**Response (404) when no user id found:**
+**Response (404) when no user id found:** ..bug.. not handled
 ```json
 {
     "error": "User not found",

@@ -1,23 +1,5 @@
-[2025-11-27 03:16:02] INFO  com.gecom.utils.Logger - ✅ Cleaned previous Allure results
-[2025-11-27 03:16:02] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testAdminLoginValidCredentials
-[2025-11-27 03:16:07] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testAdminLoginValidCredentials
-[2025-11-27 03:16:08] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testRefreshTokenInvalid
-[2025-11-27 03:16:08] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testRefreshTokenInvalid
-[2025-11-27 03:16:08] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testRefreshTokenValid
-[2025-11-27 03:16:08] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testRefreshTokenValid
-[2025-11-27 03:16:08] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testRegisterUserMissingRequiredFields
-[2025-11-27 03:16:08] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testRegisterUserMissingRequiredFields
-[2025-11-27 03:16:08] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testRegisterUserValidRequest
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testRegisterUserValidRequest
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testLoginUserValidCredentials
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testLoginUserValidCredentials
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testRegisterUserDuplicateEmail
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testRegisterUserDuplicateEmail
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testLoginUserInvalidPassword
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testLoginUserInvalidPassword
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testLoginUserNonExistent
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testLoginUserNonExistent
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testRefreshTokenMissing
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testRefreshTokenMissing
-[2025-11-27 03:16:09] INFO  com.gecom.utils.Logger - 🔄 Generating Allure report (results dir: allure-results)
-[2025-11-27 03:16:15] INFO  com.gecom.utils.Logger - Allure report generated successfully.
+[2025-11-29 05:40:43] INFO  com.gecom.utils.Logger - ✅ Cleaned previous Allure results
+[2025-11-29 05:40:43] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testRegisterUserValidRequest
+[2025-11-29 05:40:48] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testRegisterUserValidRequest
+[2025-11-29 05:40:48] INFO  com.gecom.utils.Logger - 🔄 Generating Allure report (results dir: allure-results)
+[2025-11-29 05:40:52] INFO  com.gecom.utils.Logger - Allure report generated successfully.
