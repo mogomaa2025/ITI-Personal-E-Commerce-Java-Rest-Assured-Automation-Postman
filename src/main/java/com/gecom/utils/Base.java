@@ -1,6 +1,11 @@
 package com.gecom.utils;
 
-public class Const {
+import com.github.javafaker.Faker;
+
+public class Base {
+    // public faker
+    public static Faker faker = new Faker();
+
 
     // ============ API Configuration ============
     // public static final String BASE_URL =
@@ -9,6 +14,7 @@ public class Const {
     public static final String TOKEN_FILE_PATH = "src/test/resources/token.json";
     public static final String REFRESH_TOKEN_FILE_PATH = "src/test/resources/token.json";
     public static final String IDS_FILE_PATH = "src/test/resources/ids.json";
+    public static final String USERS_FILE_PATH = "src/test/resources/users.json";
 
     // ============ Test Data ============
     // Product Pagination TC-PROD-002
@@ -153,7 +159,7 @@ public class Const {
     public static String refreshToken;
     public static String userToken;
     public static Integer userId;
-    public static String userEmail;
+    public static String userEmail = "test_" + faker.random().hex(8) + "@gmail.com";
     public static String userPassword;
     public static Integer orderID;
     public static Integer productId;
@@ -174,5 +180,23 @@ public class Const {
     public static Integer reviewProductId;
     public static Integer ProductIDWithoutReview;
     public static Integer recommendationProductId;
+
+
+    // data getter
+    public static String GetValidEmail() throws Exception {
+        return (String) JsonUtility.getValue("validEmail", USERS_FILE_PATH);
+    }
+
+    public static String UsersJsonGetter(String input) throws Exception {
+        return (String) JsonUtility.getValue(input, USERS_FILE_PATH);
+    }
+    public static String TokenJsonGetter(String input) throws Exception {
+        return (String) JsonUtility.getValue(input, TOKEN_FILE_PATH);
+    }
+    public static String IdsJsonGetter(String input) throws Exception {
+        return (String) JsonUtility.getValue(input, IDS_FILE_PATH);
+    }
+
+
 
 }

@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import com.gecom.utils.ApiUtils;
 import com.gecom.utils.JsonUtility;
 
-import static com.gecom.utils.Const.*;
+import static com.gecom.utils.Base.*;
 
 @Listeners({ com.gecom.utils.TestListener.class, AllureTestNg.class })
 @Test(groups = "CategoriesTest")

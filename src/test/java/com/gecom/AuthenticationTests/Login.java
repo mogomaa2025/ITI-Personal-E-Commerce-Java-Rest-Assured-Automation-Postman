@@ -12,7 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.gecom.utils.Const.*;
+import static com.gecom.utils.Base.*;
 
 import java.util.HashMap;
 import java.util.Map;

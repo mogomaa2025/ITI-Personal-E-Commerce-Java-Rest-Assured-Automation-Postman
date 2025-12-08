@@ -5,7 +5,7 @@ import io.qameta.allure.SeverityLevel;
 import io.restassured.response.Response;
 import io.qameta.allure.testng.AllureTestNg;
 
-import static com.gecom.utils.Const.*;
+import static com.gecom.utils.Base.*;
 
 import org.testng.Assert;
 import org.testng.annotations.Listeners;

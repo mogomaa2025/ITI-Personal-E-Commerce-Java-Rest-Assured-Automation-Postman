@@ -1,8 +1,7 @@
 package com.gecom.ContactTest;
 
-import static com.gecom.utils.Const.*;
+import static com.gecom.utils.Base.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;

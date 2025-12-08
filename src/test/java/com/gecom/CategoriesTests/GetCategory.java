@@ -9,7 +9,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import com.gecom.utils.ApiUtils;
 import com.gecom.utils.JsonUtility;
-import static com.gecom.utils.Const.*;
+import static com.gecom.utils.Base.*;
 import java.util.List;
 import java.util.Map;
 

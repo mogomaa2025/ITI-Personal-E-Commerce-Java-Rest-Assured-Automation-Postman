@@ -15,7 +15,7 @@ public class TestListener implements ITestListener, IExecutionListener {
     @Override
     public void onExecutionStart() {
         // Clean previous allure-results before starting tests
-        String allureFolderName = Const.ALLURE_RESULTS_DIR;
+        String allureFolderName = Base.ALLURE_RESULTS_DIR;
         // String logsFolderName = "logs";
 
         // Avoid using Logger before cleanup because log4j keeps the file handle open
@@ -33,7 +33,7 @@ public class TestListener implements ITestListener, IExecutionListener {
     @Override
     public void onExecutionFinish() {
 
-        logWithAllure("== Generating Allure report (results dir: " + Const.ALLURE_RESULTS_DIR + ") ==");
+        logWithAllure("== Generating Allure report (results dir: " + Base.ALLURE_RESULTS_DIR + ") ==");
         GenerateAllureReport();
     }
 

@@ -1,6 +1,6 @@
 package com.gecom.HelpcenterTest;
 
-import static com.gecom.utils.Const.*;
+import static com.gecom.utils.Base.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.testng.Assert;

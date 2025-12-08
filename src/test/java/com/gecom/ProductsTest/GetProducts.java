@@ -1,6 +1,6 @@
 package com.gecom.ProductsTest;
 
-import static com.gecom.utils.Const.*;
+import static com.gecom.utils.Base.*;
 
 import java.io.File;
 import java.util.HashMap;
@@ -15,7 +15,6 @@ import com.gecom.utils.ApiUtils;
 import com.gecom.utils.JsonUtility;
 import com.gecom.utils.Logger;
 
-import io.qameta.allure.Allure;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.testng.AllureTestNg;

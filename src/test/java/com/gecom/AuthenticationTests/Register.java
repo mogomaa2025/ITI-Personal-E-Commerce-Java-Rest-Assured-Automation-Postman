@@ -1,8 +1,6 @@
 package com.gecom.AuthenticationTests;
 
 import com.gecom.utils.ApiUtils;
-import com.gecom.utils.JsonUtility;
-import com.github.javafaker.Faker;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -13,7 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.gecom.utils.Const.*;
+import static com.gecom.utils.Base.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,13 +21,14 @@ import java.util.Map;
 @Severity(SeverityLevel.CRITICAL)
 public class Register {
 
-        Faker faker = new Faker();
+       //userEmail = "test_" + faker.random().hex(8) + "@gmail.com";
+
 
         @Test(description = "TC-AUTH-001: Verify user registration with valid data", groups = {
                         "Valid-Authentication-Test", "valid" })
         public void testRegisterUserValidRequest() {
                 Allure.step("Generate random email");
-                userEmail = "test_" + faker.random().hex(8) + "@gmail.com";
+
                 userPassword = "Test@123";
                 String username = "Test User";
 
@@ -62,10 +61,11 @@ public class Register {
 
         @Test(description = "TC-AUTH-002: Verify registration fails with duplicate email", groups = {
                         "Invalid-Authentication-Test", "invalid" })
-        public void testRegisterUserDuplicateEmail() {
+        public void testRegisterUserDuplicateEmail() throws Exception {
+
                 Allure.step("Use existing email");
                 Map<String, Object> body = new HashMap<>();
-                body.put("email", userEmail);
+                body.put("email", GetValidEmail());
                 body.put("password", "Test@123");
                 body.put("name", "Test");
                 body.put("phone", "+010" + faker.number().digits(8)); // new validation

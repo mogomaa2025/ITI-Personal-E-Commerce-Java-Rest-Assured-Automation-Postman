@@ -1,12 +1,11 @@
 package com.gecom.NotificationsTest;
 
-import static com.gecom.utils.Const.BASE_URL;
-import static com.gecom.utils.Const.IDS_FILE_PATH;
-import static com.gecom.utils.Const.INVALID_NOTIFICATION_ID;
-import static com.gecom.utils.Const.NOTIFICATION_TEST_CREATE_COUNT;
-import static com.gecom.utils.Const.TOKEN_FILE_PATH;
-import static com.gecom.utils.Const.notificationId;
-import static com.gecom.utils.Const.userToken;
+import static com.gecom.utils.Base.BASE_URL;
+import static com.gecom.utils.Base.IDS_FILE_PATH;
+import static com.gecom.utils.Base.NOTIFICATION_TEST_CREATE_COUNT;
+import static com.gecom.utils.Base.TOKEN_FILE_PATH;
+import static com.gecom.utils.Base.notificationId;
+import static com.gecom.utils.Base.userToken;
 
 import java.util.HashMap;
 import java.util.List;

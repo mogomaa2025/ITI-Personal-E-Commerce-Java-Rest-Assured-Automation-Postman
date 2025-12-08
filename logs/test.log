@@ -1,5 +1,9 @@
-[2025-12-06 00:08:13] INFO  com.gecom.utils.Logger - ✅ Cleaned previous Allure results
-[2025-12-06 00:08:13] INFO  com.gecom.utils.Logger - START: com.gecom.ContactTest.testAdminCanRespondToContactMessage
-[2025-12-06 00:08:16] INFO  com.gecom.utils.Logger - PASS: com.gecom.ContactTest.testAdminCanRespondToContactMessage
-[2025-12-06 00:08:17] INFO  com.gecom.utils.Logger - 🔄 Generating Allure report (results dir: allure-results)
-[2025-12-06 00:08:20] INFO  com.gecom.utils.Logger - Allure report generated successfully.
+[2025-12-08 08:41:43] INFO  com.gecom.utils.Logger - == Cleaned previous Allure results ==
+[2025-12-08 08:41:43] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTests.Register.testRegisterUserDuplicateEmail
+[2025-12-08 08:41:48] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTests.Register.testRegisterUserDuplicateEmail
+[2025-12-08 08:41:48] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTests.Register.testRegisterUserMissingRequiredFields
+[2025-12-08 08:41:48] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTests.Register.testRegisterUserMissingRequiredFields
+[2025-12-08 08:41:48] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTests.Register.testRegisterUserValidRequest
+[2025-12-08 08:41:49] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTests.Register.testRegisterUserValidRequest
+[2025-12-08 08:41:49] INFO  com.gecom.utils.Logger - == Generating Allure report (results dir: allure-results) ==
+[2025-12-08 08:41:53] INFO  com.gecom.utils.Logger - Allure report generated successfully.
