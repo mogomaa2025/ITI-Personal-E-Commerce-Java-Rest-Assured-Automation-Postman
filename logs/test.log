@@ -1,5 +1,5 @@
-[2025-11-29 05:40:43] INFO  com.gecom.utils.Logger - ✅ Cleaned previous Allure results
-[2025-11-29 05:40:43] INFO  com.gecom.utils.Logger - START: com.gecom.AuthenticationTest.testRegisterUserValidRequest
-[2025-11-29 05:40:48] INFO  com.gecom.utils.Logger - PASS: com.gecom.AuthenticationTest.testRegisterUserValidRequest
-[2025-11-29 05:40:48] INFO  com.gecom.utils.Logger - 🔄 Generating Allure report (results dir: allure-results)
-[2025-11-29 05:40:52] INFO  com.gecom.utils.Logger - Allure report generated successfully.
+[2025-12-06 00:08:13] INFO  com.gecom.utils.Logger - ✅ Cleaned previous Allure results
+[2025-12-06 00:08:13] INFO  com.gecom.utils.Logger - START: com.gecom.ContactTest.testAdminCanRespondToContactMessage
+[2025-12-06 00:08:16] INFO  com.gecom.utils.Logger - PASS: com.gecom.ContactTest.testAdminCanRespondToContactMessage
+[2025-12-06 00:08:17] INFO  com.gecom.utils.Logger - 🔄 Generating Allure report (results dir: allure-results)
+[2025-12-06 00:08:20] INFO  com.gecom.utils.Logger - Allure report generated successfully.
