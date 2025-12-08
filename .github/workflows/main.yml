@@ -23,8 +23,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Run WishlistTest.xml
-        run: mvn clean test -DsuiteXmlFile=WishlistTest.xml
+      - name: Run api-tests.xml
+        run: mvn clean test -DsuiteXmlFile=src/test/resources/Run-Tests/api-tests.xml
 
       - name: Generate Allure Report
         if: always()

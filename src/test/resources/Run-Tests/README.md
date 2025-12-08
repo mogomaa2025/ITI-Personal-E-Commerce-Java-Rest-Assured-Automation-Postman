@@ -43,13 +43,13 @@ TestNG uses XML files for test suite configuration. The correct format is shown 
 To run the tests using the XML configuration file:
 
 ```bash
-mvn test -DsuiteXmlFile=src/test/resources/Run-Tests/WishlistTest.xml
+mvn test -DsuiteXmlFile=src/test/resources/Run-Tests/api-tests.xml
 ```
 
 Or using Maven Surefire plugin:
 
 ```bash
-mvn surefire:test -Dsuite=src/test/resources/Run-Tests/WishlistTest.xml
+mvn surefire:test -Dsuite=src/test/resources/Run-Tests/api-tests.xml
 ```
 
 ## Supported File Types

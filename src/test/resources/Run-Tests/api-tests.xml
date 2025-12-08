@@ -4,6 +4,7 @@
     <!-- Listeners -->
     <listeners>
         <listener class-name="com.gecom.utils.TestListener"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
     </listeners>
 
     <test name="WishlistTest Function Tests">
