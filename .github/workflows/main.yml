@@ -31,7 +31,7 @@ jobs:
         run: mvn allure:report
 
       - name: ls
-        run: ls
+        run: ls -l
 
       - name: Upload Allure Report
         if: always()
@@ -39,6 +39,6 @@ jobs:
         with:
           name: allure-report-wishlist
           path: |
-            target/site/allure-maven-plugin/
+            allure-report/
           retention-days: 31
           if-no-files-found: warn
