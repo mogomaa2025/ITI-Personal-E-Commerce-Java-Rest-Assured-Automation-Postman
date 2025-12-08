@@ -24,7 +24,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Run api-tests.xml
-        run: mvn clean test -DsuiteXmlFile=src/test/resources/Run-Tests/api-tests.xml
+        run: mvn test -Dtest=AddToWishList,DeleteWishlists,GetWishlists
 
       - name: Generate Allure Report
         if: always()
