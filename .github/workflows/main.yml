@@ -39,7 +39,7 @@ jobs:
           name: allure-report
           path: allure-report
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Page
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
