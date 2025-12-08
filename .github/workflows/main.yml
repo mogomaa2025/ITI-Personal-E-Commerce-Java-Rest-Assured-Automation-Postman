@@ -37,5 +37,5 @@ jobs:
           name: allure-report-wishlist
           path: |
             allure-report/
-          retention-days: 30
+          retention-days: 31
           if-no-files-found: warn
