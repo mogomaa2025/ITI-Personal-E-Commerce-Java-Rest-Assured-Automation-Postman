@@ -10,7 +10,7 @@ on:
       test_suite:
         description: 'Test suite to run'
         required: false
-        default: 'wishlist'
+        default: 'all'
         type: choice
         options:
           - all
