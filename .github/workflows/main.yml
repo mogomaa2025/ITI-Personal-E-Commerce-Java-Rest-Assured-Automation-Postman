@@ -39,3 +39,13 @@ jobs:
           path: allure-report
           retention-days: 31
           if-no-files-found: warn
+
+      - name: Upload Allure Report2
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-2
+          path: target/allure-results
+          retention-days: 31
+          if-no-files-found: warn
+
