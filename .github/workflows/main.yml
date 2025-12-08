@@ -29,11 +29,11 @@ jobs:
       uses: actions/upload-artifact@v4  # Changed from v3 to v4
       with:
         name: test-results
-        path: surefire-reports/
+        path: allure-reports
     
     - name: Upload Allure results
       if: always()
       uses: actions/upload-artifact@v4  # Changed from v3 to v4
       with:
         name: allure-results
-        path: allure-results/
+        path: allure-results
