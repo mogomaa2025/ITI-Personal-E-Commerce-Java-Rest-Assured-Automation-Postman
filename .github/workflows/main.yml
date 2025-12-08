@@ -90,7 +90,7 @@ jobs:
           name: allure-results-${{ matrix.test-suite.name }}
           path: |
             allure-results/
-          retention-days: 30
+          retention-days: 31
           if-no-files-found: warn
 
       - name: Upload Allure Report
