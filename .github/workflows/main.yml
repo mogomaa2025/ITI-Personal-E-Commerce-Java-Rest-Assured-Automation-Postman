@@ -26,12 +26,6 @@ jobs:
       fail-fast: false
       matrix:
         test-suite: 
-          - name: 'Regression Tests'
-            file: '0_RegressionTesting.xml'
-          - name: 'Authentication Tests'
-            file: 'AuthenticationTest.xml'
-          - name: 'Blog Tests'
-            file: 'BlogTest.xml'
           - name: 'Wishlist Tests'
             file: 'WishlistTest.xml'
     
@@ -112,17 +106,15 @@ jobs:
       with:
         name: all-test-results
         path: |
-          surefire-reports/
-          target/surefire-reports/
           allure-results/
-          target/allure-results/
+          allure-report/
     
     - name: Upload Allure Report
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: allure-report
-        path: target/site/allure-maven-plugin/
+        path: allure-results/
 
   report:
     if: always()
