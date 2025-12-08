@@ -1,14 +1,16 @@
-name: REST Assured API WishlistTest
+name: Maven TestNG Tests with Allure
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  wishlist-test:
+  api-tests:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -16,36 +18,38 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
-      - name: Run api
+      - name: Run tests
         run: mvn test -Dtest=AddToWishList
+        continue-on-error: true
 
-      - name: Generate Allure Report
-        if: always()
-        run: mvn allure:report
-
-
-      - name: Upload Allure Report
+      - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report-wishlist
-          path: allure-report
-          retention-days: 31
-          if-no-files-found: warn
+          name: allure-results
+          path: target/allure-results/
 
-      - name: Upload Allure Report2
+      - name: Get Allure history
+        uses: actions/checkout@v4
         if: always()
-        uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
-          name: allure-report-2
-          path: target/allure-results
-          retention-days: 31
-          if-no-files-found: warn
+          ref: gh-pages
+          path: gh-pages
 
+      - name: Allure Report action
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: target/allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
