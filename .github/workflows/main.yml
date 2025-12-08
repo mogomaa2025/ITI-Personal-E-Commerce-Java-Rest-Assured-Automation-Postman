@@ -28,7 +28,7 @@ jobs:
 
       - name: Generate Allure Report
         if: always()
-        run: mvn allure:report || echo "Allure report generation failed or skipped"
+        run: mvn allure:report
 
       - name: Upload Allure Report
         if: always()
