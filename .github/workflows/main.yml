@@ -2,15 +2,15 @@ name: REST Assured API Tests
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       test_suite:
         description: 'Test suite to run'
         required: false
-        default: 'all'
+        default: 'wishlist'
         type: choice
         options:
           - all
@@ -25,115 +25,182 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test-suite: 
+        test-suite:
           - name: 'Wishlist Tests'
             file: 'WishlistTest.xml'
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    
-    - name: Cache Maven dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
-    
-    - name: Run ${{ matrix.test-suite.name }}
-      run: mvn clean test -DsuiteXmlFile=${{ matrix.test-suite.file }}
-    
-    - name: Generate Allure Report
-      if: always()
-      run: mvn allure:report
-    
-    - name: Upload Test Results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results-${{ matrix.test-suite.name }}
-        path: |
-          surefire-reports/
-          target/surefire-reports/
-    
-    - name: Upload Allure Results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: allure-results-${{ matrix.test-suite.name }}
-        path: |
-          allure-results/
-          target/allure-results/
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Run ${{ matrix.test-suite.name }}
+        run: mvn clean test -DsuiteXmlFile=${{ matrix.test-suite.file }}
+
+      - name: Check Test Results Locations
+        if: always()
+        run: |
+          echo "=== Checking for test result directories ==="
+          echo "Root surefire-reports:"
+          ls -la surefire-reports/ 2>/dev/null || echo "Root surefire-reports not found"
+          echo ""
+          echo "Target surefire-reports:"
+          ls -la target/surefire-reports/ 2>/dev/null || echo "Target surefire-reports not found"
+          echo ""
+          echo "Root allure-results:"
+          ls -la allure-results/ 2>/dev/null || echo "Root allure-results not found"
+          echo ""
+          echo "Target allure-results:"
+          ls -la target/allure-results/ 2>/dev/null || echo "Target allure-results not found"
+          echo ""
+          echo "Root allure-report:"
+          ls -la allure-report/ 2>/dev/null || echo "Root allure-report not found"
+
+      - name: Generate Allure Report
+        if: always()
+        run: mvn allure:report || echo "Allure report generation failed or skipped"
+
+      - name: Upload Surefire Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-results-${{ matrix.test-suite.name }}
+          path: |
+            surefire-reports/
+            target/surefire-reports/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.test-suite.name }}
+          path: |
+            allure-results/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-${{ matrix.test-suite.name }}
+          path: |
+            allure-report/
+          retention-days: 30
+          if-no-files-found: warn
 
   all-tests:
     if: github.event.inputs.test_suite == 'all' || github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs: test-matrix
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    
-    - name: Cache Maven dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
-    
-    - name: Run All Tests
-      run: mvn clean test
-    
-    - name: Generate Allure Report
-      if: always()
-      run: mvn allure:report
-    
-    - name: Upload All Test Results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: all-test-results
-        path: |
-          allure-results/
-          allure-report/
-    
-    - name: Upload Allure Report
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: allure-report
-        path: allure-results/
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Run All Tests
+        run: mvn clean test
+
+      - name: Check Test Results Locations
+        if: always()
+        run: |
+          echo "=== After all tests execution ==="
+          echo "Root surefire-reports:"
+          ls -la surefire-reports/ 2>/dev/null || echo "Root surefire-reports not found"
+          echo ""
+          echo "Target surefire-reports:"
+          ls -la target/surefire-reports/ 2>/dev/null || echo "Target surefire-reports not found"
+          echo ""
+          echo "Root allure-results:"
+          ls -la allure-results/ 2>/dev/null || echo "Root allure-results not found"
+          echo ""
+          echo "Root allure-report:"
+          ls -la allure-report/ 2>/dev/null || echo "Root allure-report not found"
+
+      - name: Generate Allure Report
+        if: always()
+        run: mvn allure:report || echo "Allure report generation failed or skipped"
+
+      - name: Upload All Surefire Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-surefire-results
+          path: |
+            surefire-reports/
+            target/surefire-reports/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload All Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-allure-results
+          path: |
+            allure-results/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload All Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-allure-report
+          path: |
+            allure-report/
+          retention-days: 30
+          if-no-files-found: warn
 
   report:
     if: always()
     runs-on: ubuntu-latest
     needs: [test-matrix, all-tests]
-    
+
     steps:
-    - name: Download All Artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: artifacts
-    
-    - name: Create Combined Report
-      run: |
-        mkdir -p combined-report
-        cp -r artifacts/*/ combined-report/ || true
-    
-    - name: Upload Combined Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: combined-test-report
-        path: combined-report/
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Combined Report
+        run: |
+          mkdir -p combined-report
+          cp -r artifacts/*/ combined-report/ || true
+          echo "=== Combined report contents ==="
+          ls -la combined-report/ || echo "No files in combined report"
+
+      - name: Upload Combined Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-test-report
+          path: combined-report/
+          retention-days: 30
+          if-no-files-found: warn
