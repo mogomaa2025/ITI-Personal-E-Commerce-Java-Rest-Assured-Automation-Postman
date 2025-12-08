@@ -26,16 +26,9 @@ jobs:
       - name: Run api
         run: mvn test -Dtest=AddToWishList,DeleteWishlists,GetWishlists
 
-      - name: Install Allure CLI
-        run: |
-          wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
-          tar -zxvf allure-2.27.0.tgz
-          sudo mv allure-2.27.0 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-
       - name: Generate Allure Report
         if: always()
-        run: allure generate allure-results --clean -o allure-report
+        run: mvn allure:report
 
       - name: ls
         run: ls
@@ -46,6 +39,6 @@ jobs:
         with:
           name: allure-report-wishlist
           path: |
-            allure-report/
+            target/site/allure-maven-plugin/
           retention-days: 31
           if-no-files-found: warn
