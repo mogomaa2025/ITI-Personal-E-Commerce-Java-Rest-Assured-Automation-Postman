@@ -1,0 +1,32 @@
+<div>POST to https://itigraduation.pythonanywhere.com/api/coupons</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;code&quot;: &quot;148a200010&quot;,
+    &quot;expiry_date&quot;: &quot;2026-12-31&quot;,
+    &quot;discount&quot;: 15,
+    &quot;type&quot;: &quot;percentage&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJpc19hZG1pbiI6dHJ1ZSwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc2NTM5MjU3N30.BEHT3t4_bjIppgjlzoQsMWj8O4PKbnbDVMzk8PI2DEc</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;https://itigraduation.pythonanywhere.com/api/coupons&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJpc19hZG1pbiI6dHJ1ZSwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc2NTM5MjU3N30.BEHT3t4_bjIppgjlzoQsMWj8O4PKbnbDVMzk8PI2DEc&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;code&quot;: &quot;148a200010&quot;,
+    &quot;expiry_date&quot;: &quot;2026-12-31&quot;,
+    &quot;discount&quot;: 15,
+    &quot;type&quot;: &quot;percentage&quot;
+}&#39;
+    </div>
+
