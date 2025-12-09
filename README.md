@@ -390,32 +390,56 @@ Logger.error("Test failed with error: " + errorMessage);
 
 ### GitHub Actions Workflow
 ```yaml
-name: API Test Suite
+name: ITI GOMAA E-COMMERCE API Automation TESTING WORKFLOW
+
 on:
   push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  test:
+  api-tests:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-    - name: Run tests
-      run: mvn clean test
-    - name: Generate Allure Report
-      run: mvn allure:report
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./allure-report
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Run tests
+        run: mvn clean test -DsuiteXmlFile=RegressionTest.xml
+        continue-on-error: true
+
+      - name: Install Allure CLI
+        run: |
+          sudo wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+          sudo tar -zxvf allure-2.27.0.tgz -C /opt/
+          sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
+
+      - name: Generate Allure Report
+        if: always()
+        run: allure generate allure-results --clean -o allure-report
+
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      - name: Deploy to GitHub Page
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          publish_branch: gh-pages
 ```
+![img_9.png](img_9.png)
 
 ## 🎯 Best Practices
 
