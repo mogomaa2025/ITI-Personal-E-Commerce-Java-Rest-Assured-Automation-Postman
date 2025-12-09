@@ -6,6 +6,8 @@ import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.response.Response;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -22,8 +24,28 @@ import java.util.Map;
 @Severity(SeverityLevel.CRITICAL)
 public class UpdateCart {
 
+
+
+    @BeforeMethod(onlyForGroups = "NeedItemsInCarts-user", alwaysRun = true)
+    public void Precondition() throws Exception {
+        userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
+        Assert.assertNotNull(userToken, "User token is valid String");
+
+        ApiUtils.deleteRequestWithAuth(BASE_URL + "/cart", userToken); // pre-condition for clean before add
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("product_id", CART_PRODUCT_ID);
+        body.put("quantity", CART_QUANTITY);
+        Response response = ApiUtils.postRequestWithAuth(BASE_URL + "/cart/items", userToken, body);
+        Assert.assertEquals(response.getStatusCode(), 201, "Status code is 201");
+
+        Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
+        Assert.assertTrue(response.jsonPath().getBoolean("success"), "success is true");
+    }
+
+
         @Test(description = "TC-CART-005: Verify user can update cart item quantity", groups = { "Valid-Cart-Test",
-                        "valid" }, dependsOnMethods = "testUserCanAddItemToCart")
+                        "valid", "NeedItemsInCart" })
         public void testUserCanUpdateCartItemQuantity() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");

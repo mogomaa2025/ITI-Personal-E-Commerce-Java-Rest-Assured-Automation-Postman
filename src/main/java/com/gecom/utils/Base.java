@@ -9,9 +9,9 @@ public class Base {
     public static Faker faker = new Faker();
 
     // ============ API Configuration ============
-    // public static final String BASE_URL =
-    // "https://itigraduation.pythonanywhere.com/api"; // production server
-    public static final String BASE_URL = "http://127.0.0.1:5000/api"; // local server
+     public static final String BASE_URL =
+     "https://itigraduation.pythonanywhere.com/api"; // production server
+//    public static final String BASE_URL = "http://127.0.0.1:5000/api"; // local server
     public static final String TOKEN_FILE_PATH = "src/test/resources/token.json";
     public static final String IDS_FILE_PATH = "src/test/resources/ids.json";
     public static final String USERS_FILE_PATH = "src/test/resources/users.json";

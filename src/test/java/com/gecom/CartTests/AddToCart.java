@@ -24,8 +24,8 @@ import java.util.Map;
 public class AddToCart {
 
     @Test(description = "TC-CART-001: Verify user can add item to cart", groups = { "Valid-Cart-Test", "valid" })
-    public void testUserCanAddItemToCart() throws Exception {
-        userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
+    public static void testUserCanAddItemToCart() throws Exception {
+            userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");
 
         ApiUtils.deleteRequestWithAuth(BASE_URL + "/cart", userToken); // pre-condition for clean before add

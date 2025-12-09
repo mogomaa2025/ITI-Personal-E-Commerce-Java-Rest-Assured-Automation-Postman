@@ -72,7 +72,7 @@ public class AdvanceSearch {
     }
 
     @Test(description = "TC-SEARCH-002: Verify advanced search with all filter combinations", groups = {
-            "Valid-Search-Test", "vlaid" }, dependsOnMethods = "testAdvancedSearchWithFilters")
+            "Valid-Search-Test", "valid" }, dependsOnMethods = "testAdvancedSearchWithFilters")
     public void testAdvancedSearchWithAllFilterCombinations() throws Exception {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("q", SEARCH_QUERY);
