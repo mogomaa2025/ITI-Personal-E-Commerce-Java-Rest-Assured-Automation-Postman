@@ -1,0 +1,28 @@
+<div>POST to https://itigraduation.pythonanywhere.com/api/coupons/validate</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;code&quot;: &quot;EXPIRED&quot;,
+    &quot;order_amount&quot;: 120.0
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTcxLCJlbWFpbCI6InRlc3RfMkUzQzE4QjJAZ21haWwuY29tIiwiaXNfYWRtaW4iOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY1MzkxNTYwfQ.quGmD4KjacpnA2ySRkJnQJZek1s_5SYpBoodtEiOaE8</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;https://itigraduation.pythonanywhere.com/api/coupons/validate&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTcxLCJlbWFpbCI6InRlc3RfMkUzQzE4QjJAZ21haWwuY29tIiwiaXNfYWRtaW4iOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY1MzkxNTYwfQ.quGmD4KjacpnA2ySRkJnQJZek1s_5SYpBoodtEiOaE8&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;code&quot;: &quot;EXPIRED&quot;,
+    &quot;order_amount&quot;: 120.0
+}&#39;
+    </div>
+
