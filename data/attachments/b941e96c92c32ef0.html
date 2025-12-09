@@ -1,0 +1,30 @@
+<div>POST to https://itigraduation.pythonanywhere.com/api/reviews</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;product_id&quot;: 125,
+    &quot;rating&quot;: 4,
+    &quot;comment&quot;: &quot;Excellent product!&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTc5LCJlbWFpbCI6InRlc3RfRUIwMzQ2OUNAZ21haWwuY29tIiwiaXNfYWRtaW4iOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY1Mzk0MDkyfQ.aonAqTDMgPaOnoD0cUh2XxPuVMRU89bGCuSA6VP-6BU</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;https://itigraduation.pythonanywhere.com/api/reviews&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTc5LCJlbWFpbCI6InRlc3RfRUIwMzQ2OUNAZ21haWwuY29tIiwiaXNfYWRtaW4iOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY1Mzk0MDkyfQ.aonAqTDMgPaOnoD0cUh2XxPuVMRU89bGCuSA6VP-6BU&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;product_id&quot;: 125,
+    &quot;rating&quot;: 4,
+    &quot;comment&quot;: &quot;Excellent product!&quot;
+}&#39;
+    </div>
+
