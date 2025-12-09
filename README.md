@@ -7,7 +7,7 @@
 [![TestNG](https://img.shields.io/badge/TestNG-7.11.0-yellow)](https://testng.org/)
 [![Allure](https://img.shields.io/badge/Allure-2.27.0-purple)](https://docs.qameta.io/allure/)
 
-A comprehensive REST API testing framework for E-Commerce platform using Java, RestAssured, TestNG, and Allure reporting with Newman integration for Postman collection testing.
+A comprehensive REST API testing framework for 81 Endpoints of E-Commerce platform using Java, RestAssured, TestNG, and Allure reporting with Newman integration for Postman collection testing.
 This Api Testing based on Real python full stack ITI E-Commerce project :  https://itigraduation.pythonanywhere.com/
 
 # 🛍 ITI Team
