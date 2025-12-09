@@ -16,6 +16,7 @@ This Api Testing based on Real python full stack ITI E-Commerce project :  https
 
 ## 📊 Project Overview
 ![img_7.png](img_7.png)
+![img_8.png](img_8.png)
 
 ```mermaid
 graph TB
@@ -107,7 +108,7 @@ graph LR
 - ☕ Java 17 or higher
 - 📦 Maven 3.6+
 - 🌐 Newman (for Postman collection testing)
-- 📊 Allure CLI (for report generation)
+- 📊 Allure  (for testng report)
 
 ### Installation
 
@@ -144,7 +145,7 @@ curl -o allure-2.27.0.tgz -Ls https://github.com/allure-framework/allure2/releas
 
 ### Run All Tests
 ```bash
-mvn clean test
+mvn clean test -DsuiteXmlFile=RegressionTest.xml
 ```
 
 ### Run Specific Test Groups
@@ -162,7 +163,6 @@ mvn clean test -Dtest=com.gecom.AuthenticationTests.*
 ### Run Newman Tests (Postman Collection)
 ```bash
 newman run "ITI E-Commerce API Online V34.postman_collection.json" \
-  -e environment.json \
   -r html \
   --reporter-html-export newman-reports/test-report.html
 ```
@@ -253,44 +253,106 @@ Postman collection execution results:
 ## ⚙️ Configuration
 
 ### Environment Configuration
-Create `src/test/resources/config.properties`:
-```properties
-# API Base Configuration
-api.base.url=https://api.ecommerce-iti.com
-api.version=v1
-api.timeout=30000
-
-# Authentication
-admin.email=admin@test.com
-admin.password=Admin@123
-test.user.email=test@test.com
-test.user.password=Test@123
-
-# Database
-db.host=localhost
-db.port=3306
-db.name=ecommerce_test
-
-# Reporting
-allure.results.directory=allure-results
-newman.reports.directory=newman-reports
+`src\main\java\com\gecom\utils\Base.java`:
+```java
+// ============ API Configuration ============
+public static final String BASE_URL =
+"https://itigraduation.pythonanywhere.com/api"; // production server
+//    public static final String BASE_URL = "http://127.0.0.1:5000/api"; // local server
+public static final String TOKEN_FILE_PATH = "src/test/resources/token.json";
+public static final String IDS_FILE_PATH = "src/test/resources/ids.json";
+public static final String USERS_FILE_PATH = "src/test/resources/users.json";
 ```
 
 ### TestNG Configuration
 Modify `RegressionTest.xml` for custom test execution:
 ```xml
-<suite name="Custom Test Suite">
-    <test name="Smoke Tests">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Regression Testing">
+    <!-- Listeners -->
+    <listeners>
+        <listener class-name="com.gecom.utils.TestListener"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <test name="Regression Testing">
+
         <groups>
             <run>
-                <include name="smoke"/>
-                <include name="critical"/>
+                <include name="valid"/>
+                <include name="invalid"/>
             </run>
         </groups>
+        <!--        <packages>-->
+        <!--            <package name="com.gecom.AuthenticationTests"/>-->
+        <!--        </packages>-->
+
         <classes>
+            <class name="com.gecom.AuthenticationTests.RefreshToken"/>
             <class name="com.gecom.AuthenticationTests.Login"/>
+            <class name="com.gecom.AuthenticationTests.Register"/>
+
+            <class name="com.gecom.SystemTest.System"/>
+
+            <class name="com.gecom.UsersTest.GetUsers"/>
+            <class name="com.gecom.UsersTest.UpdateUsers"/>
+            <class name="com.gecom.UsersTest.DeleteUsers"/>
+
+            <class name="com.gecom.CategoriesTests.CreatCategory"/>
+            <class name="com.gecom.CategoriesTests.GetCategory"/>
+            <class name="com.gecom.CategoriesTests.DeleteCategory"/>
+
+            <class name="com.gecom.ProductsTest.CreateProducts"/>
+            <class name="com.gecom.ProductsTest.UpdateProducts"/>
             <class name="com.gecom.ProductsTest.GetProducts"/>
+            <class name="com.gecom.ProductsTest.DeleteProducts"/>
+            <class name="com.gecom.ProductsTest.LikeProducts"/>
+
+            <class name="com.gecom.CartTests.AddToCart"/>
+            <class name="com.gecom.CartTests.UpdateCart"/>
+            <class name="com.gecom.CartTests.GetCart"/>
+            <class name="com.gecom.CartTests.ClearCart"/>
+
+            <class name="com.gecom.OrdersTest.CreateOrders"/>
+            <class name="com.gecom.OrdersTest.UpdateOrders"/>
+            <class name="com.gecom.OrdersTest.GetOrders"/>
+            <class name="com.gecom.OrdersTest.CancelOrders"/>
+
+            <class name="com.gecom.ReviewsTest.CreateReviews"/>
+            <class name="com.gecom.ReviewsTest.GetReviews"/>
+
+            <class name="com.gecom.StatsAnalyticsTest.StatsAnalytics"/>
+
+            <class name="com.gecom.HelpcenterTest.CreateHelpArticles"/>
+            <class name="com.gecom.HelpcenterTest.UpdateHelpArticles"/>
+            <class name="com.gecom.HelpcenterTest.MarkHelpArticles"/>
+            <class name="com.gecom.HelpcenterTest.GetHelpArticles"/>
+
+            <class name="com.gecom.ContactTest.CreateContactMessage"/>
+            <class name="com.gecom.ContactTest.GetContactMessages"/>
+            <class name="com.gecom.ContactTest.RespondContactMessages"/>
+
+            <class name="com.gecom.WishlistTest.AddToWishList"/>
+            <class name="com.gecom.WishlistTest.GetWishlists"/>
+            <class name="com.gecom.WishlistTest.DeleteWishlists"/>
+
+            <class name="com.gecom.CouponsTest.CreateCoupons"/>
+            <class name="com.gecom.CouponsTest.ListCoupons"/>
+            <class name="com.gecom.CouponsTest.ValidateCoupons"/>
+
+            <class name="com.gecom.NotificationsTest.CreateNotifications"/>
+            <class name="com.gecom.NotificationsTest.GetNotifications"/>
+            <class name="com.gecom.NotificationsTest.MarkNotifications"/>
+
+            <class name="com.gecom.SearchTest.AdvanceSearch"/>
+
+            <class name="com.gecom.BlogTests.Blog"/>
+
+
         </classes>
+
+
     </test>
 </suite>
 ```
@@ -355,31 +417,6 @@ jobs:
         publish_dir: ./allure-report
 ```
 
-### Jenkins Pipeline
-```groovy
-pipeline {
-    agent any
-    stages {
-        stage('Test') {
-            steps {
-                sh 'mvn clean test'
-            }
-        }
-        stage('Report') {
-            steps {
-                allure([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [[path: 'allure-results']]
-                ])
-            }
-        }
-    }
-}
-```
-
 ## 🎯 Best Practices
 
 ### 🔄 Test Data Management
@@ -398,17 +435,9 @@ pipeline {
 - Attach request/response data to failed tests
 
 ### 🔒 Security Testing
-- Validate authentication mechanisms
-- Test authorization levels
-- Verify input sanitization
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- Test Refresh JWT Token
+- Try to get the hash passwords
+- Try to access without token or with user token
 
 ### Code Standards
 - Follow Java coding conventions
@@ -431,7 +460,7 @@ pipeline {
 **Issue**: Tests fail with "Connection refused"
 ```bash
 # Solution: Check if API server is running
-curl -I https://api.ecommerce-iti.com/health
+curl -I https://itigraduation.pythonanywhere.com/api/health
 ```
 
 **Issue**: Allure report not generating
