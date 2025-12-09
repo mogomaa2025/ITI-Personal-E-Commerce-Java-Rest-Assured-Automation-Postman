@@ -1,0 +1,35 @@
+<div>POST to https://itigraduation.pythonanywhere.com/api/register</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;is_admin&quot;: false,
+    &quot;password&quot;: &quot;Test@123&quot;,
+    &quot;address&quot;: &quot;Apt. 924 7924 Ryan Inlet, Gerholdstad, WV 94147-6316&quot;,
+    &quot;phone&quot;: &quot;+01026048146&quot;,
+    &quot;name&quot;: &quot;Test&quot;,
+    &quot;email&quot;: &quot;test@test.test&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;https://itigraduation.pythonanywhere.com/api/register&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;is_admin&quot;: false,
+    &quot;password&quot;: &quot;Test@123&quot;,
+    &quot;address&quot;: &quot;Apt. 924 7924 Ryan Inlet, Gerholdstad, WV 94147-6316&quot;,
+    &quot;phone&quot;: &quot;+01026048146&quot;,
+    &quot;name&quot;: &quot;Test&quot;,
+    &quot;email&quot;: &quot;test@test.test&quot;
+}&#39;
+    </div>
+
