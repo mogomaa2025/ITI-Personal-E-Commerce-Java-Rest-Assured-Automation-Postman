@@ -48,7 +48,7 @@ public class UpdateProducts {
         }
 
         @Test(description = "TC-PROD-010: Verify update product fails for non-existent product", groups = {
-                        "Invalid-Products-Test", "invalid" })
+                        "Invalid-Products-Test", "invalid" }, dependsOnMethods = "testAdminCanUpdateProduct")
         public void testUpdateProductFailsForNonExistent() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -68,7 +68,7 @@ public class UpdateProducts {
         }
 
         @Test(description = "TC-PROD-021: Verify admin can update product STOCK", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testUpdateProductFailsForNonExistent")
         public void testAdminCanUpdateProductStock() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -94,7 +94,7 @@ public class UpdateProducts {
         }
 
         @Test(description = "TC-PROD-022: Verify update STOCK fails for non-existent product", groups = {
-                        "Invalid-Products-Test", "invalid" })
+                        "Invalid-Products-Test", "invalid" }, dependsOnMethods = "testAdminCanUpdateProductStock")
         public void testUpdateStockFailsForNonExistentProduct() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -110,7 +110,8 @@ public class UpdateProducts {
         }
 
         @Test(description = "TC-PROD-023: Verify admin can bulk update products", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test",
+                        "valid" }, dependsOnMethods = "testUpdateStockFailsForNonExistentProduct")
         public void testAdminCanBulkUpdateProducts() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -152,7 +153,7 @@ public class UpdateProducts {
         }
 
         @Test(description = "TC-PROD-024: Verify bulk update with partial failures", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testAdminCanBulkUpdateProducts")
         public void testBulkUpdateWithPartialFailures() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");

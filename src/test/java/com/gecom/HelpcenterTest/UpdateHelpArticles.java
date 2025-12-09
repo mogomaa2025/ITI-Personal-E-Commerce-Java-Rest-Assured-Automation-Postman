@@ -52,7 +52,7 @@ public class UpdateHelpArticles {
         }
 
         @Test(description = "TC-HELP-004: Verify update help article fails for non-existent article", groups = {
-                        "Invalid-Help-Articles-Test", "invalid" })
+                        "Invalid-Help-Articles-Test", "invalid" }, dependsOnMethods = "testAdminCanUpdateHelpArticle")
         public void testUpdateHelpArticleFailsForNonExistent() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");

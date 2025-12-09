@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -56,7 +57,7 @@ public class GetWishlists {
     }
 
     @Test(description = "TC-WISH-005: Verify empty wishlist returns empty array", groups = { "Invalid-Wishlist-Test",
-            "invalid" })
+            "invalid" }, dependsOnMethods = "testUserCanViewTheirWishlist")
     public void testEmptyWishlistReturnsEmptyArray() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");

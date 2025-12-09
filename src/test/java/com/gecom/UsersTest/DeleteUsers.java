@@ -20,8 +20,7 @@ public class DeleteUsers {
 
     @Test(description = "TC-USER-008: Verify admin can delete user", groups = { "Valid-Users-Test", "valid" })
     public void testAdminCanDeleteUser() throws Exception {
-        adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
-        userId = (Integer) JsonUtility.getValue("user_id", IDS_FILE_PATH);
+        userId = GetUserID();
         Response response = ApiUtils.deleteRequestWithAuth(BASE_URL + "/users/" + userId, adminToken);
 
         Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
@@ -36,9 +35,9 @@ public class DeleteUsers {
         Assert.assertEquals(getResponse.getStatusCode(), 404, "Subsequent GET returns 404");
     }
 
-    @Test(description = "TC-USER-009: Verify user cannot delete user", groups = { "Invalid-Users-Test", "invalid" })
+    @Test(description = "TC-USER-009: Verify user cannot delete user", groups = { "Invalid-Users-Test",
+            "invalid" }, dependsOnMethods = "testAdminCanDeleteUser")
     public void testUserCannotDeleteUser() throws Exception {
-        userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Response response = ApiUtils.deleteRequestWithAuth(BASE_URL + "/users/10", userToken);
         Assert.assertEquals(response.getStatusCode(), 403, "Status code is 403");
         String error = response.jsonPath().getString("error");
@@ -46,7 +45,7 @@ public class DeleteUsers {
     }
 
     @Test(description = "TC-USER-010: Verify delete users fails without authentication", groups = {
-            "Invalid-Users-Test", "invalid" })
+            "Invalid-Users-Test", "invalid" }, dependsOnMethods = "testUserCannotDeleteUser")
     public void testDeleteUserFailsWithoutAuth() {
         Response response = ApiUtils.deleteRequest(BASE_URL + "/users/10"); // already existing user id = 10
         Assert.assertEquals(response.getStatusCode(), 401, "Status code is 401");
@@ -58,9 +57,8 @@ public class DeleteUsers {
     }
 
     @Test(description = "TC-USER-011: Verify delete user fails for non-existent user", groups = {
-            "Invalid-Users-Test", "invalid" })
+            "Invalid-Users-Test", "invalid" }, dependsOnMethods = "testDeleteUserFailsWithoutAuth")
     public void testDeleteUserFailsForNonExistent() throws Exception {
-        adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
         Response response = ApiUtils.deleteRequestWithAuth(BASE_URL + "/users/999999", adminToken); // non existing user
                                                                                                     // id
         Assert.assertEquals(response.getStatusCode(), 404, "Status code is 404");

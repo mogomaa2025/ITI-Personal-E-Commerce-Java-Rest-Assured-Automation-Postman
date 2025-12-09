@@ -43,7 +43,8 @@ public class GetHelpArticles {
         }
     }
 
-    @Test(description = "TC-HELP-006: Verify get help categories", groups = { "Valid-Help-Articles-Test", "valid" })
+    @Test(description = "TC-HELP-006: Verify get help categories", groups = { "Valid-Help-Articles-Test",
+            "valid" }, dependsOnMethods = "testGetAllHelpArticles")
     public void testGetHelpCategories() {
         Response response = ApiUtils.getRequest(BASE_URL + "/help/categories");
 
@@ -56,7 +57,7 @@ public class GetHelpArticles {
     }
 
     @Test(description = "TC-HELP-007: Verify get specific help article from previous tests", groups = {
-            "Valid-Help-Articles-Test", "valid" })
+            "Valid-Help-Articles-Test", "valid" }, dependsOnMethods = "testGetHelpCategories")
     public void testGetSpecificHelpArticle() throws Exception {
         helpId = (Integer) JsonUtility.getValue("helpArticleId", IDS_FILE_PATH);
         Assert.assertNotNull(helpId, "Help article ID not found");
@@ -75,7 +76,7 @@ public class GetHelpArticles {
     }
 
     @Test(description = "TC-HELP-008: Verify get help article fails for non-existent ID", groups = {
-            "Invalid-Help-Articles-Test", "invalid" })
+            "Invalid-Help-Articles-Test", "invalid" }, dependsOnMethods = "testGetSpecificHelpArticle")
     public void testGetHelpArticleFailsForNonExistentId() {
         Response response = ApiUtils.getRequest(BASE_URL + "/help/" + INVALID_HELP_ARTICLE_ID);
         Assert.assertEquals(response.getStatusCode(), 404, "Status code is 404");

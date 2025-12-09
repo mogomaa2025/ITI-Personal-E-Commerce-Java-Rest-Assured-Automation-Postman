@@ -25,9 +25,10 @@ public class RefreshToken {
         Faker faker = new Faker();
 
         @Test(description = "TC-AUTH-008: Verify token refresh with valid refresh token", groups = {
-                        "Valid-Authentication-Test", "valid" })
+                        "Valid-Authentication-Test", "valid"})
         public void testRefreshTokenValid() throws Exception {
-                refreshToken = (String) JsonUtility.getValue("refreshToken", REFRESH_TOKEN_FILE_PATH);
+
+
                 Assert.assertNotNull(refreshToken, "refreshToken token not found");
 
                 Map<String, Object> body = new HashMap<>();

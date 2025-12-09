@@ -57,7 +57,7 @@ public class GetReviews {
         }
 
         @Test(description = "TC-REV-006: Verify get reviews returns empty for product without reviews", groups = {
-                        "Valid-Reviews-Test", "valid" })
+                        "Valid-Reviews-Test", "valid" }, dependsOnMethods = "testGetProductReviewsWithAverageRating")
         public void testGetReviewsReturnsEmptyForProductWithoutReviews() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -94,7 +94,8 @@ public class GetReviews {
         }
 
         @Test(description = "TC-REV-007: Verify user can check review status for product", groups = {
-                        "Valid-Reviews-Test", "valid" })
+                        "Valid-Reviews-Test",
+                        "valid" }, dependsOnMethods = "testGetReviewsReturnsEmptyForProductWithoutReviews")
         public void testUserCanCheckReviewStatusForProduct() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 reviewProductId = (Integer) JsonUtility.getValue("review_product_id", IDS_FILE_PATH);
@@ -121,7 +122,7 @@ public class GetReviews {
         }
 
         @Test(description = "TC-REV-008: Verify check review status before and after reviewing", groups = {
-                        "Valid-Reviews-Test", "valid" })
+                        "Valid-Reviews-Test", "valid" }, dependsOnMethods = "testUserCanCheckReviewStatusForProduct")
         public void testCheckReviewStatusBeforeAndAfterReviewing() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");

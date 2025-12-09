@@ -20,10 +20,9 @@ public class DeleteCategory {
 
     @Test(description = "TC-CAT-004: Verify admin can delete CATEGORY", groups = { "Valid-Categories-Test", "valid" })
     public void testAdminCanDeleteCategory() throws Exception {
-        adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
+        adminToken = GetAdminToken();
+        categoryId = getCategoryId();
         Assert.assertNotNull(adminToken, "Admin token not found");
-
-        categoryId = (Integer) JsonUtility.getValue("category_id", IDS_FILE_PATH);
         Assert.assertNotNull(categoryId, "Category ID not found");
 
         Response response = ApiUtils.deleteRequestWithAuth(BASE_URL + "/categories/" + categoryId, adminToken);
@@ -41,7 +40,7 @@ public class DeleteCategory {
     }
 
     @Test(description = "TC-CAT-005: Verify delete CATEGORY fails for non-existent CATEGORY", groups = {
-            "Invalid-Categories-Test", "invalid" })
+            "Invalid-Categories-Test", "invalid" }, dependsOnMethods = "testAdminCanDeleteCategory")
     public void testDeleteCategoryFailsForNonExistent() throws Exception {
         adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
         Assert.assertNotNull(adminToken, "Admin token not found");
@@ -59,7 +58,7 @@ public class DeleteCategory {
     }
 
     @Test(description = "TC-CAT-006: Verify user cannot delete CATEGORY", groups = { "Invalid-Categories-Test",
-            "invalid" })
+            "invalid" }, dependsOnMethods = "testDeleteCategoryFailsForNonExistent")
     public void testUserCannotDeleteCategory() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");

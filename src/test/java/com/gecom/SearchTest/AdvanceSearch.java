@@ -72,7 +72,7 @@ public class AdvanceSearch {
     }
 
     @Test(description = "TC-SEARCH-002: Verify advanced search with all filter combinations", groups = {
-            "Valid-Search-Test", "vlaid" })
+            "Valid-Search-Test", "vlaid" }, dependsOnMethods = "testAdvancedSearchWithFilters")
     public void testAdvancedSearchWithAllFilterCombinations() throws Exception {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("q", SEARCH_QUERY);
@@ -114,7 +114,7 @@ public class AdvanceSearch {
     }
 
     @Test(description = "TC-SEARCH-003: Verify get product recommendations", groups = {
-            "Valid-Search-Test", "valid" })
+            "Valid-Search-Test", "valid" }, dependsOnMethods = "testAdvancedSearchWithAllFilterCombinations")
     public void testGetProductRecommendations() throws Exception {
 
         Response response = ApiUtils.getRequest(BASE_URL + "/recommendations/" + SEARCH_RECOMMENDATION_PRODUCT_ID);
@@ -145,7 +145,7 @@ public class AdvanceSearch {
     }
 
     @Test(description = "TC-SEARCH-004: Verify recommendations for non-existent product", groups = {
-            "Invalid-Search-Test", "invalid" })
+            "Invalid-Search-Test", "invalid" }, dependsOnMethods = "testGetProductRecommendations")
     public void testRecommendationsForNonExistentProduct() {
         Response response = ApiUtils.getRequest(BASE_URL + "/recommendations/" + SEARCH_INVALID_PRODUCT_ID);
 

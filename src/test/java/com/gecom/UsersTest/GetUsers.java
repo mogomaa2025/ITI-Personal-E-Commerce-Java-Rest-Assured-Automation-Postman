@@ -22,7 +22,6 @@ public class GetUsers {
 
     @Test(description = "TC-USER-001: Verify admin can list all users", groups = { "Valid-Users-Test", "valid" })
     public void testAdminCanListAllUsers() throws Exception {
-        adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
         Response response = ApiUtils.getRequestWithAuth(BASE_URL + "/users", adminToken);
         Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
         Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
@@ -55,9 +54,9 @@ public class GetUsers {
         JsonUtility.saveValue("user_id", userId, IDS_FILE_PATH);
     }
 
-    @Test(description = "TC-USER-002: Verify non-admin cannot list users", groups = { "Invalid-Users-Test", "invalid" })
+    @Test(description = "TC-USER-002: Verify non-admin cannot list users", groups = { "Invalid-Users-Test",
+            "invalid" }, dependsOnMethods = "testAdminCanListAllUsers")
     public void testNonAdminCannotListUsers() throws Exception {
-        userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Response response = ApiUtils.getRequestWithAuth(BASE_URL + "/users", userToken);
         Assert.assertEquals(response.getStatusCode(), 403, "Status code is 403");
         Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
@@ -67,7 +66,7 @@ public class GetUsers {
     }
 
     @Test(description = "TC-USER-003: Verify list users fails without authentication", groups = {
-            "Invalid-Users-Test", "invalid" })
+            "Invalid-Users-Test", "invalid" }, dependsOnMethods = "testNonAdminCannotListUsers")
     public void testListUsersFailsWithoutAuth() {
         Response response = ApiUtils.getRequest(BASE_URL + "/users");
         Assert.assertEquals(response.getStatusCode(), 401, "Status code is 401");
@@ -78,10 +77,10 @@ public class GetUsers {
                 "error indicates authentication required");
     }
 
-    @Test(description = "TC-USER-004: Verify admin can get user by ID", groups = { "Valid-Users-Test", "valid" })
+    @Test(description = "TC-USER-004: Verify admin can get user by ID", groups = { "Valid-Users-Test",
+            "valid" }, dependsOnMethods = "testListUsersFailsWithoutAuth")
     public void testAdminCanGetUserById() throws Exception {
-        adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
-        userId = (Integer) JsonUtility.getValue("user_id", IDS_FILE_PATH);
+        userId = GetUserID();
         Response response = ApiUtils.getRequestWithAuth(BASE_URL + "/users/" + userId, adminToken);
         Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
         Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
@@ -109,9 +108,8 @@ public class GetUsers {
     }
 
     @Test(description = "TC-USER-005: Verify get user by ID fails for non-existent user", groups = {
-            "Invalid-Users-Test", "invalid" })
+            "Invalid-Users-Test", "invalid" }, dependsOnMethods = "testAdminCanGetUserById")
     public void testGetUserByIdFailsForNonExistent() throws Exception {
-        adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
         Response response = ApiUtils.getRequestWithAuth(BASE_URL + "/users/999999", adminToken);
         Assert.assertEquals(response.getStatusCode(), 404, "Status code is 404");
         Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
@@ -120,9 +118,9 @@ public class GetUsers {
         Assert.assertTrue(error != null && error.contains("not found"), "error is 'User not found'");
     }
 
-    @Test(description = "TC-USER-012: Verify admin can view user activity", groups = { "Valid-Users-Test", "valid" })
+    @Test(description = "TC-USER-012: Verify admin can view user activity", groups = { "Valid-Users-Test",
+            "valid" }, dependsOnMethods = "testGetUserByIdFailsForNonExistent")
     public void testAdminCanViewUserActivity() throws Exception {
-        adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
         Response response = ApiUtils.getRequestWithAuth(BASE_URL + "/users/10/activity", adminToken);
         Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
         Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
@@ -142,9 +140,8 @@ public class GetUsers {
     }
 
     @Test(description = "TC-USER-013: Verify user cannot view user activity", groups = { "Invalid-Users-Test",
-            "invalid" })
+            "invalid" }, dependsOnMethods = "testAdminCanViewUserActivity")
     public void testUserCannotViewUserActivity() throws Exception {
-        userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Response response = ApiUtils.getRequestWithAuth(BASE_URL + "/users/10/activity", userToken);
         Assert.assertEquals(response.getStatusCode(), 403, "Status code is 403");
         String error = response.jsonPath().getString("error");
@@ -152,7 +149,7 @@ public class GetUsers {
     }
 
     @Test(description = "TC-USER-014: Verify view user activity fails without authentication", groups = {
-            "Invalid-Users-Test", "invalid" })
+            "Invalid-Users-Test", "invalid" }, dependsOnMethods = "testUserCannotViewUserActivity")
     public void testViewUserActivityFailsWithoutAuth() {
         Response response = ApiUtils.getRequest(BASE_URL + "/users/10/activity");
         Assert.assertEquals(response.getStatusCode(), 401, "Status code is 401");

@@ -25,12 +25,12 @@ public class Login {
         Faker faker = new Faker();
 
         @Test(description = "TC-AUTH-004: Verify user login with valid credentials", groups = {
-                        "Valid-Authentication-Test", "valid" })
+                        "Valid-Authentication-Test", "valid" , "token"  })
         public void testLoginUserValidCredentials() throws Exception {
 
                 Map<String, Object> body = new HashMap<>();
-                body.put("email", userEmail);
-                body.put("password", userPassword);
+                body.put("email", GetValidEmail());
+                body.put("password", GetValidPassword());
 
                 Response response = ApiUtils.postRequest(BASE_URL + "/login", body);
 
@@ -40,17 +40,15 @@ public class Login {
                 Assert.assertEquals(response.jsonPath().getString("message"), "Login successful",
                                 "message is 'Login successful'");
 
-                userToken = response.jsonPath().getString("token");
                 Assert.assertTrue(userToken != null && !userToken.isEmpty(), "token present and not empty");
-
-                refreshToken = response.jsonPath().getString("refresh_token");
-                Assert.assertTrue(refreshToken != null && !refreshToken.isEmpty(), "Both tokens are JWT format");
+                SetUserToken(response);
 
                 Assert.assertTrue(response.jsonPath().getInt("user.id") > 0, "user object has id");
                 Assert.assertNotNull(response.jsonPath().getString("user.email"), "user object has email");
                 Assert.assertNotNull(response.jsonPath().getString("user.name"), "user object has name");
                 Assert.assertNotNull(response.jsonPath().get("user.is_admin"), "user object has is_admin");
-                JsonUtility.saveValue("user", userToken, TOKEN_FILE_PATH);
+//                JsonUtility.saveValue("user", userToken, TOKEN_FILE_PATH);
+
         }
 
         @Test(description = "TC-AUTH-005: Verify login fails with invalid password", groups = {
@@ -93,7 +91,7 @@ public class Login {
         }
 
         @Test(description = "TC-AUTH-007: Verify admin login with valid credentials", groups = {
-                        "Valid-Authentication-Test", "valid" })
+                        "Valid-Authentication-Test", "valid", "token"  })
         public void testAdminLoginValidCredentials() throws Exception {
                 Map<String, Object> body = new HashMap<>();
                 body.put("email", ADMIN_EMAIL);
@@ -105,14 +103,13 @@ public class Login {
                 Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
                 Assert.assertTrue(response.jsonPath().getBoolean("success"), "success is true");
                 Assert.assertTrue(response.jsonPath().getBoolean("user.is_admin"), "user.is_admin is true");
-                adminToken = response.jsonPath().getString("token");
-                refreshToken = response.jsonPath().getString("refresh_token");
+                SetAdminToken(response);
+                SetRefreshToken(response);
                 String adminRefreshToken = response.jsonPath().getString("refresh_token");
                 Assert.assertTrue(adminToken != null && !adminToken.isEmpty(), "Both tokens present and valid JWT");
                 Assert.assertTrue(adminRefreshToken != null && !adminRefreshToken.isEmpty(),
                                 "Both tokens present and valid JWT");
-                JsonUtility.saveValue("admin", adminToken, TOKEN_FILE_PATH);
-                JsonUtility.saveValue("refreshToken", refreshToken, REFRESH_TOKEN_FILE_PATH);
+
         }
 
 }

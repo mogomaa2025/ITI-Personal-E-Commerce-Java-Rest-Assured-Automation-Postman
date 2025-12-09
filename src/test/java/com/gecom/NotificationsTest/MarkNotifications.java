@@ -48,7 +48,7 @@ public class MarkNotifications {
     }
 
     @Test(description = "TC-NOTIF-005: Verify mark notification as read fails for non-existent notification", groups = {
-            "Invalid-Notifications-Test", "invalid" })
+            "Invalid-Notifications-Test", "invalid" }, dependsOnMethods = "testUserCanMarkNotificationAsRead")
     public void testMarkNotificationAsReadFailsForNonExistent() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
@@ -66,7 +66,7 @@ public class MarkNotifications {
     }
 
     @Test(description = "TC-NOTIF-006: Verify user can mark all notifications as read", groups = {
-            "Valid-Notifications-Test", "valid" })
+            "Valid-Notifications-Test", "valid" }, dependsOnMethods = "testMarkNotificationAsReadFailsForNonExistent")
     public void testUserCanMarkAllNotificationsAsRead() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
@@ -88,7 +88,7 @@ public class MarkNotifications {
     }
 
     @Test(description = "TC-NOTIF-007: Verify mark all notifications on already read notifications", groups = {
-            "Invalid-Notifications-Test", "invalid" })
+            "Invalid-Notifications-Test", "invalid" }, dependsOnMethods = "testUserCanMarkAllNotificationsAsRead")
     public void testMarkAllNotificationsOnAlreadyReadNotifications() throws Exception {
         Allure.step("Login as user");
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
@@ -110,7 +110,8 @@ public class MarkNotifications {
     }
 
     @Test(description = "TC-NOTIF-008: Verify user cannot access another user's notifications", groups = {
-            "Invalid-Notifications-Test", "invalid" })
+            "Invalid-Notifications-Test",
+            "invalid" }, dependsOnMethods = "testMarkAllNotificationsOnAlreadyReadNotifications")
     public void testUserCannotAccessAnotherUsersNotifications() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");

@@ -51,7 +51,7 @@ public class CancelOrders {
         }
 
         @Test(description = "TC-ORDER-013: Verify user can cancel pending order", groups = {
-                        "Valid-Orders-Test", "valid" })
+                        "Valid-Orders-Test", "valid" }, dependsOnMethods = "testAdminCanCancelOrder")
         public void testUserCanCancelPendingOrder() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");
@@ -74,7 +74,7 @@ public class CancelOrders {
         }
 
         @Test(description = "TC-ORDER-014: Verify cancel order fails for non-pending order", groups = {
-                        "Invalid-Orders-Test", "invalid" })
+                        "Invalid-Orders-Test", "invalid" }, dependsOnMethods = "testUserCanCancelPendingOrder")
         public void testCancelOrderFailsForNonPendingOrder() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
@@ -106,7 +106,7 @@ public class CancelOrders {
         }
 
         @Test(description = "TC-ORDER-015: Verify cancel order fails for non-existent order", groups = {
-                        "Invalid-Orders-Test", "invalid" })
+                        "Invalid-Orders-Test", "invalid" }, dependsOnMethods = "testCancelOrderFailsForNonPendingOrder")
         public void testCancelOrderFailsForNonExistentOrder() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token is valid String");

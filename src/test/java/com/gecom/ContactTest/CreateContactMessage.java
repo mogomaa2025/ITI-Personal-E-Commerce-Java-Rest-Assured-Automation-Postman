@@ -40,7 +40,7 @@ public class CreateContactMessage {
         }
 
         @Test(description = "TC-CONT-002: Verify submit contact fails with missing required fields", groups = {
-                        "Invalid-Contact-Test", "invalid" })
+                        "Invalid-Contact-Test", "invalid" }, dependsOnMethods = "testUserCanSubmitContactMessage")
         public void testSubmitContactFailsWithMissingFields() {
                 Map<String, Object> body = new HashMap<>();
                 body.put("name", CONTACT_INCOMPLETE_NAME);

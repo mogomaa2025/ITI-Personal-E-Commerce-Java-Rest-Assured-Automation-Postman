@@ -54,7 +54,8 @@ public class ClearCart {
         Assert.assertTrue(cartItems.isEmpty(), "Cart is empty");
     }
 
-    @Test(description = "TC-CART-008: Verify clear cart on already empty cart", groups = { "Valid-Cart-Test", "valid" })
+    @Test(description = "TC-CART-008: Verify clear cart on already empty cart", groups = { "Valid-Cart-Test",
+            "valid" }, dependsOnMethods = "testUserCanClearEntireCart")
     public void testClearCartOnAlreadyEmptyCart() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertTrue(userToken instanceof String, "User token is valid String");
@@ -69,7 +70,8 @@ public class ClearCart {
         Assert.assertTrue(response.jsonPath().getBoolean("success"), "success is true");
     }
 
-    @Test(description = "TC-CART-009: Verify empty cart returns empty array", groups = { "Valid-Cart-Test", "valid" })
+    @Test(description = "TC-CART-009: Verify empty cart returns empty array", groups = { "Valid-Cart-Test",
+            "valid" }, dependsOnMethods = "testClearCartOnAlreadyEmptyCart")
     public void testEmptyCartReturnsEmptyArray() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertTrue(userToken instanceof String, "User token is valid String");
@@ -90,7 +92,8 @@ public class ClearCart {
         Assert.assertEquals(response.jsonPath().getDouble("total"), 0.0, 0.01, "total is 0");
     }
 
-    @Test(description = "TC-CART-010: Verify user can remove item from cart", groups = { "Valid-Cart-Test", "valid" })
+    @Test(description = "TC-CART-010: Verify user can remove item from cart", groups = { "Valid-Cart-Test",
+            "valid" }, dependsOnMethods = "testEmptyCartReturnsEmptyArray")
     public void testUserCanRemoveItemFromCart() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertTrue(userToken instanceof String, "User token is valid String");
@@ -129,7 +132,7 @@ public class ClearCart {
     }
 
     @Test(description = "TC-CART-011: Verify remove cart item fails for non-existent item", groups = {
-            "Invalid-Cart-Test", "invalid" })
+            "Invalid-Cart-Test", "invalid" }, dependsOnMethods = "testUserCanRemoveItemFromCart")
     public void testRemoveCartItemFailsForNonExistentItem() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertTrue(userToken instanceof String, "User token is valid String");

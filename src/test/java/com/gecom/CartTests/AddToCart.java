@@ -51,7 +51,7 @@ public class AddToCart {
     }
 
     @Test(description = "TC-CART-002: Verify add to cart fails for invalid product", groups = { "Invalid-Cart-Test",
-            "invalid" })
+            "invalid" }, dependsOnMethods = "testUserCanAddItemToCart")
     public void testAddToCartFailsForInvalidProduct() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");
@@ -73,7 +73,7 @@ public class AddToCart {
     }
 
     @Test(description = "TC-CART-003: Verify add to cart fails with invalid quantity", groups = { "Invalid-Cart-Test",
-            "invalid" })
+            "invalid" }, dependsOnMethods = "testAddToCartFailsForInvalidProduct")
     public void testAddToCartFailsWithInvalidQuantity() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");

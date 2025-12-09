@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="wishlist">
+    <!-- Listeners -->
+    <listeners>
+        <listener class-name="com.gecom.utils.TestListener"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <test name="WishlistTest Function Tests">
+
+        <groups>
+            <run>
+                <include name="valid"/>
+                <include name="invalid"/>
+            </run>
+        </groups>
+<!--        <packages>-->
+<!--            <package name="com.gecom.AuthenticationTests"/>-->
+<!--        </packages>-->
+
+
+
+        <classes>
+            <class name="com.gecom.AuthenticationTests.RefreshToken"/>
+            <class name="com.gecom.AuthenticationTests.Login"/>
+            <class name="com.gecom.AuthenticationTests.Register"/>
+
+            <class name="com.gecom.SystemTest.System"/>
+
+            <class name="com.gecom.UsersTest.GetUsers"/>
+            <class name="com.gecom.UsersTest.UpdateUsers"/>
+            <class name="com.gecom.UsersTest.DeleteUsers"/>
+
+            <class name="com.gecom.CategoriesTests.CreatCategory"/>
+            <class name="com.gecom.CategoriesTests.GetCategory"/>
+            <class name="com.gecom.CategoriesTests.DeleteCategory"/>
+
+            <class name="com.gecom.ProductsTest.CreateProducts"/>
+            <class name="com.gecom.ProductsTest.UpdateProducts"/>
+            <class name="com.gecom.ProductsTest.GetProducts"/>
+            <class name="com.gecom.ProductsTest.DeleteProducts"/>
+            <class name="com.gecom.ProductsTest.LikeProducts"/>
+
+            <class name="com.gecom.CartTests.AddToCart"/>
+            <class name="com.gecom.CartTests.UpdateCart"/>
+            <class name="com.gecom.CartTests.GetCart"/>
+            <class name="com.gecom.CartTests.ClearCart"/>
+
+            <class name="com.gecom.OrdersTest.CreateOrders"/>
+            <class name="com.gecom.OrdersTest.UpdateOrders"/>
+            <class name="com.gecom.OrdersTest.GetOrders"/>
+            <class name="com.gecom.OrdersTest.CancelOrders"/>
+
+            <class name="com.gecom.ReviewsTest.CreateReviews"/>
+            <class name="com.gecom.ReviewsTest.GetReviews"/>
+
+            <class name="com.gecom.StatsAnalyticsTest.StatsAnalytics"/>
+
+            <class name="com.gecom.HelpcenterTest.CreateHelpArticles"/>
+            <class name="com.gecom.HelpcenterTest.UpdateHelpArticles"/>
+            <class name="com.gecom.HelpcenterTest.MarkHelpArticles"/>
+            <class name="com.gecom.HelpcenterTest.GetHelpArticles"/>
+
+            <class name="com.gecom.ContactTest.CreateContactMessage"/>
+            <class name="com.gecom.ContactTest.GetContactMessages"/>
+            <class name="com.gecom.ContactTest.RespondContactMessages"/>
+
+            <class name="com.gecom.WishlistTest.AddToWishList"/>
+            <class name="com.gecom.WishlistTest.GetWishlists"/>
+            <class name="com.gecom.WishlistTest.DeleteWishlists"/>
+
+            <class name="com.gecom.CouponsTest.CreateCoupons"/>
+            <class name="com.gecom.CouponsTest.ListCoupons"/>
+            <class name="com.gecom.CouponsTest.ValidateCoupons"/>
+
+            <class name="com.gecom.NotificationsTest.CreateNotifications"/>
+            <class name="com.gecom.NotificationsTest.GetNotifications"/>
+            <class name="com.gecom.NotificationsTest.MarkNotifications"/>
+
+            <class name="com.gecom.SearchTest.AdvanceSearch"/>
+
+            <class name="com.gecom.BlogTests.Blog"/>
+
+
+        </classes>
+
+
+    </test>
+</suite>

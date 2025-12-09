@@ -64,7 +64,7 @@ public class CreateCoupons {
         }
 
         @Test(description = "TC-COUP-004: Verify create coupon fails without admin", groups = { "Invalid-Coupons-Test",
-                        "invalid" })
+                        "invalid" }, dependsOnMethods = "testAdminCanCreateCoupon")
         public void testCreateCouponFailsWithoutAdmin() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token not found");
@@ -85,7 +85,7 @@ public class CreateCoupons {
         }
 
         @Test(description = "TC-COUP-005: Verify create coupon fails with missing coupon data", groups = {
-                        "Invalid-Coupons-Test", "invalid" })
+                        "Invalid-Coupons-Test", "invalid" }, dependsOnMethods = "testCreateCouponFailsWithoutAdmin")
         public void testCreateCouponFailsWithMissingData() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -106,7 +106,7 @@ public class CreateCoupons {
         }
 
         @Test(description = "TC-COUP-006: Verify create coupon fails with duplicate code", groups = {
-                        "Invalid-Coupons-Test", "invalid" })
+                        "Invalid-Coupons-Test", "invalid" }, dependsOnMethods = "testCreateCouponFailsWithMissingData")
         public void testCreateCouponFailsWithDuplicateCode() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");

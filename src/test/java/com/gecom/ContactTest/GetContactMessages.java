@@ -53,7 +53,7 @@ public class GetContactMessages {
     }
 
     @Test(description = "TC-CONT-004: Verify non-admin cannot view contact messages", groups = {
-            "Invalid-Contact-Test", "invalid" })
+            "Invalid-Contact-Test", "invalid" }, dependsOnMethods = "testAdminCanViewAllContactMessages")
     public void testNonAdminCannotViewContactMessages() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");

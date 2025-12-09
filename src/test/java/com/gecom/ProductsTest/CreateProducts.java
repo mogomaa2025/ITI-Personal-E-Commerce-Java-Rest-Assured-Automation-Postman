@@ -56,7 +56,7 @@ public class CreateProducts {
         }
 
         @Test(description = "TC-PROD-007: Verify create product fails without required fields", groups = {
-                        "Invalid-Products-Test", "invalid" })
+                        "Invalid-Products-Test", "invalid" }, dependsOnMethods = "testAdminCanCreateProduct")
         public void testCreateProductFailsWithoutRequiredFields() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -74,7 +74,8 @@ public class CreateProducts {
         }
 
         @Test(description = "TC-PROD-008: Verify create product fails without admin", groups = {
-                        "Invalid-Products-Test", "invalid" })
+                        "Invalid-Products-Test",
+                        "invalid" }, dependsOnMethods = "testCreateProductFailsWithoutRequiredFields")
         public void testCreateProductFailsWithoutAdmin() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token not found");

@@ -24,7 +24,7 @@ public class AddToWishList {
     @Test(description = "TC-WISH-001: Verify user can add product to wishlist", groups = { "Valid-Wishlist-Test",
             "valid" })
     public void testUserCanAddProductToWishlist() throws Exception {
-        userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
+        userToken = GetUserToken();
         Assert.assertNotNull(userToken, "User token not found");
 
         userId = (Integer) JsonUtility.getValue("user_id", IDS_FILE_PATH);
@@ -48,7 +48,7 @@ public class AddToWishList {
     }
 
     @Test(description = "TC-WISH-002: Verify add to wishlist fails for non-existent product", groups = {
-            "Invalid-Wishlist-Test", "invalid" })
+            "Invalid-Wishlist-Test", "invalid" }, dependsOnMethods = "testUserCanAddProductToWishlist")
     public void testAddToWishlistFailsForNonExistentProduct() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
@@ -72,7 +72,7 @@ public class AddToWishList {
     }
 
     @Test(description = "TC-WISH-003: Verify user cannot add same product to wishlist twice", groups = {
-            "Invalid-Wishlist-Test", "invalid" })
+            "Invalid-Wishlist-Test", "invalid" }, dependsOnMethods = "testAddToWishlistFailsForNonExistentProduct")
     public void testUserCannotAddSameProductToWishlistTwice() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");

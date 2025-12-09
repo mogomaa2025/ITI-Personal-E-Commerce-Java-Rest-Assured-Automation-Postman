@@ -41,7 +41,7 @@ public class RespondContactMessages {
         }
 
         @Test(description = "TC-CONT-006: Verify respond fails for non-existent message", groups = {
-                        "Invalid-Contact-Test", "invalid" })
+                        "Invalid-Contact-Test", "invalid" }, dependsOnMethods = "testAdminCanRespondToContactMessage")
         public void testRespondFailsForNonExistentMessage() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -61,7 +61,7 @@ public class RespondContactMessages {
         }
 
         @Test(description = "TC-CONT-007: Verify non-admin cannot respond to messages", groups = {
-                        "Invalid-Contact-Test", "invalid" })
+                        "Invalid-Contact-Test", "invalid" }, dependsOnMethods = "testRespondFailsForNonExistentMessage")
         public void testNonAdminCannotRespondToMessages() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token not found");

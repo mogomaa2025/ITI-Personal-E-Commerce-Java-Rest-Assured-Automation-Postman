@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run tests
-        run: mvn test -Dtest=AddToWishList
+        run: mvn clean test -DsuiteXmlFile=api-tests.xml
         continue-on-error: true
 
       - name: Install Allure CLI

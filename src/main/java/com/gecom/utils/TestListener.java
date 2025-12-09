@@ -2,13 +2,21 @@ package com.gecom.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import io.restassured.response.Response;
 import org.apache.commons.io.FileUtils;
+import org.testng.Assert;
 import org.testng.IExecutionListener;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import io.qameta.allure.Allure;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import static com.gecom.utils.Base.*;
 
 public class TestListener implements ITestListener, IExecutionListener {
 
@@ -28,14 +36,25 @@ public class TestListener implements ITestListener, IExecutionListener {
         } catch (IOException e) {
             logError("Failed to clean previous Allure results", e);
         }
+
+        // refresh tokens
+        try {
+            loginAdminToken();
+            loginUserToken();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
     public void onExecutionFinish() {
 
         logWithAllure("== Generating Allure report (results dir: " + Base.ALLURE_RESULTS_DIR + ") ==");
-        GenerateAllureReport();
     }
+
+
+
 
     @Override
     public void onTestStart(ITestResult result) {
@@ -83,5 +102,50 @@ public class TestListener implements ITestListener, IExecutionListener {
         Logger.error(message, throwable);
         Allure.step("ERROR: " + message);
     }
+
+
+    public static void loginUserToken() throws Exception {
+        Logger.info("::freshAccount::ExecutionStart");
+        // register first fresh
+        String freshEmail = "test_" + faker.random().hex(8) + "@gmail.com";
+        userPassword = "Test@123";
+        String username = "Test User";
+        Allure.step("Send POST with user data");
+        Map<String, Object> registerBody = new HashMap<>();
+        registerBody.put("email", freshEmail);
+        registerBody.put("password", userPassword);
+        registerBody.put("phone", "+010" + faker.number().digits(8)); // new validation
+        registerBody.put("address", faker.address().fullAddress()); // new validation
+        registerBody.put("name", username);
+        registerBody.put("is_admin", false);
+        Response registerResponse = ApiUtils.postRequest(BASE_URL + "/register", registerBody);
+        Assert.assertEquals(registerResponse.getStatusCode(), 201, "Status code is 201");
+
+        // login
+        Map<String, Object> body = new HashMap<>();
+        body.put("email", freshEmail);
+        body.put("password", userPassword);
+        Response response = ApiUtils.postRequest(BASE_URL + "/login", body);
+        Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
+        // JsonUtility.saveValue("user", userToken, TOKEN_FILE_PATH);
+        SetUserToken(response);
+    }
+
+    public void loginAdminToken() throws Exception {
+        Map<String, Object> body = new HashMap<>();
+        body.put("email", ADMIN_EMAIL);
+        body.put("password", ADMIN_PASSWORD);
+        Response response = ApiUtils.postRequest(BASE_URL + "/login", body);
+        Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
+
+        // JsonUtility.saveValue("admin", adminToken, TOKEN_FILE_PATH);
+        // JsonUtility.saveValue("refresh_token", refreshToken, TOKEN_FILE_PATH);
+        SetAdminToken(response);
+        SetRefreshToken(response);
+    }
+
+
+
+
 
 }

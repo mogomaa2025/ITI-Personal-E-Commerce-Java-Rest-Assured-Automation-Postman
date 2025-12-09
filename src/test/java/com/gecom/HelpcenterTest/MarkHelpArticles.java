@@ -38,7 +38,7 @@ public class MarkHelpArticles {
         }
 
         @Test(description = "TC-HELP-010: Verify user can mark article as helpful twice", groups = {
-                        "Invalid-Help-Articles-Test", "invalid" })
+                        "Invalid-Help-Articles-Test", "invalid" }, dependsOnMethods = "testUserCanMarkArticleHelpful")
         public void testUserCanMarkArticleHelpfulTwice() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token not found");
@@ -59,7 +59,8 @@ public class MarkHelpArticles {
         }
 
         @Test(description = "TC-HELP-011: Verify mark helpful fails for non-existent article", groups = {
-                        "Invalid-Help-Articles-Test", "invalid" })
+                        "Invalid-Help-Articles-Test",
+                        "invalid" }, dependsOnMethods = "testUserCanMarkArticleHelpfulTwice")
         public void testMarkHelpfulFailsForNonExistentArticle() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token not found");

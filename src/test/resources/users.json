@@ -1,3 +1,4 @@
 {
- "validEmail": "test@test.test"
+ "validEmail": "test@test.test",
+  "validPassword" : "test@123"
 }

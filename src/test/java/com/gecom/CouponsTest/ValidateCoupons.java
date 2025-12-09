@@ -42,7 +42,7 @@ public class ValidateCoupons {
     }
 
     @Test(description = "TC-COUP-008: Verify validate invalid coupon code", groups = { "Invalid-Coupons-Test",
-            "invalid" })
+            "invalid" }, dependsOnMethods = "testValidateValidCouponCode")
     public void testValidateInvalidCouponCode() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
@@ -59,7 +59,8 @@ public class ValidateCoupons {
                 "error is 'Invalid coupon code'");
     }
 
-    @Test(description = "TC-COUP-009: Verify validate expired coupon", groups = { "Invalid-Coupons-Test", "invalid" })
+    @Test(description = "TC-COUP-009: Verify validate expired coupon", groups = { "Invalid-Coupons-Test",
+            "invalid" }, dependsOnMethods = "testValidateInvalidCouponCode")
     public void testValidateExpiredCoupon() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");

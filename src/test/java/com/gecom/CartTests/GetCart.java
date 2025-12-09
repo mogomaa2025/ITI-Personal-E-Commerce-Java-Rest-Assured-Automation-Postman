@@ -70,7 +70,7 @@ public class GetCart {
     }
 
     @Test(description = "TC-CART-012: Verify user cannot access another user's cart", groups = { "Invalid-Cart-Test",
-            "invalid" })
+            "invalid" }, dependsOnMethods = "testUserCanViewCartContents")
     public void testUserCannotAccessAnotherUsersCart() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertTrue(userToken instanceof String, "User token is valid String");

@@ -56,7 +56,7 @@ public class CreateOrders {
         }
 
         @Test(description = "TC-ORDER-002: Verify create order fails with empty cart", groups = {
-                        "Invalid-Orders-Test", "invalid" })
+                        "Invalid-Orders-Test", "invalid" }, dependsOnMethods = "testUserCanCreateOrder")
         public void testCreateOrderFailsWithEmptyCart() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");
@@ -73,7 +73,7 @@ public class CreateOrders {
         }
 
         @Test(description = "TC-ORDER-003: Verify create order fails with empty shipping address", groups = {
-                        "Invalid-Orders-Test", "invalid" })
+                        "Invalid-Orders-Test", "invalid" }, dependsOnMethods = "testCreateOrderFailsWithEmptyCart")
         public void testCreateOrderFailsWithEmptyShippingAddress() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");

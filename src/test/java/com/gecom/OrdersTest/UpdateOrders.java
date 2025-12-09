@@ -43,7 +43,7 @@ public class UpdateOrders {
         }
 
         @Test(description = "TC-ORDER-008: Verify update order fails for non-existent order", groups = {
-                        "Invalid-Orders-Test", "invalid" })
+                        "Invalid-Orders-Test", "invalid" }, dependsOnMethods = "testUserCanUpdateOrderShippingAddress")
         public void testUpdateOrderFailsForNonExistentOrder() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");
@@ -59,7 +59,7 @@ public class UpdateOrders {
         }
 
         @Test(description = "TC-ORDER-009: Verify admin can update order status", groups = {
-                        "Valid-Orders-Test", "valid" })
+                        "Valid-Orders-Test", "valid" }, dependsOnMethods = "testUpdateOrderFailsForNonExistentOrder")
         public void testAdminCanUpdateOrderStatus() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 orderID = (Integer) JsonUtility.getValue("order_id", IDS_FILE_PATH);
@@ -83,7 +83,7 @@ public class UpdateOrders {
         }
 
         @Test(description = "TC-ORDER-010: Verify update order status fails with invalid status", groups = {
-                        "Invalid-Orders-Test", "invalid" })
+                        "Invalid-Orders-Test", "invalid" }, dependsOnMethods = "testAdminCanUpdateOrderStatus")
         public void testUpdateOrderStatusFailsWithInvalidStatus() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 orderID = (Integer) JsonUtility.getValue("order_id", IDS_FILE_PATH);
@@ -101,7 +101,8 @@ public class UpdateOrders {
         }
 
         @Test(description = "TC-ORDER-011: Verify update order status fails for non-admin user", groups = {
-                        "Invalid-Orders-Test", "invalid" })
+                        "Invalid-Orders-Test",
+                        "invalid" }, dependsOnMethods = "testUpdateOrderStatusFailsWithInvalidStatus")
         public void testUpdateOrderStatusFailsForNonAdminUser() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 orderID = (Integer) JsonUtility.getValue("order_id", IDS_FILE_PATH);

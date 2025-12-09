@@ -61,7 +61,7 @@ public class GetNotifications {
     }
 
     @Test(description = "TC-NOTIF-003: Verify empty notifications returns empty array", groups = {
-            "Invalid-Notifications-Test", "invalid" })
+            "Invalid-Notifications-Test", "invalid" }, dependsOnMethods = "testUserCanGetNotifications")
     public void testEmptyNotificationsReturnsEmptyArray() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
@@ -85,7 +85,7 @@ public class GetNotifications {
     }
 
     @Test(description = "TC-NOTIF-008: Verify user cannot access another user's notifications", groups = {
-            "Invalid-Notifications-Test", "invalid" })
+            "Invalid-Notifications-Test", "invalid" }, dependsOnMethods = "testEmptyNotificationsReturnsEmptyArray")
     public void testUserCannotAccessAnotherUsersNotifications() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");

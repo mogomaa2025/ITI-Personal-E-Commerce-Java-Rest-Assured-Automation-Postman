@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gecom.utils.Logger;
+import com.gecom.utils.TestListener;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -21,11 +24,21 @@ import io.restassured.response.Response;
 @Severity(SeverityLevel.CRITICAL)
 public class LikeProducts {
 
+
+
+    @BeforeMethod(onlyForGroups = "fresh-user", alwaysRun = true)
+    public void freshAccount() throws Exception {
+        Logger.info("::freshAccount::groups");
+        TestListener.loginUserToken();
+    }
+
+
     @Test(description = "TC-PROD-026: Verify user can like a product", groups = {
-            "Valid-Products-Test", "valid" })
+            "Valid-Products-Test", "valid", "fresh-user" })
     public void testUserCanLikeProduct() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
+
 
         Map<String, Object> body = new HashMap<>();
         body.put("product_id", LIKE_PRODUCT_ID);
@@ -46,10 +59,11 @@ public class LikeProducts {
     }
 
     @Test(description = "TC-PROD-027: Verify user cannot like same product twice", groups = {
-            "Invalid-Products-Test", "invalid" })
+            "Invalid-Products-Test", "invalid" }, dependsOnMethods = "testUserCanLikeProduct")
     public void testUserCannotLikeSameProductTwice() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
+
 
         Map<String, Object> body = new HashMap<>();
         body.put("product_id", LIKE_PRODUCT_ID);
@@ -65,7 +79,7 @@ public class LikeProducts {
     }
 
     @Test(description = "TC-PROD-028: Verify like fails for non-existent product", groups = {
-            "Invalid-Products-Test", "invalid" })
+            "Invalid-Products-Test", "invalid" }, dependsOnMethods = "testUserCannotLikeSameProductTwice")
     public void testLikeFailsForNonExistentProduct() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
@@ -80,8 +94,9 @@ public class LikeProducts {
     }
 
     @Test(description = "TC-PROD-029: Verify get product likes count", groups = {
-            "Valid-Products-Test", "valid" })
+            "Valid-Products-Test", "valid" }, dependsOnMethods = "testLikeFailsForNonExistentProduct")
     public void testGetProductLikesCount() {
+
         Response response = ApiUtils.getRequest(BASE_URL + "/products/" + PRODUCT_ID_LIKES_TO_COUNT + "/likes");
         Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
         Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
@@ -100,7 +115,7 @@ public class LikeProducts {
     }
 
     @Test(description = "TC-PROD-030: Verify user can check like status", groups = {
-            "Valid-Products-Test", "valid" })
+            "Valid-Products-Test", "valid" }, dependsOnMethods = "testGetProductLikesCount")
     public void testUserCanCheckLikeStatus() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
@@ -122,7 +137,7 @@ public class LikeProducts {
     }
 
     @Test(description = "TC-PROD-031: Verify user can unlike product", groups = {
-            "Valid-Products-Test", "valid" })
+            "Valid-Products-Test", "valid" }, dependsOnMethods = "testUserCanCheckLikeStatus")
     public void testUserCanUnlikeProduct() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
@@ -141,7 +156,7 @@ public class LikeProducts {
     }
 
     @Test(description = "TC-PROD-032: Verify unlike fails for non-existent like", groups = {
-            "Invalid-Products-Test", "invalid" })
+            "Invalid-Products-Test", "invalid" }, dependsOnMethods = "testUserCanUnlikeProduct")
     public void testUnlikeFailsForNonExistentLike() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");
@@ -154,8 +169,9 @@ public class LikeProducts {
     }
 
     @Test(description = "TC-PROD-033: Verify user cannot unlike another user's like", groups = {
-            "Invalid-Products-Test", "invalid" })
+            "Invalid-Products-Test", "invalid" }, dependsOnMethods = "testUnlikeFailsForNonExistentLike")
     public void testUserCannotUnlikeAnotherUsersLike() throws Exception {
+
         Response likesResponse = ApiUtils.getRequest(BASE_URL + "/products/" + PRODUCT_ID_LIKES_TO_COUNT + "/likes");
         List<Map<String, Object>> likes = likesResponse.jsonPath().getList("data");
 

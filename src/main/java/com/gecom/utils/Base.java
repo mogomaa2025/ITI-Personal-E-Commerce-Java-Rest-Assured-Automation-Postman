@@ -2,17 +2,17 @@ package com.gecom.utils;
 
 import com.github.javafaker.Faker;
 
+import io.restassured.response.Response;
+
 public class Base {
     // public faker
     public static Faker faker = new Faker();
-
 
     // ============ API Configuration ============
     // public static final String BASE_URL =
     // "https://itigraduation.pythonanywhere.com/api"; // production server
     public static final String BASE_URL = "http://127.0.0.1:5000/api"; // local server
     public static final String TOKEN_FILE_PATH = "src/test/resources/token.json";
-    public static final String REFRESH_TOKEN_FILE_PATH = "src/test/resources/token.json";
     public static final String IDS_FILE_PATH = "src/test/resources/ids.json";
     public static final String USERS_FILE_PATH = "src/test/resources/users.json";
 
@@ -181,22 +181,72 @@ public class Base {
     public static Integer ProductIDWithoutReview;
     public static Integer recommendationProductId;
 
+    // data getter and setter
 
-    // data getter
+    // user data
     public static String GetValidEmail() throws Exception {
         return (String) JsonUtility.getValue("validEmail", USERS_FILE_PATH);
     }
 
+    public static String GetValidPassword() throws Exception {
+        return (String) JsonUtility.getValue("validPassword", USERS_FILE_PATH);
+    }
+
+    // tokens
+    public static String GetAdminToken() throws Exception {
+        return (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
+    }
+
+    public static void SetAdminToken(Response response) throws Exception {
+        adminToken = response.jsonPath().getString("token");
+        JsonUtility.saveValue("admin", adminToken, TOKEN_FILE_PATH);
+    }
+
+    public static String GetUserToken() throws Exception {
+        return (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
+    }
+
+    public static void SetUserToken(Response response) throws Exception {
+        userToken = response.jsonPath().getString("token");
+        JsonUtility.saveValue("user", userToken, TOKEN_FILE_PATH);
+    }
+
+    public static String GetRefreshToken() throws Exception {
+        return (String) JsonUtility.getValue("refresh_token", TOKEN_FILE_PATH);
+    }
+
+    public static void SetRefreshToken(Response response) throws Exception {
+        refreshToken = response.jsonPath().getString("refresh_token");
+        JsonUtility.saveValue("refresh_token", refreshToken, TOKEN_FILE_PATH);
+    }
+
+    //ids
+
+    public static Integer GetUserID() throws Exception {
+        return (Integer) JsonUtility.getValue("user_id", IDS_FILE_PATH);
+    }
+
+    public static void setCategoryID(Response response) throws Exception {
+        categoryId = response.jsonPath().getInt("data.id");
+        JsonUtility.saveValue("category_id", categoryId, IDS_FILE_PATH);
+    }
+
+    public static Integer getCategoryId() throws Exception {
+        return (Integer) JsonUtility.getValue("category_id", IDS_FILE_PATH);
+    }
+
+    // other
+
     public static String UsersJsonGetter(String input) throws Exception {
         return (String) JsonUtility.getValue(input, USERS_FILE_PATH);
     }
+
     public static String TokenJsonGetter(String input) throws Exception {
         return (String) JsonUtility.getValue(input, TOKEN_FILE_PATH);
     }
+
     public static String IdsJsonGetter(String input) throws Exception {
         return (String) JsonUtility.getValue(input, IDS_FILE_PATH);
     }
-
-
 
 }

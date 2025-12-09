@@ -51,7 +51,7 @@ public class StatsAnalytics {
         }
 
         @Test(description = "TC-STATS-002: Verify get stats fails for non-admin user", groups = {
-                        "Invalid-Stats-Test", "invalid" })
+                        "Invalid-Stats-Test", "invalid" }, dependsOnMethods = "testAdminCanGetDashboardStatistics")
         public void testGetStatsFailsForNonAdminUser() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");
@@ -65,7 +65,7 @@ public class StatsAnalytics {
         }
 
         @Test(description = "TC-STATS-003: Verify admin can get dashboard analytics", groups = { "Valid-Stats-Test",
-                        "valid" })
+                        "valid" }, dependsOnMethods = "testGetStatsFailsForNonAdminUser")
         public void testAdminCanGetDashboardAnalytics() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token is valid String");
@@ -94,7 +94,7 @@ public class StatsAnalytics {
         }
 
         @Test(description = "TC-STATS-004: Verify get dashboard analytics fails for non-admin user", groups = {
-                        "Invalid-Stats-Test", "invalid" })
+                        "Invalid-Stats-Test", "invalid" }, dependsOnMethods = "testAdminCanGetDashboardAnalytics")
         public void testGetDashboardAnalyticsFailsForNonAdminUser() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");
@@ -108,7 +108,7 @@ public class StatsAnalytics {
         }
 
         @Test(description = "TC-STATS-005: Verify admin can get sales report", groups = { "Valid-Stats-Test",
-                        "valid" })
+                        "valid" }, dependsOnMethods = "testGetDashboardAnalyticsFailsForNonAdminUser")
         public void testAdminCanGetSalesReport() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token is valid String");
@@ -141,7 +141,7 @@ public class StatsAnalytics {
         }
 
         @Test(description = "TC-STATS-006: Verify get sales report fails for non-admin user", groups = {
-                        "Invalid-Stats-Test", "invalid" })
+                        "Invalid-Stats-Test", "invalid" }, dependsOnMethods = "testAdminCanGetSalesReport")
         public void testGetSalesReportFailsForNonAdminUser() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");

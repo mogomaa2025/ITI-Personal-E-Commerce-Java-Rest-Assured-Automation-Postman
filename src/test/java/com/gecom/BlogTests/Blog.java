@@ -49,7 +49,7 @@ public class Blog {
     }
 
     @Test(description = "TC-BLOG-002: Verify empty blog returns empty array", groups = { "Invalid-Blog-Test",
-            "invalid" })
+            "invalid" }, dependsOnMethods = "testGetAllBlogPosts")
     public void testEmptyBlogReturnsEmptyArray() throws Exception {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("status", "non-exist");
@@ -66,7 +66,8 @@ public class Blog {
         Assert.assertEquals(count, 0, "count is 0");
     }
 
-    @Test(description = "TC-BLOG-003: Verify get specific blog post", groups = { "Valid-Blog-Test", "valid" })
+    @Test(description = "TC-BLOG-003: Verify get specific blog post", groups = { "Valid-Blog-Test",
+            "valid" }, dependsOnMethods = "testEmptyBlogReturnsEmptyArray")
     public void testGetSpecificBlogPost() throws Exception {
         blogPostId = (Integer) JsonUtility.getValue("blog_post_id", IDS_FILE_PATH);
         Assert.assertNotNull(blogPostId, "Blog post ID not found");
@@ -86,7 +87,7 @@ public class Blog {
     }
 
     @Test(description = "TC-BLOG-004: Verify get blog post fails for non-existent ID", groups = { "Invalid-Blog-Test",
-            "invalid" })
+            "invalid" }, dependsOnMethods = "testGetSpecificBlogPost")
     public void testGetBlogPostFailsForNonExistentID() throws Exception {
         Response response = ApiUtils.getRequest(BASE_URL + "/blog/posts/99999");
         Assert.assertEquals(response.getStatusCode(), 404, "Status code is 404");

@@ -60,7 +60,7 @@ public class CreateReviews {
         }
 
         @Test(description = "TC-REV-002: Verify create review fails for non-existent product", groups = {
-                        "Invalid-Reviews-Test", "invalid" })
+                        "Invalid-Reviews-Test", "invalid" }, dependsOnMethods = "testUserCanCreateProductReview")
         public void testCreateReviewFailsForNonExistentProduct() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");
@@ -80,7 +80,8 @@ public class CreateReviews {
         }
 
         @Test(description = "TC-REV-003: Verify user cannot review same product twice", groups = {
-                        "Invalid-Reviews-Test", "invalid" })
+                        "Invalid-Reviews-Test",
+                        "invalid" }, dependsOnMethods = "testCreateReviewFailsForNonExistentProduct")
         public void testUserCannotReviewSameProductTwice() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 reviewProductId = (Integer) JsonUtility.getValue("review_product_id", IDS_FILE_PATH);
@@ -102,7 +103,8 @@ public class CreateReviews {
         }
 
         @Test(description = "TC-REV-004: Verify create review fails with invalid rating", groups = {
-                        "Invalid-Reviews-Test", "invalid" })
+                        "Invalid-Reviews-Test",
+                        "invalid" }, dependsOnMethods = "testUserCannotReviewSameProductTwice")
         public void testCreateReviewFailsWithInvalidRating() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token is valid String");

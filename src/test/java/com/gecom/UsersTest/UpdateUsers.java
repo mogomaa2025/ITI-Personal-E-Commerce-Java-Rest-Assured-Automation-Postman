@@ -24,8 +24,7 @@ public class UpdateUsers {
     @Test(description = "TC-USER-006: Verify admin can update user information", groups = { "Valid-Users-Test",
             "valid" }) // response
     public void testAdminCanUpdateUser() throws Exception {
-        adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
-        userId = (Integer) JsonUtility.getValue("user_id", IDS_FILE_PATH);
+        userId = GetUserID();
         Map<String, Object> body = new HashMap<>();
         body.put("name", "Updated Name");
         body.put("phone", "555-0101");
@@ -45,9 +44,8 @@ public class UpdateUsers {
     }
 
     @Test(description = "TC-USER-007: Verify update user fails for non-existent user", groups = {
-            "Invalid-Users-Test", "invalid" })
+            "Invalid-Users-Test", "invalid" }, dependsOnMethods = "testAdminCanUpdateUser")
     public void testUpdateUserFailsForNonExistent() throws Exception {
-        adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
         Map<String, Object> body = new HashMap<>();
         body.put("name", "Test");
 

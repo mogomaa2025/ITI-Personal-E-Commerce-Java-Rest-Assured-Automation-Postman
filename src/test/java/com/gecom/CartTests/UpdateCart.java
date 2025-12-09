@@ -22,51 +22,54 @@ import java.util.Map;
 @Severity(SeverityLevel.CRITICAL)
 public class UpdateCart {
 
-    @Test(description = "TC-CART-005: Verify user can update cart item quantity", groups = { "Valid-Cart-Test",
-            "valid" })
-    public void testUserCanUpdateCartItemQuantity() throws Exception {
-        userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
-        Assert.assertNotNull(userToken, "User token is valid String");
+        @Test(description = "TC-CART-005: Verify user can update cart item quantity", groups = { "Valid-Cart-Test",
+                        "valid" }, dependsOnMethods = "testUserCanAddItemToCart")
+        public void testUserCanUpdateCartItemQuantity() throws Exception {
+                userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
+                Assert.assertNotNull(userToken, "User token is valid String");
 
-        cartItemId = (Integer) JsonUtility.getValue("cart_item_id", IDS_FILE_PATH);
-        Assert.assertNotNull(cartItemId, "Cart item ID is valid Integer");
+                cartItemId = (Integer) JsonUtility.getValue("cart_item_id", IDS_FILE_PATH);
+                Assert.assertNotNull(cartItemId, "Cart item ID is valid Integer");
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("quantity", CART_UPDATE_QUANTITY);
-        Response response = ApiUtils.putRequestWithAuth(BASE_URL + "/cart/items/" + cartItemId, userToken, body);
-        Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
-        Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
+                Map<String, Object> body = new HashMap<>();
+                body.put("quantity", CART_UPDATE_QUANTITY);
+                Response response = ApiUtils.putRequestWithAuth(BASE_URL + "/cart/items/" + cartItemId, userToken,
+                                body);
+                Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
+                Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
 
-        Assert.assertTrue(response.jsonPath().getBoolean("success"), "success is true");
+                Assert.assertTrue(response.jsonPath().getBoolean("success"), "success is true");
 
-        Assert.assertEquals(response.jsonPath().getString("message"), "Cart item updated successfully",
-                "message is 'Cart item updated successfully'");
-        Assert.assertEquals(response.jsonPath().getInt("data.quantity"), CART_UPDATE_QUANTITY,
-                "data.quantity is " + CART_UPDATE_QUANTITY);
+                Assert.assertEquals(response.jsonPath().getString("message"), "Cart item updated successfully",
+                                "message is 'Cart item updated successfully'");
+                Assert.assertEquals(response.jsonPath().getInt("data.quantity"), CART_UPDATE_QUANTITY,
+                                "data.quantity is " + CART_UPDATE_QUANTITY);
 
-        Assert.assertNotNull(response.jsonPath().get("data.updated_at"), "updated_at is recent");
-    }
+                Assert.assertNotNull(response.jsonPath().get("data.updated_at"), "updated_at is recent");
+        }
 
-    @Test(description = "TC-CART-006: Verify update cart item fails for non-existent item", groups = {
-            "Invalid-Cart-Test", "invalid" })
-    public void testUpdateCartItemFailsForNonExistentItem() throws Exception {
-        userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
-        Assert.assertNotNull(userToken, "User token is valid String");
+        @Test(description = "TC-CART-006: Verify update cart item fails for non-existent item", groups = {
+                        "Invalid-Cart-Test", "invalid" }, dependsOnMethods = "testUserCanUpdateCartItemQuantity")
+        public void testUpdateCartItemFailsForNonExistentItem() throws Exception {
+                userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
+                Assert.assertNotNull(userToken, "User token is valid String");
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("quantity", 2);
+                Map<String, Object> body = new HashMap<>();
+                body.put("quantity", 2);
 
-        Response response = ApiUtils.putRequestWithAuth(BASE_URL + "/cart/items/" + INVALID_CART_ITEM_ID, userToken,
-                body);
+                Response response = ApiUtils.putRequestWithAuth(BASE_URL + "/cart/items/" + INVALID_CART_ITEM_ID,
+                                userToken,
+                                body);
 
-        Assert.assertEquals(response.getStatusCode(), 404, "Status code is 404");
+                Assert.assertEquals(response.getStatusCode(), 404, "Status code is 404");
 
-        Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
+                Assert.assertNotNull(response.jsonPath(), "Response is valid JSON");
 
-        Assert.assertFalse(response.jsonPath().getBoolean("success"), "success is false");
+                Assert.assertFalse(response.jsonPath().getBoolean("success"), "success is false");
 
-        String error = response.jsonPath().getString("error");
-        Assert.assertTrue(error != null && error.contains("Cart item not found"), "error is 'Cart item not found'");
-    }
+                String error = response.jsonPath().getString("error");
+                Assert.assertTrue(error != null && error.contains("Cart item not found"),
+                                "error is 'Cart item not found'");
+        }
 
 }

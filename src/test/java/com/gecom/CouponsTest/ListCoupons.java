@@ -44,7 +44,7 @@ public class ListCoupons {
     }
 
     @Test(description = "TC-COUP-002: Verify non-admin can't get available coupons", groups = {
-            "Invalid-Coupons-Test", "invalid" })
+            "Invalid-Coupons-Test", "invalid" }, dependsOnMethods = "testGetAvailableCoupons")
     public void testNonAdminCantGetAvailableCoupons() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token not found");

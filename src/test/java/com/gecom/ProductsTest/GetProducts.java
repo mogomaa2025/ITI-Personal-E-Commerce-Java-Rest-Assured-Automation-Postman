@@ -59,7 +59,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-002: Verify products pagination with page parameter", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testGetAllProductsWithPagination")
         public void testProductsPaginationWithPageParameter() {
                 Map<String, String> queryParams = new HashMap<>();
                 queryParams.put("page", PRODUCT_PAGINATION_PAGE.toString());
@@ -78,7 +78,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-003: Verify filter products by CATEGORY", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testProductsPaginationWithPageParameter")
         public void testFilterProductsByCategory() {
                 Map<String, String> queryParams = new HashMap<>();
                 queryParams.put("category", FILTER_CATEGORY); // testcase17 will test all categories from ids.json
@@ -104,7 +104,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-004: Verify filter products by PRICE range", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testFilterProductsByCategory")
         public void testFilterProductsByPriceRange() {
                 Map<String, String> query = new HashMap<>();
                 query.put("min_price", MIN_PRICE.toString());
@@ -121,7 +121,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-005: Verify filter products with multiple criteria", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testFilterProductsByPriceRange")
         public void testFilterProductsWithMultipleCriteria() {
                 Map<String, String> queryParams = new HashMap<>();
                 queryParams.put("category", MULTIPLE_CRITERIA_CATEGORY);
@@ -150,7 +150,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-011: Verify get product by ID", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testFilterProductsWithMultipleCriteria")
         public void testGetProductById() throws Exception {
                 productId = (Integer) JsonUtility.getValue("product_id", IDS_FILE_PATH);
                 Assert.assertNotNull(productId, "Product ID not found");
@@ -165,9 +165,7 @@ public class GetProducts {
                 Assert.assertEquals(response.jsonPath().getString("data.category"), CATEGORY,
                                 "category not match created number");
                 Assert.assertTrue(response.jsonPath().get("data.created_at") instanceof String,
-                                "created_at is a string"); // not
-                                                           // saved
-                                                           // before
+                                "created_at is a string");
                 Assert.assertEquals(response.jsonPath().getString("data.description"), UPDATED_DESCRIPTION,
                                 "description not match created number");
                 Assert.assertEquals(response.jsonPath().getString("data.image_url"), IMAGE_URL,
@@ -188,7 +186,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-012: Verify get product fails for non-existent ID", groups = {
-                        "Invalid-Products-Test", "invalid" })
+                        "Invalid-Products-Test", "invalid" }, dependsOnMethods = "testGetProductById")
         public void testGetProductFailsForNonExistentId() {
                 Response response = ApiUtils.getRequest(BASE_URL + "/products/99999");
                 Assert.assertEquals(response.getStatusCode(), 404, "Status code is 404");
@@ -199,7 +197,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-015: Verify search products returns matching results", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testGetProductFailsForNonExistentId")
         public void testSearchProductsReturnsMatchingResults() {
                 Map<String, String> query = new HashMap<>();
                 query.put("q", SEARCH_QUERY);
@@ -220,7 +218,8 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-016: Verify search returns empty for no matches", groups = {
-                        "Invalid-Products-Test", "invalid" })
+                        "Invalid-Products-Test",
+                        "invalid" }, dependsOnMethods = "testSearchProductsReturnsMatchingResults")
         public void testSearchReturnsEmptyForNoMatches() {
                 Response response = ApiUtils.getRequest(BASE_URL + "/products/search?q=nonexistent123");
                 Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
@@ -235,7 +234,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-017: Verify get products by CATEGORY", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testSearchReturnsEmptyForNoMatches")
         public void testGetProductsByCategory() throws Exception {
                 JsonPath jsonPath = JsonPath.from(new File(IDS_FILE_PATH));
                 List<String> categoryNames = jsonPath.getList("category_names");
@@ -265,7 +264,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-018: Verify get products by CATEGORY returns empty for non-existent CATEGORY", groups = {
-                        "Invalid-Products-Test", "invalid" })
+                        "Invalid-Products-Test", "invalid" }, dependsOnMethods = "testGetProductsByCategory")
         public void testGetProductsByCategoryReturnsEmptyForNonExistent() {
                 Response response = ApiUtils.getRequest(BASE_URL + "/products/category/NonExistent");
                 Assert.assertEquals(response.getStatusCode(), 200, "Status code is 200");
@@ -276,7 +275,8 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-019: Verify admin can view low STOCK products", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test",
+                        "valid" }, dependsOnMethods = "testGetProductsByCategoryReturnsEmptyForNonExistent")
         public void testAdminCanViewLowStockProducts() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -304,7 +304,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-020: Verify low STOCK with custom THRESHOLD", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testAdminCanViewLowStockProducts")
         public void testLowStockWithCustomThreshold() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");
@@ -325,7 +325,7 @@ public class GetProducts {
         }
 
         @Test(description = "TC-PROD-025: Verify admin can export all products", groups = {
-                        "Valid-Products-Test", "valid" })
+                        "Valid-Products-Test", "valid" }, dependsOnMethods = "testLowStockWithCustomThreshold")
         public void testAdminCanExportAllProducts() throws Exception {
                 adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
                 Assert.assertNotNull(adminToken, "Admin token not found");

@@ -48,7 +48,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-005: Verify user can get order by ID", groups = {
-            "Valid-Orders-Test", "valid" })
+            "Valid-Orders-Test", "valid" }, dependsOnMethods = "testUserCanGetAllOrders")
     public void testUserCanGetOrderById() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         orderID = (Integer) JsonUtility.getValue("order_id", IDS_FILE_PATH);
@@ -68,7 +68,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-006: Verify get order by ID fails for non-existent order", groups = {
-            "Invalid-Orders-Test", "invalid" })
+            "Invalid-Orders-Test", "invalid" }, dependsOnMethods = "testUserCanGetOrderById")
     public void testGetOrderByIdFailsForNonExistentOrder() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");
@@ -82,7 +82,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-016: Verify user can get orders by status pending", groups = {
-            "Valid-Orders-Test", "valid" })
+            "Valid-Orders-Test", "valid" }, dependsOnMethods = "testUserCanGetOrderById")
     public void testUserCanGetOrdersByStatusPending() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");
@@ -100,7 +100,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-017: Verify user can get orders by status cancelled", groups = {
-            "Valid-Orders-Test", "valid" })
+            "Valid-Orders-Test", "valid" }, dependsOnMethods = "testUserCanGetOrdersByStatusPending")
     public void testUserCanGetOrdersByStatusCancelled() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");
@@ -117,7 +117,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-018: Verify user can get orders by status processing", groups = {
-            "Valid-Orders-Test", "valid" })
+            "Valid-Orders-Test", "valid" }, dependsOnMethods = "testUserCanGetOrdersByStatusCancelled")
     public void testUserCanGetOrdersByStatusProcessing() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");
@@ -134,7 +134,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-019: Verify admin can export orders", groups = {
-            "Valid-Orders-Test", "valid" })
+            "Valid-Orders-Test", "valid" }, dependsOnMethods = "testUserCanGetOrdersByStatusProcessing")
     public void testAdminCanExportOrders() throws Exception {
         adminToken = (String) JsonUtility.getValue("admin", TOKEN_FILE_PATH);
         Assert.assertNotNull(adminToken, "Admin token is valid String");
@@ -158,7 +158,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-020: Verify export orders fails for non-admin user", groups = {
-            "Invalid-Orders-Test", "invalid" })
+            "Invalid-Orders-Test", "invalid" }, dependsOnMethods = "testAdminCanExportOrders")
     public void testExportOrdersFailsForNonAdminUser() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");
@@ -175,7 +175,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-021: Verify user cannot access another user's order", groups = {
-            "Invalid-Orders-Test", "invalid" })
+            "Invalid-Orders-Test", "invalid" }, dependsOnMethods = "testExportOrdersFailsForNonAdminUser")
     public void testUserCannotAccessAnotherUsersOrder() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");
@@ -190,7 +190,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-022: Verify order items structure is correct", groups = {
-            "Valid-Orders-Test", "valid" })
+            "Valid-Orders-Test", "valid" }, dependsOnMethods = "testUserCannotAccessAnotherUsersOrder")
     public void testOrderItemsStructureIsCorrect() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         orderID = (Integer) JsonUtility.getValue("order_id", IDS_FILE_PATH);
@@ -213,7 +213,7 @@ public class GetOrders {
     }
 
     @Test(description = "TC-ORDER-023: Verify order total amount calculation", groups = {
-            "Valid-Orders-Test", "valid" })
+            "Valid-Orders-Test", "valid" }, dependsOnMethods = "testOrderItemsStructureIsCorrect")
     public void testOrderTotalAmountCalculation() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         orderID = (Integer) JsonUtility.getValue("order_id", IDS_FILE_PATH);

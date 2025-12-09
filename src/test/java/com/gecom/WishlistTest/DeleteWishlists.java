@@ -70,7 +70,7 @@ public class DeleteWishlists {
         }
 
         @Test(description = "TC-WISH-007: Verify remove from wishlist fails for non-existent item", groups = {
-                        "Invalid-Wishlist-Test", "invalid" })
+                        "Invalid-Wishlist-Test", "invalid" }, dependsOnMethods = "testUserCanRemoveProductFromWishlist")
         public void testRemoveFromWishlistFailsForNonExistentItem() throws Exception {
                 userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
                 Assert.assertNotNull(userToken, "User token not found");
