@@ -8,8 +8,14 @@
 [![Allure](https://img.shields.io/badge/Allure-2.27.0-purple)](https://docs.qameta.io/allure/)
 
 A comprehensive REST API testing framework for E-Commerce platform using Java, RestAssured, TestNG, and Allure reporting with Newman integration for Postman collection testing.
+This Api Testing based on Real python full stack ITI E-Commerce project :  https://itigraduation.pythonanywhere.com/
+
+# 🛍 ITI Team
+- Eng. Mohamed Ahmed Gomaa
+- Eng. Reham Elsayed Daoud
 
 ## 📊 Project Overview
+![img_7.png](img_7.png)
 
 ```mermaid
 graph TB
@@ -455,4 +461,6 @@ mvn clean test allure:report
 ![Success Rate](https://img.shields.io/badge/Success_Rate-100%25-brightgreen)
 ![Last Updated](https://img.shields.io/badge/Last_Updated-2024--01--15-lightgrey)
 
-**Built with ❤️ by the Eng. Gomaa ITI Team**
+**Built with ❤️ by the ITI Team**
+- Eng. Mohamed Ahmed Gomaa
+- Eng. Reham Elsayed Daoud 
