@@ -1,0 +1,36 @@
+<div>POST to https://itigraduation.pythonanywhere.com/api/products</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;price&quot;: 29.99,
+    &quot;image_url&quot;: &quot;https://ci.suez.edu.eg/wp-content/uploads/2022/08/iti-logo.png&quot;,
+    &quot;name&quot;: &quot;new product1&quot;,
+    &quot;description&quot;: &quot;new product description1&quot;,
+    &quot;category&quot;: &quot;Electronics&quot;,
+    &quot;stock&quot;: 20
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJpc19hZG1pbiI6dHJ1ZSwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc2NTM5MzkyMH0.fPqfH9BxMZDmsxP6KJmdojnZInmQc_gX024RwuYfps4</div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;https://itigraduation.pythonanywhere.com/api/products&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJpc19hZG1pbiI6dHJ1ZSwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc2NTM5MzkyMH0.fPqfH9BxMZDmsxP6KJmdojnZInmQc_gX024RwuYfps4&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;price&quot;: 29.99,
+    &quot;image_url&quot;: &quot;https://ci.suez.edu.eg/wp-content/uploads/2022/08/iti-logo.png&quot;,
+    &quot;name&quot;: &quot;new product1&quot;,
+    &quot;description&quot;: &quot;new product description1&quot;,
+    &quot;category&quot;: &quot;Electronics&quot;,
+    &quot;stock&quot;: 20
+}&#39;
+    </div>
+
