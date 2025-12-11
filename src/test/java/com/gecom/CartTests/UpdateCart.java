@@ -26,7 +26,7 @@ public class UpdateCart {
 
 
 
-    @BeforeMethod(onlyForGroups = "NeedItemsInCarts-user", alwaysRun = true)
+    @BeforeMethod(onlyForGroups = "NeedItemsInCarts", alwaysRun = true)
     public void Precondition() throws Exception {
         userToken = (String) JsonUtility.getValue("user", TOKEN_FILE_PATH);
         Assert.assertNotNull(userToken, "User token is valid String");
